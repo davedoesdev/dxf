@@ -6,7 +6,7 @@ The first module (`dxf/__main__.py`) is a command line tool to push and pull
 files from a Docker v2 registry:
 
 ```
-dxf auth <repo> <action>...             auth with DXF_USER/DXF_PASSWOWRD
+dxf auth <repo> <action>...             auth with DXF_USERNAME/DXF_PASSWOWRD
                                         and print token
 
 dxf push-blob <repo> <file> [@alias]    upload blob from file, print hash

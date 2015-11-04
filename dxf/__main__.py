@@ -1,4 +1,4 @@
-# dxf auth <repo> <action>...             auth with DXF_USER/DXF_PASSWOWRD
+# dxf auth <repo> <action>...             auth with DXF_USERNAME/DXF_PASSWOWRD
 #                                         and print token
 
 # dxf push-blob <repo> <file> [@alias]    upload blob from file, print hash
