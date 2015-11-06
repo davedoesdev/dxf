@@ -1,3 +1,8 @@
+# txf - have set up repo by hand.
+# but when set-alias, had to > repository/targets
+# and then add the targets again (what do about delete? just empty array and add dir again?)
+# how trust root key in tuf?
+# we need to add integration with tuf client so it can pull and then check the file hashes against targets.json etc
 
 import urlparse
 
