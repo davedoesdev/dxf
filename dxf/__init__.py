@@ -143,21 +143,26 @@ class DXF(object):
         r = getattr(requests, method)(url, headers=self._headers, **kwargs)
         if r.status_code == requests.codes.unauthorized and self._auth:
             token = self._token
-            self._auth(lambda username, password: \
-                    self._auth_by_password(r, username, password))
+            def auth_by_password(username, password, *actions):
+                self._auth_by_password(r, username, password, *actions)
+            self._auth(auth_by_password=auth_by_password)
             if self._token != token:
                 r = getattr(requests, method)(url, headers=self._headers, **kwargs)
         _raise_for_status(r)
         return r
 
-    def _auth_by_password(self, r, username, password, scope=None):
+    def _auth_by_password(self, r, username, password, *actions):
         info = _parse_www_auth(r.headers['www-authenticate'])
+        if actions:
+            scope = 'repository:' + self._repo + ':' + ','.join(actions)
+        else:
+            scope = info['scope']    
         url_parts = list(urlparse.urlparse(info['realm']))
         query = urlparse.parse_qs(url_parts[4])
         query.update(
         {
             'service': info['service'],
-            'scope': scope or info['scope']
+            'scope': scope
         })
         url_parts[4] = urllib.urlencode(query, True)
         url_parts[0] = 'https'
@@ -175,8 +180,7 @@ class DXF(object):
         if r.status_code != requests.codes.unauthorized:
             raise DXFUnexpectedStatusCodeError(r.status_code,
                                                requests.codes.unauthorized)
-        scope = 'repository:' + self._repo + ':' + ','.join(actions)
-        return self._auth_by_password(r, username, password, scope)
+        return self._auth_by_password(r, username, password, *actions)
 
     def push_blob(self, filename):
         dgst = sha256_file(filename)
