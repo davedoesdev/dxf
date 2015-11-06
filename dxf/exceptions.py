@@ -23,13 +23,16 @@ class DXFUnexpectedDigestMethodError(DXFUnexpectedError):
     def __str__(self):
         return 'expected digest method %s, got %s' % (self._expected, self._got)
 
-class DXFDisallowedSignatureAlgorithmError(Exception):
+class DXFDisallowedSignatureAlgorithmError(DXFError):
     def __init__(self, alg):
         self.alg = alg
 
     def __str__(self):
         return 'disallowed signature algorithm: %s' % self.alg
 
-class DXFChainNotImplementedError(Exception):
+class DXFChainNotImplementedError(DXFError):
     def __str__(self):
         return 'verification with a cert chain is not implemented'
+
+class DXFUnauthorizedError(DXFError):
+    pass

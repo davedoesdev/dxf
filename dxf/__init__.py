@@ -113,14 +113,20 @@ def _verify_manifest(content, content_digest=None):
         dgsts.append(dgst)
     return dgsts
 
+def _raise_for_status(r):
+    if r.status_code == requests.codes.unauthorized:
+        raise DXFUnauthorizedError()
+    r.raise_for_status()
+
 class DXF(object):
-    def __init__(self, host, repo):
+    def __init__(self, host, repo, auth=None):
         self.host = host
         self._repo_base_url = 'https://' + host + '/v2/'
         self._repo = repo
         self._repo_url = self._repo_base_url + repo + '/'
         self._token = None
         self._headers = {}
+        self._auth = auth
 
     @property
     def token(self):
@@ -132,6 +138,17 @@ class DXF(object):
         self._headers = {
             'Authorization': 'Bearer ' + value
         }
+
+    def _request(self, action, method, path, **kwargs):
+        url = urlparse.urljoin(self._repo_url, path)
+        r = getattr(requests, method)(url, headers=self._headers, **kwargs)
+        if r.status_code == requests.codes.unauthorized and self._auth:
+            token = self._token
+            self._auth(self, action)
+            if self._token != token:
+                r = getattr(requests, method)(url, headers=self._headers, **kwargs)
+        _raise_for_status(r)
+        return r
 
     def auth_by_password(self, username, password, *actions):
         r = requests.get(self._repo_base_url)
@@ -154,14 +171,13 @@ class DXF(object):
                 os.environ['DXF_USERNAME'] + ':' + os.environ['DXF_PASSWORD'])
         }
         r = requests.get(auth_url, headers=headers)
-        r.raise_for_status()
-        return r.json()['token']
+        _raise_for_status(r)
+        self.token = r.json()['token']
+        return self._token
 
     def push_blob(self, filename):
         dgst = sha256_file(filename)
-        start_url = self._repo_url + 'blobs/uploads/'
-        r = requests.post(start_url, headers=self._headers)
-        r.raise_for_status()
+        r = self._request('push', 'post', 'blobs/uploads/')
         upload_url = r.headers['Location']
         url_parts = list(urlparse.urlparse(upload_url))
         query = urlparse.parse_qs(url_parts[4])
@@ -170,14 +186,11 @@ class DXF(object):
         url_parts[0] = 'https'
         upload_url = urlparse.urlunparse(url_parts)
         with open(filename, 'rb') as f:
-            r = requests.put(upload_url, data=f, headers=self._headers)
-        r.raise_for_status()
+            r = self._request('push', 'put', upload_url, data=f)
         return dgst
 
     def pull_blob(self, digest):
-        download_url = self._repo_url + 'blobs/sha256:' + digest
-        r = requests.get(download_url, headers=self._headers)
-        r.raise_for_status()
+        r = self._request('pull', 'get', 'blobs/sha256:' + digest)
         sha256 = hashlib.sha256()
         for chunk in r.iter_content(8192):
             sha256.update(chunk)
@@ -187,9 +200,7 @@ class DXF(object):
             raise DXFDigestMismatchError(dgst, digest)
 
     def del_blob(self, digest):
-        delete_url = self._repo_url + 'blobs/sha256:' + digest
-        r = requests.delete(delete_url, headers=self._headers)
-        r.raise_for_status()
+        self._request('*', 'delete', 'blobs/sha256:' + digest)
 
     def set_alias(self, alias, *digests):
         manifest = {
@@ -232,21 +243,15 @@ class DXF(object):
         manifest_json = manifest_json[:format_length] + \
                         ', "signatures": ' + json.dumps(signatures) + \
                         format_tail
-        upload_url = self._repo_url + 'manifests/' + alias
         #print _verify_manifest(manifest_json)
-        r = requests.put(upload_url, headers=self._headers, data=manifest_json)
-        r.raise_for_status()
+        self._request('push', 'put', 'manifests/' + alias, data=manifest_json)
         return manifest_json
 
     def get_alias(self, alias):
-        download_url = self._repo_url + 'manifests/' + alias
-        r = requests.get(download_url, headers=self._headers)
-        r.raise_for_status()
+        r = self._request('pull', 'get', 'manifests/' + alias)
         return _verify_manifest(r.content, r.headers['docker-content-digest'])
 
     def del_alias(self, alias):
         dgsts = self.get_alias(alias)
-        delete_url = self._repo_url + 'manifests/' + alias
-        r = requests.delete(delete_url, headers=self._headers)
-        r.raise_for_status()
+        self._request('*', 'delete', 'manifests/' + alias)
         return dgsts

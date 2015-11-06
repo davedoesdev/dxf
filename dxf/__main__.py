@@ -33,6 +33,7 @@
 
 import os
 import dxf
+import dxf.exceptions
 
 import argparse
 import requests
@@ -59,60 +60,77 @@ parser.add_argument("repo")
 parser.add_argument('args', nargs='+')
 args = parser.parse_args()
 
-dxf_obj = dxf.DXF(os.environ['DXF_HOST'], args.repo)
+def auth(dxf_obj, action):
+    username = os.environ.get('DXF_USERNAME')
+    password = os.environ.get('DXF_PASSWORD')
+    if username and password:
+        dxf_obj.auth_by_password(username, password, action)
 
-if args.op == "auth":
-    print dxf_obj.auth_by_password(os.environ['DXF_USERNAME'],
-                                   os.environ['DXF_PASSWORD'],
-                                   *args.args)
-    exit()
+dxf_obj = dxf.DXF(os.environ['DXF_HOST'], args.repo, auth)
 
-dxf_obj.token = os.environ['DXF_TOKEN']
+def doit():
+    if args.op == "auth":
+        print dxf_obj.auth_by_password(os.environ['DXF_USERNAME'],
+                                       os.environ['DXF_PASSWORD'],
+                                       *args.args)
+        return
 
-if args.op == "push-blob":
-    if len(args.args) < 1:
-        parser.error('too few arguments')
-    if len(args.args) > 2:
-        parser.error('too many arguments')
-    if len(args.args) == 2 and not args.args[1].startswith('@'):
-        parser.error('invalid alias')
-    dgst = dxf_obj.push_blob(args.args[0])
-    if len(args.args) == 2:
-        dxf_obj.set_alias(args.args[1][1:], dgst)
-    print dgst
+    token = os.environ.get('DXF_TOKEN')
+    if token:
+        dxf_obj.token = token
 
-elif args.op == "pull-blob":
-    for name in args.args:
-        if name.startswith('@'):
-            dgsts = dxf_obj.get_alias(name[1:])
-        else:
-            dgsts = [name]
-        for dgst in dgsts:
-            for chunk in dxf_obj.pull_blob(dgst):
-                sys.stdout.write(chunk)
+    if args.op == "push-blob":
+        if len(args.args) < 1:
+            parser.error('too few arguments')
+        if len(args.args) > 2:
+            parser.error('too many arguments')
+        if len(args.args) == 2 and not args.args[1].startswith('@'):
+            parser.error('invalid alias')
+        dgst = dxf_obj.push_blob(args.args[0])
+        if len(args.args) == 2:
+            dxf_obj.set_alias(args.args[1][1:], dgst)
+        print dgst
 
-elif args.op == 'del-blob':
-    for name in args.args:
-        if name.startswith('@'):
-            dgsts = dxf_obj.get_alias(name[1:])
-        else:
-            dgsts = [name]
-        for dgst in dgsts:
-            dxf_obj.del_blob(dgst)
+    elif args.op == "pull-blob":
+        for name in args.args:
+            if name.startswith('@'):
+                dgsts = dxf_obj.get_alias(name[1:])
+            else:
+                dgsts = [name]
+            for dgst in dgsts:
+                for chunk in dxf_obj.pull_blob(dgst):
+                    sys.stdout.write(chunk)
 
-elif args.op == "set-alias":
-    if len(args.args) < 2:
-        parser.error('too few arguments')
-    dgsts = [dxf.sha256_file(dgst) if os.sep in dgst else dgst
-             for dgst in args.args[1:]]
-    sys.stdout.write(dxf_obj.set_alias(args.args[0], *dgsts))
+    elif args.op == 'del-blob':
+        for name in args.args:
+            if name.startswith('@'):
+                dgsts = dxf_obj.get_alias(name[1:])
+            else:
+                dgsts = [name]
+            for dgst in dgsts:
+                dxf_obj.del_blob(dgst)
 
-elif args.op == "get-alias":
-    for name in args.args:
-        for dgst in dxf_obj.get_alias(name):
-            print dgst
+    elif args.op == "set-alias":
+        if len(args.args) < 2:
+            parser.error('too few arguments')
+        dgsts = [dxf.sha256_file(dgst) if os.sep in dgst else dgst
+                 for dgst in args.args[1:]]
+        sys.stdout.write(dxf_obj.set_alias(args.args[0], *dgsts))
 
-elif args.op == "del-alias":
-    for name in args.args:
-        for dgst in dxf_obj.del_alias(name):
-            print dgst
+    elif args.op == "get-alias":
+        for name in args.args:
+            for dgst in dxf_obj.get_alias(name):
+                print dgst
+
+    elif args.op == "del-alias":
+        for name in args.args:
+            for dgst in dxf_obj.del_alias(name):
+                print dgst
+
+try:
+    doit()
+except dxf.exceptions.DXFUnauthorizedError:
+    import traceback
+    traceback.print_exc()
+    import errno
+    exit(errno.EACCES)
