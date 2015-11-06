@@ -60,11 +60,12 @@ parser.add_argument("repo")
 parser.add_argument('args', nargs='+')
 args = parser.parse_args()
 
-def auth(dxf_obj, action):
-    username = os.environ.get('DXF_USERNAME')
-    password = os.environ.get('DXF_PASSWORD')
-    if username and password:
-        dxf_obj.auth_by_password(username, password, action)
+def auth(auth_by_password=None):
+    if auth_by_password:
+        username = os.environ.get('DXF_USERNAME')
+        password = os.environ.get('DXF_PASSWORD')
+        if username and password:
+            auth_by_password(username, password)
 
 dxf_obj = dxf.DXF(os.environ['DXF_HOST'], args.repo, auth)
 
