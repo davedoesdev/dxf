@@ -27,9 +27,8 @@ Set `DXF_HOST` to the registry host (e.g. `registry-1.docker.io`).
 When you auth, set `DXF_USERNAME` and `DXF_PASSWORD` and set the output of that
 to `DXF_TOKEN` for subsequent commands. Note the tokens expire quite quickly.
 
-The command line tool makes use of the second module, in `dxf/__init__.py`,
-which exports a class, `DXF`, which can be used in other programs for accessing
-the Docker registry. For example:
+The command line tool makes use of a second module (in `dxf/__init__.py`)
+which exports a class, `DXF`, that can be used in other programs. For example:
 
 ```
 dxf_obj = dxf.DXF('registry-1.docker.io', 'davedoesdev/rumptest')
