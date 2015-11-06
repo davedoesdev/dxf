@@ -4,17 +4,37 @@
 # how trust root key in tuf?
 # we need to add integration with tuf client so it can pull and then check the file hashes against targets.json etc
 
+import os
 import urlparse
 
 import tuf
 import tuf.download
 import tuf.util
 
+import dxf
+
+def auth(auth_by_password=None):
+    if auth_by_password:
+        username = os.environ.get('DXF_USERNAME')
+        password = os.environ.get('DXF_PASSWORD')
+        if username and password:
+            auth_by_password(username, password)
+
 def _download_file(url, required_length, STRICT_REQUIRED_LENGTH=True):
-    repo, alias = urlparse.urlparse(url).path.split('//')
-    # use dxf to download. make it into a proper module with exported functions,
-    # will need to handle auth properly somehow. probably just raise exception
-    # which can be recognised and caught.
+    ourl = urlparse.urlparse(url)
+    repo, alias = ourl.path.split('//')
+    dxf_obj = dxf.DXF(ourl.netloc, repo, auth)
+    alias = dxf_obj.get_alias(alias)[0]
+    temp_file = tuf.util.TempFile()
+    try:
+        for chunk in dxf_obj.pull_blob(alias):
+            # need to check if length exceeded
+            temp_file.write(chunk)
+    except:
+        temp_file.close_temp_file()
+        raise
+    # need to check enough data received
+    return temp_file
 
 tuf.download._download_file = _download_file
 
