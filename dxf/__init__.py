@@ -143,16 +143,19 @@ class DXF(object):
         r = getattr(requests, method)(url, headers=self._headers, **kwargs)
         if r.status_code == requests.codes.unauthorized and self._auth:
             token = self._token
-            def auth_by_password(username, password, *actions):
-                self._auth_by_password(r, username, password, *actions)
-            self._auth(auth_by_password=auth_by_password)
+            self._auth(self, r)
             if self._token != token:
                 r = getattr(requests, method)(url, headers=self._headers, **kwargs)
         _raise_for_status(r)
         return r
 
-    def _auth_by_password(self, r, username, password, *actions):
-        info = _parse_www_auth(r.headers['www-authenticate'])
+    def auth_by_password(self, username, password, actions=[], response=None):
+        if response is None:
+            response = requests.get(self._repo_base_url)
+        if response.status_code != requests.codes.unauthorized:
+            raise DXFUnexpectedStatusCodeError(response.status_code,
+                                               requests.codes.unauthorized)
+        info = _parse_www_auth(response.headers['www-authenticate'])
         if actions:
             scope = 'repository:' + self._repo + ':' + ','.join(actions)
         else:
@@ -174,13 +177,6 @@ class DXF(object):
         _raise_for_status(r)
         self.token = r.json()['token']
         return self._token
-
-    def auth_by_password(self, username, password, *actions):
-        r = requests.get(self._repo_base_url)
-        if r.status_code != requests.codes.unauthorized:
-            raise DXFUnexpectedStatusCodeError(r.status_code,
-                                               requests.codes.unauthorized)
-        return self._auth_by_password(r, username, password, *actions)
 
     def push_blob(self, filename):
         dgst = sha256_file(filename)

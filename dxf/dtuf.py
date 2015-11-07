@@ -13,12 +13,11 @@ import tuf.util
 
 import dxf
 
-def auth(auth_by_password=None):
-    if auth_by_password:
-        username = os.environ.get('DXF_USERNAME')
-        password = os.environ.get('DXF_PASSWORD')
-        if username and password:
-            auth_by_password(username, password)
+def auth(dxf_obj, response):
+    username = os.environ.get('DXF_USERNAME')
+    password = os.environ.get('DXF_PASSWORD')
+    if username and password:
+        dxf_obj.auth_by_password(username, password, response=response)
 
 def _download_file(url, required_length, STRICT_REQUIRED_LENGTH=True):
     ourl = urlparse.urlparse(url)
