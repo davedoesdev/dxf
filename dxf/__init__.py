@@ -4,13 +4,13 @@ import base64
 import hashlib
 import json
 import requests
+import www_authenticate
 import jws
 import ecdsa
 from exceptions import *
 
 def _parse_www_auth(s):
-    props = [x.split('=') for x in s.split(' ')[1].split(',')]
-    return dict([(y[0], y[1].strip('"')) for y in props])
+    return www_authenticate.parse(s)['bearer']
 
 def _num_to_base64(n):
     b = bytearray()
@@ -250,9 +250,14 @@ class DXF(object):
         self._request('put', 'manifests/' + alias, data=manifest_json)
         return manifest_json
 
-    def get_alias(self, alias):
-        r = self._request('get', 'manifests/' + alias)
-        return _verify_manifest(r.content, r.headers['docker-content-digest'])
+    def get_alias(self, alias=None, manifest=None):
+        if alias:
+            r = self._request('get', 'manifests/' + alias)
+            manifest = r.content
+            dcd = r.headers['docker-content-digest']
+        else:
+            dcd = None
+        return _verify_manifest(manifest, dcd)
 
     def del_alias(self, alias):
         dgsts = self.get_alias(alias)

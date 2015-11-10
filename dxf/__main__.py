@@ -57,7 +57,7 @@ parser.add_argument("op", choices=['auth',
                                    'get-alias',
                                    'del-alias'])
 parser.add_argument("repo")
-parser.add_argument('args', nargs='+')
+parser.add_argument('args', nargs='*')
 args = parser.parse_args()
 
 def auth(dxf_obj, response):
@@ -67,6 +67,9 @@ def auth(dxf_obj, response):
         dxf_obj.auth_by_password(username, password, response=response)
 
 dxf_obj = dxf.DXF(os.environ['DXF_HOST'], args.repo, auth)
+
+def _flatten(l):
+    return reduce(lambda x, y: x + y, l)
 
 def doit():
     if args.op == "auth":
@@ -92,23 +95,25 @@ def doit():
         print dgst
 
     elif args.op == "pull-blob":
-        for name in args.args:
-            if name.startswith('@'):
-                dgsts = dxf_obj.get_alias(name[1:])
-            else:
-                dgsts = [name]
-            for dgst in dgsts:
-                for chunk in dxf_obj.pull_blob(dgst):
-                    sys.stdout.write(chunk)
+        if len(args.args) == 0:
+            dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
+        else:
+            dgsts = _flatten([dxf_obj.get_alias(name[1:]) 
+                              if name.startswith('@') else [name]
+                              for name in args.args])
+        for dgst in dgsts:
+            for chunk in dxf_obj.pull_blob(dgst):
+                sys.stdout.write(chunk)
 
     elif args.op == 'del-blob':
-        for name in args.args:
-            if name.startswith('@'):
-                dgsts = dxf_obj.get_alias(name[1:])
-            else:
-                dgsts = [name]
-            for dgst in dgsts:
-                dxf_obj.del_blob(dgst)
+        if len(args.args) == 0:
+            dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
+        else:
+            dgsts = _flatten([dxf_obj.get_alias(name[1:]) 
+                              if name.startswith('@') else [name]
+                              for name in args.args])
+        for dgst in dgsts:
+            dxf_obj.del_blob(dgst)
 
     elif args.op == "set-alias":
         if len(args.args) < 2:
@@ -118,9 +123,12 @@ def doit():
         sys.stdout.write(dxf_obj.set_alias(args.args[0], *dgsts))
 
     elif args.op == "get-alias":
-        for name in args.args:
-            for dgst in dxf_obj.get_alias(name):
-                print dgst
+        if len(args.args) == 0:
+            dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
+        else:
+            dgsts = _flatten([dxf_obj.get_alias(name) for name in args.args])
+        for dgst in dgsts:
+            print dgst
 
     elif args.op == "del-alias":
         for name in args.args:
