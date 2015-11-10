@@ -41,10 +41,5 @@ dxf_obj.get_alias('nodejs-latest')
 dxf_obj.del_alias('nodejs-latest')
 ```
 
-The third module (`dxf/dtuf.py`) is going to be registry bindings for
-[The Update Framework](http://theupdateframework.com/). Basically, the idea is
-to get TUF to use the first module so it can store its metadata and target files
-in a Docker registry.
-
 Again, this isn't finished or ready for use yet but any comments or suggestions
 are gratefully accepted.
