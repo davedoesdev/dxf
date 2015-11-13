@@ -4,7 +4,7 @@
 # dxf push-blob <repo> <file> [@alias]    upload blob from file, print hash
 #                                         and optionally set alias to it
 # dxf pull-blob <repo> <hash>|@<alias>... download blobs to stdout
-# dxf del-blob  <repo> <hash>|@<alias>... delete blobs
+# dxf del-blob  <repo> <hash>|@<alias>... delete blobs (and aliases if given)
 
 # dxf set-alias <repo> <alias> <hash>|<file>...  point alias to hashes,
 #                                         print manifest. Use path with /
@@ -109,7 +109,7 @@ def doit():
         if len(args.args) == 0:
             dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
         else:
-            dgsts = _flatten([dxf_obj.get_alias(name[1:]) 
+            dgsts = _flatten([dxf_obj.del_alias(name[1:]) 
                               if name.startswith('@') else [name]
                               for name in args.args])
         for dgst in dgsts:
