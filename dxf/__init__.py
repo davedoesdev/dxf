@@ -263,3 +263,7 @@ class DXF(object):
         dgsts = self.get_alias(alias)
         self._request('delete', 'manifests/' + alias)
         return dgsts
+
+    def list_aliases(self):
+        r = self._request('get', 'tags/list')
+        return r.json()['tags']

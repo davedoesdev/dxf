@@ -12,6 +12,7 @@
 # dxf get-alias <repo> <alias>...         print hashes aliases points to
 # dxf del-alias <repo> <alias>...         delete aliases and print hashes they
 #                                         were pointing to
+# dxf list-aliases <repo>                 list all aliases
 
 # pass repo host through DXF_HOST
 # pass token through DXF_TOKEN
@@ -53,7 +54,8 @@ parser.add_argument("op", choices=['auth',
                                    'del-blob',
                                    'set-alias',
                                    'get-alias',
-                                   'del-alias'])
+                                   'del-alias',
+                                   'list-aliases'])
 parser.add_argument("repo")
 parser.add_argument('args', nargs='*')
 args = parser.parse_args()
@@ -132,6 +134,12 @@ def doit():
         for name in args.args:
             for dgst in dxf_obj.del_alias(name):
                 print dgst
+
+    elif args.op == 'list-aliases':
+        if len(args.args) > 0:
+            parser.error('too many arguments')
+        for name in dxf_obj.list_aliases():
+            print name
 
 try:
     doit()
