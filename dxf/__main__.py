@@ -46,8 +46,6 @@ import json
 import ecdsa
 import jws as python_jws
 
-repo_url = "https://" + os.environ["DXF_HOST"] + "/v2/"
-
 parser = argparse.ArgumentParser()
 parser.add_argument("op", choices=['auth',
                                    'push-blob',
