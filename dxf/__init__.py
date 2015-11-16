@@ -49,7 +49,10 @@ def sha256_file(fname):
             sha256.update(chunk)
     return sha256.hexdigest()
 
-def _verify_manifest(content, content_digest=None):
+def _verify_manifest(content,
+                     content_digest=None,
+                     verify=True,
+                     return_unsigned_manifest=False):
     # Adapted from https://github.com/joyent/node-docker-registry-client
     manifest = json.loads(content)
     signatures = []
@@ -91,18 +94,22 @@ def _verify_manifest(content, content_digest=None):
         if dgst != expected_dgst:
             raise DXFDigestMismatchError(dgst, expected_dgst)
 
-    for sig in signatures:
-        data = {
-            'key': sig['key'],
-            'header': {
-                'alg': sig['alg']
+    if verify:
+        for sig in signatures:
+            data = {
+                'key': sig['key'],
+                'header': {
+                    'alg': sig['alg']
+                }
             }
-        }
-        jws.header.process(data, 'verify')
-        sig64 = sig['signature'].encode('utf-8')
-        data['verifier']("%s.%s" % (sig['protected64'], payload64),
-                         base64.urlsafe_b64decode(_pad64(sig64)),
-                         sig['key'])
+            jws.header.process(data, 'verify')
+            sig64 = sig['signature'].encode('utf-8')
+            data['verifier']("%s.%s" % (sig['protected64'], payload64),
+                             base64.urlsafe_b64decode(_pad64(sig64)),
+                             sig['key'])
+
+    if return_unsigned_manifest:
+        return payload
 
     dgsts = []
     for layer in manifest['fsLayers']:
@@ -205,7 +212,7 @@ class DXF(object):
     def del_blob(self, digest):
         self._request('delete', 'blobs/sha256:' + digest)
 
-    def set_alias(self, alias, *digests):
+    def set_alias(self, alias, *digests, **kwargs):
         manifest = {
             'name': self._repo,
             'tag': alias,
@@ -243,21 +250,26 @@ class DXF(object):
             'signature': base64.urlsafe_b64encode(sig).rstrip('='),
             'protected': protected64
         }]
-        manifest_json = manifest_json[:format_length] + \
+        signed_json = manifest_json[:format_length] + \
                         ', "signatures": ' + json.dumps(signatures) + \
                         format_tail
-        #print _verify_manifest(manifest_json)
-        self._request('put', 'manifests/' + alias, data=manifest_json)
-        return manifest_json
+        #print _verify_manifest(signed_json)
+        self._request('put', 'manifests/' + alias, data=signed_json)
+        return manifest_json if kwargs.get('return_unsigned_manifest') \
+               else signed_json
 
-    def get_alias(self, alias=None, manifest=None):
+    def get_alias(self,
+                  alias=None,
+                  manifest=None,
+                  verify=True,
+                  return_unsigned_manifest=False):
         if alias:
             r = self._request('get', 'manifests/' + alias)
             manifest = r.content
             dcd = r.headers['docker-content-digest']
         else:
             dcd = None
-        return _verify_manifest(manifest, dcd)
+        return _verify_manifest(manifest, dcd, verify, return_unsigned_manifest)
 
     def del_alias(self, alias):
         dgsts = self.get_alias(alias)

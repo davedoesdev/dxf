@@ -10,6 +10,7 @@
 #                                         print manifest. Use path with /
 #                                         in to calculate hash from file 
 # dxf get-alias <repo> <alias>...         print hashes aliases points to
+#                                         (if no aliases, manifest on stdin)
 # dxf del-alias <repo> <alias>...         delete aliases and print hashes they
 #                                         were pointing to
 # dxf list-aliases <repo>                 list all aliases
