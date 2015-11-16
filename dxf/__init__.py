@@ -55,34 +55,38 @@ def _verify_manifest(content,
                      return_unsigned_manifest=False):
     # Adapted from https://github.com/joyent/node-docker-registry-client
     manifest = json.loads(content)
-    signatures = []
-    for sig in manifest['signatures']:
-        protected64 = sig['protected'].encode('utf-8')
-        protected = base64.urlsafe_b64decode(_pad64(protected64))
-        protected_header = json.loads(protected)
 
-        format_length = protected_header['formatLength']
-        format_tail64 = protected_header['formatTail'].encode('utf-8')
-        format_tail = base64.urlsafe_b64decode(_pad64(format_tail64))
+    if verify or ('signatures' in manifest):
+        signatures = []
+        for sig in manifest['signatures']:
+            protected64 = sig['protected'].encode('utf-8')
+            protected = base64.urlsafe_b64decode(_pad64(protected64))
+            protected_header = json.loads(protected)
 
-        alg = sig['header']['alg']
-        if alg.lower() == 'none':
-            raise DXFDisallowedSignatureAlgorithmError('none')
-        if sig['header'].get('chain'):
-            raise DXFChainNotImplementedError()
+            format_length = protected_header['formatLength']
+            format_tail64 = protected_header['formatTail'].encode('utf-8')
+            format_tail = base64.urlsafe_b64decode(_pad64(format_tail64))
 
-        signatures.append({
-            'alg': alg,
-            'signature': sig['signature'],
-            'protected64': protected64,
-            'key': _jwk_to_key(sig['header']['jwk']),
-            'format_length': format_length,
-            'format_tail': format_tail
-        })
+            alg = sig['header']['alg']
+            if alg.lower() == 'none':
+                raise DXFDisallowedSignatureAlgorithmError('none')
+            if sig['header'].get('chain'):
+                raise DXFChainNotImplementedError()
 
-    payload = content[:signatures[0]['format_length']] + \
-              signatures[0]['format_tail']
-    payload64 = base64.urlsafe_b64encode(payload).rstrip('=')
+            signatures.append({
+                'alg': alg,
+                'signature': sig['signature'],
+                'protected64': protected64,
+                'key': _jwk_to_key(sig['header']['jwk']),
+                'format_length': format_length,
+                'format_tail': format_tail
+            })
+
+        payload = content[:signatures[0]['format_length']] + \
+                  signatures[0]['format_tail']
+        payload64 = base64.urlsafe_b64encode(payload).rstrip('=')
+    else:
+        payload = content
 
     if content_digest:
         method, expected_dgst = content_digest.split(':')
