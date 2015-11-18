@@ -50,30 +50,40 @@ import json
 import ecdsa
 import jws as python_jws
 
-parser = argparse.ArgumentParser()
-parser.add_argument("op", choices=['auth',
-                                   'push-blob',
-                                   'pull-blob',
-                                   'del-blob',
-                                   'set-alias',
-                                   'get-alias',
-                                   'del-alias',
-                                   'list-aliases',
-                                   'list-repos'])
-parser.add_argument("repo")
-parser.add_argument('args', nargs='*')
-args = parser.parse_args()
-
 def auth(dxf_obj, response):
     username = os.environ.get('DXF_USERNAME')
     password = os.environ.get('DXF_PASSWORD')
     if username and password:
         dxf_obj.auth_by_password(username, password, response=response)
 
-dxf_obj = dxf.DXF(os.environ['DXF_HOST'],
-                  args.repo,
-                  auth,
-                  os.environ.get('DXF_INSECURE'))
+choices=['auth',
+         'push-blob',
+          'pull-blob',
+          'del-blob',
+          'set-alias',
+          'get-alias',
+          'del-alias',
+          'list-aliases',
+          'list-repos']
+
+parser = argparse.ArgumentParser()
+subparsers = parser.add_subparsers(dest='op')
+for c in choices:
+    sp = subparsers.add_parser(c)
+    if c != 'list-repos':
+        sp.add_argument("repo")
+        sp.add_argument('args', nargs='*')
+
+args = parser.parse_args()
+if args.op == 'list-repos':
+    dxf_obj = dxf.DXFBase(os.environ['DXF_HOST'],
+                          auth,
+                          os.environ.get('DXF_INSECURE'))
+else:
+    dxf_obj = dxf.DXF(os.environ['DXF_HOST'],
+                      args.repo,
+                      auth,
+                      os.environ.get('DXF_INSECURE'))
 
 def _flatten(l):
     return reduce(lambda x, y: x + y, l)
@@ -149,8 +159,6 @@ def doit():
             print name
 
     elif args.op == 'list-repos':
-        if len(args.args) > 0:
-            parser.error('too many arguments')
         for name in dxf_obj.list_repos():
             print name
 
