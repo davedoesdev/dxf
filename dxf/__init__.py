@@ -151,7 +151,10 @@ class DXF(object):
         }
 
     def _request(self, method, path, **kwargs):
-        url = urlparse.urljoin(self._repo_url, path)
+        if path.startswith('/'):
+            url = urlparse.urljoin(self._repo_base_url, path[1:])
+        else:
+            url = urlparse.urljoin(self._repo_url, path)
         r = getattr(requests, method)(url, headers=self._headers, **kwargs)
         if r.status_code == requests.codes.unauthorized and self._auth:
             token = self._token
@@ -282,5 +285,7 @@ class DXF(object):
         return dgsts
 
     def list_aliases(self):
-        r = self._request('get', 'tags/list')
-        return r.json()['tags']
+        return self._request('get', 'tags/list').json()['tags']
+
+    def list_repos(self):
+        return self._request('get', '/_catalog').json()['repositories']

@@ -13,7 +13,8 @@
 #                                         (if no aliases, manifest on stdin)
 # dxf del-alias <repo> <alias>...         delete aliases and print hashes they
 #                                         were pointing to
-# dxf list-aliases <repo>                 list all aliases
+# dxf list-aliases <repo>                 list all aliases in a repo
+# dxf list-repos                          list all repos
 
 # pass repo host through DXF_HOST
 # to use http, set DXF_INSECURE to something
@@ -57,7 +58,8 @@ parser.add_argument("op", choices=['auth',
                                    'set-alias',
                                    'get-alias',
                                    'del-alias',
-                                   'list-aliases'])
+                                   'list-aliases',
+                                   'list-repos'])
 parser.add_argument("repo")
 parser.add_argument('args', nargs='*')
 args = parser.parse_args()
@@ -144,6 +146,12 @@ def doit():
         if len(args.args) > 0:
             parser.error('too many arguments')
         for name in dxf_obj.list_aliases():
+            print name
+
+    elif args.op == 'list-repos':
+        if len(args.args) > 0:
+            parser.error('too many arguments')
+        for name in dxf_obj.list_repos():
             print name
 
 try:
