@@ -129,14 +129,15 @@ def _raise_for_status(r):
     r.raise_for_status()
 
 class DXF(object):
-    def __init__(self, host, repo, auth=None):
-        self.host = host
-        self._repo_base_url = 'https://' + host + '/v2/'
+    def __init__(self, host, repo, auth=None, insecure=False):
+        self._repo_base_url = ('http' if insecure else 'https') + \
+                              '://' + host + '/v2/'
         self._repo = repo
         self._repo_url = self._repo_base_url + repo + '/'
         self._token = None
         self._headers = {}
         self._auth = auth
+        self._insecure = insecure
 
     @property
     def token(self):
@@ -197,7 +198,7 @@ class DXF(object):
         query = urlparse.parse_qs(url_parts[4])
         query.update({ 'digest': 'sha256:' + dgst })
         url_parts[4] = urllib.urlencode(query, True)
-        url_parts[0] = 'https'
+        url_parts[0] = 'http' if self._insecure else 'https'
         upload_url = urlparse.urlunparse(url_parts)
         with open(filename, 'rb') as f:
             r = self._request('put', upload_url, data=f)

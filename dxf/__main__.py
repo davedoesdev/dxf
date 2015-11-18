@@ -16,6 +16,7 @@
 # dxf list-aliases <repo>                 list all aliases
 
 # pass repo host through DXF_HOST
+# to use http, set DXF_INSECURE to something
 # pass token through DXF_TOKEN
 
 # examples:
@@ -67,7 +68,10 @@ def auth(dxf_obj, response):
     if username and password:
         dxf_obj.auth_by_password(username, password, response=response)
 
-dxf_obj = dxf.DXF(os.environ['DXF_HOST'], args.repo, auth)
+dxf_obj = dxf.DXF(os.environ['DXF_HOST'],
+                  args.repo,
+                  auth,
+                  os.environ.get('DXF_INSECURE'))
 
 def _flatten(l):
     return reduce(lambda x, y: x + y, l)
