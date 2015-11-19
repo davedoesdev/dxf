@@ -128,16 +128,15 @@ def _raise_for_status(r):
         raise DXFUnauthorizedError()
     r.raise_for_status()
 
-class DXF(object):
-    def __init__(self, host, repo, auth=None, insecure=False):
-        self._repo_base_url = ('http' if insecure else 'https') + \
-                              '://' + host + '/v2/'
-        self._repo = repo
-        self._repo_url = self._repo_base_url + repo + '/'
-        self._token = None
-        self._headers = {}
+class DXFBase(object):
+    def __init__(self, host, auth=None, insecure=False):
+        self._url = ('http' if insecure else 'https') + '://' + host + '/v2/'
+        self._base_url = self._url
         self._auth = auth
         self._insecure = insecure
+        self._token = None
+        self._headers = {}
+        self._repo = None
 
     @property
     def token(self):
@@ -151,10 +150,7 @@ class DXF(object):
         }
 
     def _request(self, method, path, **kwargs):
-        if path.startswith('/'):
-            url = urlparse.urljoin(self._repo_base_url, path[1:])
-        else:
-            url = urlparse.urljoin(self._repo_url, path)
+        url = urlparse.urljoin(self._url, path)
         r = getattr(requests, method)(url, headers=self._headers, **kwargs)
         if r.status_code == requests.codes.unauthorized and self._auth:
             token = self._token
@@ -166,12 +162,12 @@ class DXF(object):
 
     def auth_by_password(self, username, password, actions=[], response=None):
         if response is None:
-            response = requests.get(self._repo_base_url)
+            response = requests.get(self._base_url)
         if response.status_code != requests.codes.unauthorized:
             raise DXFUnexpectedStatusCodeError(response.status_code,
                                                requests.codes.unauthorized)
         info = _parse_www_auth(response.headers['www-authenticate'])
-        if actions:
+        if actions and self._repo:
             scope = 'repository:' + self._repo + ':' + ','.join(actions)
         else:
             scope = info['scope']    
@@ -192,6 +188,15 @@ class DXF(object):
         _raise_for_status(r)
         self.token = r.json()['token']
         return self._token
+
+    def list_repos(self):
+        return self._request('get', '_catalog').json()['repositories']
+
+class DXF(DXFBase):
+    def __init__(self, host, repo, auth=None, insecure=False):
+        super(DXF, self).__init__(host, auth, insecure)
+        self._url += repo + '/'
+        self._repo = repo
 
     def push_blob(self, filename):
         dgst = sha256_file(filename)
@@ -286,6 +291,3 @@ class DXF(object):
 
     def list_aliases(self):
         return self._request('get', 'tags/list').json()['tags']
-
-    def list_repos(self):
-        return self._request('get', '/_catalog').json()['repositories']
