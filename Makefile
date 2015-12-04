@@ -47,3 +47,6 @@ $(auth_certs):
 
 $(bundle): $(registry_certs) $(auth_certs)
 	cat test/registry/registry.pem test/auth/auth.pem > $@
+
+.PHONY: travis_test
+travis_test: lint coverage
