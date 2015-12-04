@@ -15,7 +15,7 @@ setup(
     url='https://github.com/davedoesdev/dxf',
     license='MIT',
     packages=['dxf'],
-    entry_points={'console_scripts': ['dxf=dxf.main.main']},
+    entry_points={'console_scripts': ['dxf=dxf.main:main']},
     install_requires=['ecdsa>=0.13',
                       'www_authenticate>=0.9.2',
                       'requests>=2.8.1',
