@@ -145,7 +145,7 @@ Installation
 
 .. code:: shell
 
-    pip install dxf
+    pip install python_dxf
 
 Licence
 -------
