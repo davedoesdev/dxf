@@ -64,5 +64,8 @@ make_dist:
 	python setup.py sdist
 	python setup.py bdist_wheel
 
+register:
+	twine register dist/$(name)-$(version).tar.gz
+
 upload:
 	twine upload dist/$(name)-$(version)*
