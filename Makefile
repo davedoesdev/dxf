@@ -23,17 +23,17 @@ build_docs:
 lint:
 	pylint dxf test/*.py
 
-test: run_test
+test: $(fixtures) run_test
 
 .PHONY: run_test
-run_test: $(fixtures) $(ca_certs)
+run_test: $(registry_certs) $(auth_certs) $(ca_certs)
 run_test: export HASH1=$(shell sha256sum test/fixtures/blob1 | cut -d ' ' -f1)
 run_test: export HASH2=$(shell sha256sum test/fixtures/blob2 | cut -d ' ' -f1)
 run_test: export REQUESTS_CA_BUNDLE=test/ca.pem
 run_test:
 	py.test $(test_args) -s
 
-coverage: run_coverage
+coverage: $(fixtures) run_coverage
 
 .PHONY: run_coverage
 run_coverage: test_args=--cov=dxf/__init__.py --cov-report=html --cov-report=term --cov-fail-under=90
@@ -45,14 +45,14 @@ test/fixtures/blob1:
 test/fixtures/blob2:
 	dd if=/dev/urandom of=$@ bs=1M count=2
 
+$(ca_certs):
+	openssl req -new -x509 -nodes -newkey rsa:4096 -keyout test/ca.key -out test/ca.pem -days 365 -subj "/CN=dxf CA/"
+
 $(registry_certs): $(ca_certs)
 	openssl req -new -nodes -newkey rsa:4096 -sha256 -keyout test/registry/registry.key -subj "/CN=localhost/" | openssl x509 -req -extfile <(echo subjectAltName=DNS:localhost) -days 365 -CA test/ca.pem -CAkey test/ca.key -CAcreateserial -out test/registry/registry.pem
 
 $(auth_certs): $(ca_certs)
 	openssl req -new -nodes -newkey rsa:4096 -sha256 -keyout test/auth/auth.key -subj "/CN=localhost/" | openssl x509 -req -extfile <(echo subjectAltName=DNS:localhost) -days 365 -CA test/ca.pem -CAkey test/ca.key -CAcreateserial -out test/auth/auth.pem
-
-$(ca_certs):
-	openssl req -new -x509 -nodes -newkey rsa:4096 -keyout test/ca.key -out test/ca.pem -days 365 -subj "/CN=dxf CA/"
 
 .PHONY: travis_test
 travis_test: lint coverage
