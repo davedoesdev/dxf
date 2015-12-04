@@ -4,8 +4,8 @@ import time
 import hashlib
 import requests
 import pytest
-import dxf
 import jws.exceptions
+import dxf
 
 _here = os.path.join(os.path.dirname(__file__))
 _fixture_dir = os.path.join(_here, 'fixtures')
