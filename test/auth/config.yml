@@ -1,0 +1,16 @@
+server:
+  addr: ":5001"
+  certificate: "/auth/auth.pem"
+  key: "/auth/auth.key"
+
+token:
+  issuer: "Auth Service"
+  expiration: 900
+
+users:
+  "fred":
+    password: "$2y$05$wyKTllHhrJLnXN/Onq/kHOCqadWqlUZK89ppI5nm.zNsM3wtEJOh2"
+
+acl:
+  - match: {account: "fred"}
+    actions: ["*"]

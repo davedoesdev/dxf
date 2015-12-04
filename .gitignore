@@ -1,1 +1,11 @@
 *.pyc
+/.cache
+/test/fixtures/*
+!/test/fixtures/.keep
+/.coverage
+/test/registry/registry.pem
+/test/registry/registry.key
+/test/auth/auth.pem
+/test/auth/auth.key
+/test/bundle.pem
+/python

@@ -1,0 +1,516 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dxf module &mdash; python-dxf 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="python-dxf 0.0.1 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">python-dxf 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="dxf-module">
+<h1>dxf module<a class="headerlink" href="#dxf-module" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-obj docutils literal"><span class="pre">dxf.DXFBase</span></tt></a>(host[,&nbsp;auth,&nbsp;insecure])</td>
+<td>Class for communicating with a Docker v2 registry.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><tt class="xref py py-obj docutils literal"><span class="pre">dxf.DXF</span></tt></a>(host,&nbsp;repo[,&nbsp;auth,&nbsp;insecure])</td>
+<td>Class for operating on a Docker v2 repositories.</td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-dxf"></span><p>Module for accessing a Docker v2 Registry</p>
+<dl class="class">
+<dt id="dxf.DXF">
+<em class="property">class </em><tt class="descclassname">dxf.</tt><tt class="descname">DXF</tt><big>(</big><em>host</em>, <em>repo</em>, <em>auth=None</em>, <em>insecure=False</em><big>)</big><a class="headerlink" href="#dxf.DXF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-class docutils literal"><span class="pre">dxf.DXFBase</span></tt></a></p>
+<p>Class for operating on a Docker v2 repositories.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <tt class="docutils literal"><span class="pre">registry-1.docker.io</span></tt>, <tt class="docutils literal"><span class="pre">localhost:5000</span></tt>.</li>
+<li><strong>repo</strong> (<em>str</em>) &#8211; Name of the repository to access on the registry. Typically this is of the form <tt class="docutils literal"><span class="pre">username/reponame</span></tt> but for your own registries you don&#8217;t actually have to stick to that.</li>
+<li><strong>auth</strong> (<em>function(dxf_obj, response)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><tt class="xref py py-class docutils literal"><span class="pre">DXF</span></tt></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.auth_by_password" title="dxf.DXFBase.auth_by_password"><tt class="xref py py-meth docutils literal"><span class="pre">DXFBase.auth_by_password()</span></tt></a> with a username, password and <tt class="docutils literal"><span class="pre">response</span></tt> before it returns.</li>
+<li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="dxf.DXF.del_alias">
+<tt class="descname">del_alias</tt><big>(</big><em>alias</em><big>)</big><a class="headerlink" href="#dxf.DXF.del_alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete an alias from the registry. The blobs it points to won&#8217;t be deleted. Use <a class="reference internal" href="#dxf.DXF.del_blob" title="dxf.DXF.del_blob"><tt class="xref py py-meth docutils literal"><span class="pre">del_blob()</span></tt></a> for that.</p>
+<p>Note that the registry doesn&#8217;t support deletes yet so expect an error.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) &#8211; Alias name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of blob hashes (strings) which were assigned to the alias.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.del_blob">
+<tt class="descname">del_blob</tt><big>(</big><em>digest</em><big>)</big><a class="headerlink" href="#dxf.DXF.del_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a blob from the registry given the hash of its content.</p>
+<p>Note that the registry doesn&#8217;t support deletes yet so expect an error.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.get_alias">
+<tt class="descname">get_alias</tt><big>(</big><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em>, <em>return_unsigned_manifest=False</em><big>)</big><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the blob hashes assigned to an alias.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>alias</strong> (<em>str</em>) &#8211; Alias name. You almost definitely will only need to pass this argument.</li>
+<li><strong>manifest</strong> (<em>str</em>) &#8211; If you previously obtained a manifest, specify it here instead of <tt class="docutils literal"><span class="pre">alias</span></tt>. You almost definitely won&#8217;t need to do this.</li>
+<li><strong>verify</strong> (<em>bool</em>) &#8211; Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won&#8217;t need to change this from the default (<tt class="docutils literal"><span class="pre">True</span></tt>).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of blob hashes (strings) which are assigned to the alias. If <cite>return_unsigned_manifest</cite> is truthy then the registry manifest used to define the alias is returned instead, but you almost definitely won&#8217;t need that.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.list_aliases">
+<tt class="descname">list_aliases</tt><big>(</big><big>)</big><a class="headerlink" href="#dxf.DXF.list_aliases" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all aliases defined in the repository.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of alias names (strings).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.pull_blob">
+<tt class="descname">pull_blob</tt><big>(</big><em>digest</em><big>)</big><a class="headerlink" href="#dxf.DXF.pull_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a blob from the registry given the hash of its content.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">iterator</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Byte string iterator over the file&#8217;s content.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.push_blob">
+<tt class="descname">push_blob</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#dxf.DXF.push_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a file to the registry and return its (SHA-256) hash.</p>
+<p>The registry is content-addressable so the file&#8217;s content (aka blob)
+can be retrieved later by passing the hash to <a class="reference internal" href="#dxf.DXF.pull_blob" title="dxf.DXF.pull_blob"><tt class="xref py py-meth docutils literal"><span class="pre">pull_blob()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str</em>) &#8211; File to upload.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hash of file&#8217;s content.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.set_alias">
+<tt class="descname">set_alias</tt><big>(</big><em>alias</em>, <em>*digests</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#dxf.DXF.set_alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Give a name (alias) to a set of blobs. Each blob is specified by
+the hash of its content.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>alias</strong> (<em>str</em>) &#8211; Alias name</li>
+<li><strong>digests</strong> (<em>list</em>) &#8211; List of blob hashes (strings).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The registry manifest used to define the alias. You almost definitely won&#8217;t need this. If <tt class="docutils literal"><span class="pre">kwargs['return_unsigned_manifest']</span></tt> is truthy then the unsigned manifest is returned, otherwise it&#8217;s the signed version.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dxf.DXFBase">
+<em class="property">class </em><tt class="descclassname">dxf.</tt><tt class="descname">DXFBase</tt><big>(</big><em>host</em>, <em>auth=None</em>, <em>insecure=False</em><big>)</big><a class="headerlink" href="#dxf.DXFBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Class for communicating with a Docker v2 registry.
+Contains only operations which aren&#8217;t related to repositories.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <tt class="docutils literal"><span class="pre">registry-1.docker.io</span></tt>, <tt class="docutils literal"><span class="pre">localhost:5000</span></tt>.</li>
+<li><strong>auth</strong> (<em>function(dxf_obj, response)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-class docutils literal"><span class="pre">DXFBase</span></tt></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.auth_by_password" title="dxf.DXFBase.auth_by_password"><tt class="xref py py-meth docutils literal"><span class="pre">auth_by_password()</span></tt></a> with a username, password and <tt class="docutils literal"><span class="pre">response</span></tt> before it returns.</li>
+<li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="dxf.DXFBase.auth_by_password">
+<tt class="descname">auth_by_password</tt><big>(</big><em>username</em>, <em>password</em>, <em>actions=None</em>, <em>response=None</em><big>)</big><a class="headerlink" href="#dxf.DXFBase.auth_by_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authenticate to the registry using a username and password.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>username</strong> (<em>str</em>) &#8211; User name to authenticate as.</li>
+<li><strong>password</strong> (<em>str</em>) &#8211; User&#8217;s password.</li>
+<li><strong>actions</strong> (<em>list</em>) &#8211; If you know which types of operation you need to make on the registry, specify them here. Valid actions are <tt class="docutils literal"><span class="pre">pull</span></tt>, <tt class="docutils literal"><span class="pre">push</span></tt> and <tt class="docutils literal"><span class="pre">*</span></tt>.</li>
+<li><strong>response</strong> (<em>requests.Response</em>) &#8211; When the <tt class="docutils literal"><span class="pre">auth</span></tt> function you passed to <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-class docutils literal"><span class="pre">DXFBase</span></tt></a>&#8216;s constructor is called, it is passed a HTTP response object. Pass it back to <a class="reference internal" href="#dxf.DXFBase.auth_by_password" title="dxf.DXFBase.auth_by_password"><tt class="xref py py-meth docutils literal"><span class="pre">auth_by_password()</span></tt></a> to have it automatically detect which actions are required.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Authentication token, if the registry supports bearer tokens. Otherwise <tt class="docutils literal"><span class="pre">`None`</span></tt>, and HTTP Basic auth is used.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXFBase.list_repos">
+<tt class="descname">list_repos</tt><big>(</big><big>)</big><a class="headerlink" href="#dxf.DXFBase.list_repos" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all repositories in the registry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of repository names.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dxf.DXFBase.token">
+<tt class="descname">token</tt><a class="headerlink" href="#dxf.DXFBase.token" title="Permalink to this definition">¶</a></dt>
+<dd><p>str: Authentication token. This will be obtained automatically when
+you call <a class="reference internal" href="#dxf.DXFBase.auth_by_password" title="dxf.DXFBase.auth_by_password"><tt class="xref py py-meth docutils literal"><span class="pre">auth_by_password()</span></tt></a>. If you&#8217;ve obtained a token
+previously, you can also set it but be aware tokens expire quickly.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="dxf.hash_file">
+<tt class="descclassname">dxf.</tt><tt class="descname">hash_file</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#dxf.hash_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hash a file using the same method the registry uses (currently SHA-256).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str</em>) &#8211; Name of file to hash</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hash of file&#8217;s content</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dxf.exceptions">
+<span id="dxf-exceptions-module"></span><h1>dxf.exceptions module<a class="headerlink" href="#module-dxf.exceptions" title="Permalink to this headline">¶</a></h1>
+<p>Module containing exceptions thrown by <a class="reference internal" href="#module-dxf" title="dxf"><tt class="xref py py-mod docutils literal"><span class="pre">dxf</span></tt></a>.</p>
+<dl class="exception">
+<dt id="dxf.exceptions.DXFAuthInsecureError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFAuthInsecureError</tt><a class="headerlink" href="#dxf.exceptions.DXFAuthInsecureError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFError</span></tt></a></p>
+<p>Can&#8217;t authenticate over insecure (non-HTTPS) connection</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFDigestMismatchError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFDigestMismatchError</tt><big>(</big><em>got</em>, <em>expected</em><big>)</big><a class="headerlink" href="#dxf.exceptions.DXFDigestMismatchError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></tt></a></p>
+<p>Digest didn&#8217;t match expected value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>got</strong> &#8211; Actual value received</li>
+<li><strong>expected</strong> &#8211; Value that was expected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFDisallowedSignatureAlgorithmError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFDisallowedSignatureAlgorithmError</tt><big>(</big><em>alg</em><big>)</big><a class="headerlink" href="#dxf.exceptions.DXFDisallowedSignatureAlgorithmError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFError</span></tt></a></p>
+<p>Signature algorithm forbidden</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alg</strong> (<em>str</em>) &#8211; Forbidden signature algorithm</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFError</tt><a class="headerlink" href="#dxf.exceptions.DXFError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Base exception class for all dxf errors</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFSignatureChainNotImplementedError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFSignatureChainNotImplementedError</tt><a class="headerlink" href="#dxf.exceptions.DXFSignatureChainNotImplementedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFError</span></tt></a></p>
+<p>Signature chains not supported</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFUnauthorizedError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFUnauthorizedError</tt><a class="headerlink" href="#dxf.exceptions.DXFUnauthorizedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFError</span></tt></a></p>
+<p>Registry returned authorized error</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFUnexpectedDigestMethodError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFUnexpectedDigestMethodError</tt><big>(</big><em>got</em>, <em>expected</em><big>)</big><a class="headerlink" href="#dxf.exceptions.DXFUnexpectedDigestMethodError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></tt></a></p>
+<p>Digest method not supported</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>got</strong> &#8211; Actual value received</li>
+<li><strong>expected</strong> &#8211; Value that was expected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFUnexpectedError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFUnexpectedError</tt><big>(</big><em>got</em>, <em>expected</em><big>)</big><a class="headerlink" href="#dxf.exceptions.DXFUnexpectedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFError</span></tt></a></p>
+<p>Unexpected value error</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>got</strong> &#8211; Actual value received</li>
+<li><strong>expected</strong> &#8211; Value that was expected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFUnexpectedKeyTypeError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFUnexpectedKeyTypeError</tt><big>(</big><em>got</em>, <em>expected</em><big>)</big><a class="headerlink" href="#dxf.exceptions.DXFUnexpectedKeyTypeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></tt></a></p>
+<p>Cryptographic key type not supported</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>got</strong> &#8211; Actual value received</li>
+<li><strong>expected</strong> &#8211; Value that was expected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFUnexpectedStatusCodeError">
+<em class="property">exception </em><tt class="descclassname">dxf.exceptions.</tt><tt class="descname">DXFUnexpectedStatusCodeError</tt><big>(</big><em>got</em>, <em>expected</em><big>)</big><a class="headerlink" href="#dxf.exceptions.DXFUnexpectedStatusCodeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><tt class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></tt></a></p>
+<p>Unexpected HTTP status code</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>got</strong> &#8211; Actual value received</li>
+<li><strong>expected</strong> &#8211; Value that was expected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dxf module</a></li>
+<li><a class="reference internal" href="#module-dxf.exceptions">dxf.exceptions module</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">python-dxf 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, David Halls.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
