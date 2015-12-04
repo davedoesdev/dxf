@@ -175,7 +175,7 @@ Code Coverage
 
 `coverage.py <http://nedbatchelder.com/code/coverage/>`__ results are
 available
-`here <http://rawgit.davedoesdev.com/davedoesdev/dxf/master/coverage/html/index.html>`__.
+`here <http://rawgit.davedoesdev.com/davedoesdev/dxf/master/htmlcov/index.html>`__.
 
 Coveralls page is `here <https://coveralls.io/r/davedoesdev/dxf>`__.
 

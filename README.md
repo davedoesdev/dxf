@@ -159,6 +159,6 @@ make lint
 make coverage
 ```
 
-[coverage.py](http://nedbatchelder.com/code/coverage/) results are available [here](http://rawgit.davedoesdev.com/davedoesdev/dxf/master/coverage/html/index.html).
+[coverage.py](http://nedbatchelder.com/code/coverage/) results are available [here](http://rawgit.davedoesdev.com/davedoesdev/dxf/master/htmlcov/index.html).
 
 Coveralls page is [here](https://coveralls.io/r/davedoesdev/dxf).
