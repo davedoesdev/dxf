@@ -1,11 +1,12 @@
 # dxf&nbsp;&nbsp;&nbsp;[![Build Status](https://travis-ci.org/davedoesdev/dxf.png)](https://travis-ci.org/davedoesdev/dxf) [![Coverage Status](https://coveralls.io/repos/davedoesdev/dxf/badge.png?branch=master)](https://coveralls.io/r/davedoesdev/dxf?branch=master) [![PyPI version](https://badge.fury.io/py/python_dxf.png)](http://badge.fury.io/py/python_dxf)
 
-Python module and command-line tool for storing data in a Docker registry.
+Python module and command-line tool for storing and retrieving data in a Docker registry.
 
 - Store arbitrary data (blob-store)
 - Content addressable
 - Set up named aliases to blobs
 - Supports Docker registry version 2
+- Works on Python 2.7 and 3.4
 
 Command-line example:
 
@@ -34,10 +35,9 @@ dxf = DXF('registry-1.docker.io', 'fred/datalogger', auth)
 dgst = dxf.push_blob('logger.dat')
 dxf.set_alias('may15-readings', dgst)
 
-dgst2 = dxf.get_alias('may15-readings')
-assert dgst2 == dgst
+assert dxf.get_alias('may15-readings') == [dgst]
 
-for chunk in dxf.pull_blob(dgst2):
+for chunk in dxf.pull_blob(dgst):
     std:stdout.write(chunk)
 ```
 

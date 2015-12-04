@@ -1,12 +1,13 @@
 \ |Build Status| |Coverage Status| |PyPI version|
 
-Python module and command-line tool for storing data in a Docker
-registry.
+Python module and command-line tool for storing and retrieving data in a
+Docker registry.
 
 -  Store arbitrary data (blob-store)
 -  Content addressable
 -  Set up named aliases to blobs
 -  Supports Docker registry version 2
+-  Works on Python 2.7 and 3.4
 
 Command-line example:
 
@@ -36,10 +37,9 @@ Module example:
     dgst = dxf.push_blob('logger.dat')
     dxf.set_alias('may15-readings', dgst)
 
-    dgst2 = dxf.get_alias('may15-readings')
-    assert dgst2 == dgst
+    assert dxf.get_alias('may15-readings') == [dgst]
 
-    for chunk in dxf.pull_blob(dgst2):
+    for chunk in dxf.pull_blob(dgst):
         std:stdout.write(chunk)
 
 Usage
