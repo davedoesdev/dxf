@@ -87,6 +87,22 @@ def _pull_blob(dxf_obj, dgst):
 def test_pull_blob(dxf_obj):
     _pull_blob(dxf_obj, _blob1_hash)
     _pull_blob(dxf_obj, _blob2_hash)
+    with pytest.raises(dxf.exceptions.DXFDigestMismatchError) as ex:
+        class DummySHA256(object):
+            def update(self, chunk):
+                pass
+
+            def hexdigest(self):
+                return orig_sha256().hexdigest()
+        orig_sha256 = hashlib.sha256
+        hashlib.sha256 = DummySHA256
+        try:
+            for chunk in dxf_obj.pull_blob(_blob1_hash):
+                pass
+        finally:
+            hashlib.sha256 = orig_sha256
+    assert ex.value.got == hashlib.sha256().hexdigest()
+    assert ex.value.expected == _blob1_hash
 
 def _del_blob(dxf_obj, dgst):
     with pytest.raises(requests.exceptions.HTTPError) as ex:
