@@ -33,15 +33,15 @@ for c in choices:
 
 # pylint: disable=redefined-variable-type
 args = parser.parse_args()
-if args.op == 'list-repos':
-    dxf_obj = dxf.DXFBase(os.environ['DXF_HOST'],
-                          auth,
-                          os.environ.get('DXF_INSECURE'))
-else:
+if args.op != 'list-repos':
     dxf_obj = dxf.DXF(os.environ['DXF_HOST'],
                       args.repo,
                       auth,
                       os.environ.get('DXF_INSECURE'))
+else:
+    dxf_obj = dxf.DXFBase(os.environ['DXF_HOST'],
+                          auth,
+                          os.environ.get('DXF_INSECURE'))
 
 def _flatten(l):
     return [item for sublist in l for item in sublist]
@@ -57,8 +57,6 @@ def doit():
     token = os.environ.get('DXF_TOKEN')
     if token:
         dxf_obj.token = token
-
-    # pylint: disable=no-member
 
     if args.op == "push-blob":
         if len(args.args) < 1:
@@ -96,7 +94,7 @@ def doit():
     elif args.op == "set-alias":
         if len(args.args) < 2:
             parser.error('too few arguments')
-        dgsts = [dxf.sha256_file(dgst) if os.sep in dgst else dgst
+        dgsts = [dxf.hash_file(dgst) if os.sep in dgst else dgst
                  for dgst in args.args[1:]]
         sys.stdout.write(dxf_obj.set_alias(args.args[0], *dgsts))
 
