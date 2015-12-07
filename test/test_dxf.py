@@ -146,12 +146,11 @@ def test_manifest(dxf_obj):
         dxf_obj.get_alias(manifest=' '+manifest)
 
 def test_unsigned_manifest(dxf_obj):
-    manifest = dxf_obj.set_alias('mani_test2', _blob2_hash, return_unsigned_manifest=True)
+    manifest = dxf_obj.make_unsigned_manifest('mani_test2', _blob2_hash)
     assert manifest
     with pytest.raises(KeyError):
         dxf_obj.get_alias(manifest=manifest)
     assert dxf_obj.get_alias(manifest=manifest, verify=False) == [_blob2_hash]
-    assert dxf_obj.get_alias(manifest=manifest, verify=False, return_unsigned_manifest=True) == manifest
 
 def test_auth(dxf_obj):
     # pylint: disable=protected-access
@@ -162,3 +161,6 @@ def test_auth(dxf_obj):
         assert dxf_obj.auth_by_password(_username, _password, '*') == dxf_obj.token
     else:
         assert dxf_obj.auth_by_password(_username, _password) is None
+
+def test_hash_bytes():
+    assert dxf.hash_bytes(b'abc') == 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'

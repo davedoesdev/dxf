@@ -116,7 +116,7 @@
 
 <dl class="method">
 <dt id="dxf.DXF.get_alias">
-<tt class="descname">get_alias</tt><big>(</big><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em>, <em>return_unsigned_manifest=False</em><big>)</big><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_alias</tt><big>(</big><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em><big>)</big><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the blob hashes assigned to an alias.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -132,7 +132,7 @@
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of blob hashes (strings) which are assigned to the alias. If <cite>return_unsigned_manifest</cite> is truthy then the registry manifest used to define the alias is returned instead, but you almost definitely won&#8217;t need that.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of blob hashes (strings) which are assigned to the alias.</p>
 </td>
 </tr>
 </tbody>
@@ -195,7 +195,7 @@ can be retrieved later by passing the hash to <a class="reference internal" href
 
 <dl class="method">
 <dt id="dxf.DXF.set_alias">
-<tt class="descname">set_alias</tt><big>(</big><em>alias</em>, <em>*digests</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#dxf.DXF.set_alias" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_alias</tt><big>(</big><em>alias</em>, <em>*digests</em><big>)</big><a class="headerlink" href="#dxf.DXF.set_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Give a name (alias) to a set of blobs. Each blob is specified by
 the hash of its content.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -211,7 +211,7 @@ the hash of its content.</p>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The registry manifest used to define the alias. You almost definitely won&#8217;t need this. If <tt class="docutils literal"><span class="pre">kwargs['return_unsigned_manifest']</span></tt> is truthy then the unsigned manifest is returned, otherwise it&#8217;s the signed version.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The registry manifest used to define the alias. You almost definitely won&#8217;t need this.</p>
 </td>
 </tr>
 </tbody>
@@ -292,6 +292,24 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="dxf.hash_bytes">
+<tt class="descclassname">dxf.</tt><tt class="descname">hash_bytes</tt><big>(</big><em>buf</em><big>)</big><a class="headerlink" href="#dxf.hash_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hash bytes using the same method the registry uses (currently SHA-256).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str</em>) &#8211; Bytes to hash</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file&#8217;s content</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="dxf.hash_file">
 <tt class="descclassname">dxf.</tt><tt class="descname">hash_file</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#dxf.hash_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hash a file using the same method the registry uses (currently SHA-256).</p>
@@ -303,7 +321,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hash of file&#8217;s content</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file&#8217;s content</td>
 </tr>
 </tbody>
 </table>

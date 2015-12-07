@@ -69,6 +69,20 @@ def _jwk_to_key(jwk):
                                       _base64_to_num(jwk['y'])),
             ecdsa.NIST256p)
 
+def hash_bytes(buf):
+    """
+    Hash bytes using the same method the registry uses (currently SHA-256).
+
+    :param filename: Bytes to hash
+    :type filename: str
+
+    :rtype: str
+    :returns: Hex-encoded hash of file's content
+    """
+    sha256 = hashlib.sha256()
+    sha256.update(buf)
+    return sha256.hexdigest()
+
 def hash_file(filename):
     """
     Hash a file using the same method the registry uses (currently SHA-256).
@@ -77,7 +91,7 @@ def hash_file(filename):
     :type filename: str
 
     :rtype: str
-    :returns: Hash of file's content
+    :returns: Hex-encoded hash of file's content
     """
     sha256 = hashlib.sha256()
     with open(filename, 'rb') as f:
@@ -87,8 +101,7 @@ def hash_file(filename):
 
 def _verify_manifest(content,
                      content_digest=None,
-                     verify=True,
-                     return_unsigned_manifest=False):
+                     verify=True):
     # pylint: disable=too-many-locals,too-many-branches
 
     # Adapted from https://github.com/joyent/node-docker-registry-client
@@ -149,9 +162,6 @@ def _verify_manifest(content,
             data['verifier']("%s.%s" % (sig['protected64'], payload64),
                              _urlsafe_b64decode(sig64),
                              sig['key'])
-
-    if return_unsigned_manifest:
-        return payload
 
     dgsts = []
     for layer in manifest['fsLayers']:
@@ -361,7 +371,15 @@ class DXF(DXFBase):
         """
         self._request('delete', 'blobs/sha256:' + digest)
 
-    def set_alias(self, alias, *digests, **kwargs):
+    # For dtuf; highly unlikely anyone else will want this
+    def make_unsigned_manifest(self, alias, *digests):
+        return json.dumps({
+            'name': self._repo,
+            'tag': alias,
+            'fsLayers': [{'blobSum': 'sha256:' + dgst} for dgst in digests]
+        }, sort_keys=True)
+
+    def set_alias(self, alias, *digests):
         # pylint: disable=too-many-locals
         """
         Give a name (alias) to a set of blobs. Each blob is specified by
@@ -374,14 +392,9 @@ class DXF(DXFBase):
         :type digests: list
 
         :rtype: str
-        :returns: The registry manifest used to define the alias. You almost definitely won't need this. If ``kwargs['return_unsigned_manifest']`` is truthy then the unsigned manifest is returned, otherwise it's the signed version.
+        :returns: The registry manifest used to define the alias. You almost definitely won't need this.
         """
-        manifest = {
-            'name': self._repo,
-            'tag': alias,
-            'fsLayers': [{'blobSum': 'sha256:' + dgst} for dgst in digests]
-        }
-        manifest_json = json.dumps(manifest)
+        manifest_json = self.make_unsigned_manifest(alias, *digests)
         manifest64 = _urlsafe_b64encode(manifest_json)
         format_length = manifest_json.rfind('}')
         format_tail = manifest_json[format_length:]
@@ -418,14 +431,12 @@ class DXF(DXFBase):
                         format_tail
         #print _verify_manifest(signed_json)
         self._request('put', 'manifests/' + alias, data=signed_json)
-        return manifest_json if kwargs.get('return_unsigned_manifest') \
-               else signed_json
+        return signed_json
 
     def get_alias(self,
                   alias=None,
                   manifest=None,
-                  verify=True,
-                  return_unsigned_manifest=False):
+                  verify=True):
         """
         Get the blob hashes assigned to an alias.
 
@@ -439,7 +450,7 @@ class DXF(DXFBase):
         :type verify: bool
 
         :rtype: list
-        :returns: A list of blob hashes (strings) which are assigned to the alias. If `return_unsigned_manifest` is truthy then the registry manifest used to define the alias is returned instead, but you almost definitely won't need that.
+        :returns: A list of blob hashes (strings) which are assigned to the alias.
         """
         if alias:
             r = self._request('get', 'manifests/' + alias)
@@ -447,7 +458,7 @@ class DXF(DXFBase):
             dcd = r.headers['docker-content-digest']
         else:
             dcd = None
-        return _verify_manifest(manifest, dcd, verify, return_unsigned_manifest)
+        return _verify_manifest(manifest, dcd, verify)
 
     def del_alias(self, alias):
         """
