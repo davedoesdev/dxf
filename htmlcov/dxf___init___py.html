@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for dxf/__init__.py: 91%</title>
+    <title>Coverage for dxf/__init__.py: 92%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,19 +24,19 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>dxf/__init__.py</b> :
-            <span class="pc_cov">91%</span>
+            <span class="pc_cov">92%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
             213 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">200 run</span>
-            <span class="mis shortkey_m button_toggle_mis">13 missing</span>
+            <span class="run hide_run shortkey_r button_toggle_run">201 run</span>
+            <span class="mis shortkey_m button_toggle_mis">12 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
-                <span class="par run hide_run shortkey_p button_toggle_par">12 partial</span>
+                <span class="par run hide_run shortkey_p button_toggle_par">10 partial</span>
             
         </h2>
     </div>
@@ -244,8 +244,8 @@
 <p id="n173" class="pln"><a href="#n173">173</a></p>
 <p id="n174" class="stm run hide_run"><a href="#n174">174</a></p>
 <p id="n175" class="pln"><a href="#n175">175</a></p>
-<p id="n176" class="stm par run hide_run"><a href="#n176">176</a></p>
-<p id="n177" class="stm mis"><a href="#n177">177</a></p>
+<p id="n176" class="stm run hide_run"><a href="#n176">176</a></p>
+<p id="n177" class="stm run hide_run"><a href="#n177">177</a></p>
 <p id="n178" class="stm run hide_run"><a href="#n178">178</a></p>
 <p id="n179" class="pln"><a href="#n179">179</a></p>
 <p id="n180" class="stm run hide_run"><a href="#n180">180</a></p>
@@ -295,7 +295,7 @@
 <p id="n224" class="stm run hide_run"><a href="#n224">224</a></p>
 <p id="n225" class="stm run hide_run"><a href="#n225">225</a></p>
 <p id="n226" class="stm run hide_run"><a href="#n226">226</a></p>
-<p id="n227" class="stm par run hide_run"><a href="#n227">227</a></p>
+<p id="n227" class="stm run hide_run"><a href="#n227">227</a></p>
 <p id="n228" class="stm run hide_run"><a href="#n228">228</a></p>
 <p id="n229" class="stm run hide_run"><a href="#n229">229</a></p>
 <p id="n230" class="stm run hide_run"><a href="#n230">230</a></p>
@@ -733,8 +733,8 @@
 <p id="t173" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t174" class="stm run hide_run"><span class="key">def</span> <span class="nam">_raise_for_status</span><span class="op">(</span><span class="nam">r</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t175" class="pln">&nbsp; &nbsp; <span class="com"># pylint: disable=no-member</span><span class="strut">&nbsp;</span></p>
-<p id="t176" class="stm par run hide_run"><span class="annotate" title="Line 176 was executed, but never jumped to line 177">176&#x202F;&#x219B;&#x202F;177 [?]</span>&nbsp; &nbsp; <span class="key">if</span> <span class="nam">r</span><span class="op">.</span><span class="nam">status_code</span> <span class="op">==</span> <span class="nam">requests</span><span class="op">.</span><span class="nam">codes</span><span class="op">.</span><span class="nam">unauthorized</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t177" class="stm mis">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">raise</span> <span class="nam">exceptions</span><span class="op">.</span><span class="nam">DXFUnauthorizedError</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t176" class="stm run hide_run">&nbsp; &nbsp; <span class="key">if</span> <span class="nam">r</span><span class="op">.</span><span class="nam">status_code</span> <span class="op">==</span> <span class="nam">requests</span><span class="op">.</span><span class="nam">codes</span><span class="op">.</span><span class="nam">unauthorized</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t177" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">raise</span> <span class="nam">exceptions</span><span class="op">.</span><span class="nam">DXFUnauthorizedError</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t178" class="stm run hide_run">&nbsp; &nbsp; <span class="nam">r</span><span class="op">.</span><span class="nam">raise_for_status</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t179" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t180" class="stm run hide_run"><span class="key">class</span> <span class="nam">DXFBase</span><span class="op">(</span><span class="nam">object</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -784,7 +784,7 @@
 <p id="t224" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">if</span> <span class="nam">r</span><span class="op">.</span><span class="nam">status_code</span> <span class="op">==</span> <span class="nam">requests</span><span class="op">.</span><span class="nam">codes</span><span class="op">.</span><span class="nam">unauthorized</span> <span class="key">and</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_auth</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t225" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">headers</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_headers</span><span class="strut">&nbsp;</span></p>
 <p id="t226" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">self</span><span class="op">.</span><span class="nam">_auth</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">r</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t227" class="stm par run hide_run"><span class="annotate" title="Line 227 was executed, but never jumped to line 229">227&#x202F;&#x219B;&#x202F;229 [?]</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="key">if</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_headers</span> <span class="op">!=</span> <span class="nam">headers</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t227" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="key">if</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_headers</span> <span class="op">!=</span> <span class="nam">headers</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t228" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">r</span> <span class="op">=</span> <span class="nam">getattr</span><span class="op">(</span><span class="nam">requests</span><span class="op">,</span> <span class="nam">method</span><span class="op">)</span><span class="op">(</span><span class="nam">url</span><span class="op">,</span> <span class="nam">headers</span><span class="op">=</span><span class="nam">self</span><span class="op">.</span><span class="nam">_headers</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwargs</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t229" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">_raise_for_status</span><span class="op">(</span><span class="nam">r</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t230" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">return</span> <span class="nam">r</span><span class="strut">&nbsp;</span></p>
@@ -1054,7 +1054,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org">coverage.py v4.0.3</a>,
-            created at 2015-12-07 21:41
+            created at 2015-12-10 22:23
         </p>
     </div>
 </div>

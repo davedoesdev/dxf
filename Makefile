@@ -31,12 +31,12 @@ run_test: export HASH1=$(shell sha256sum test/fixtures/blob1 | cut -d ' ' -f1)
 run_test: export HASH2=$(shell sha256sum test/fixtures/blob2 | cut -d ' ' -f1)
 run_test: export REQUESTS_CA_BUNDLE=test/ca.pem
 run_test:
-	py.test $(test_args) -s
+	py.test -s $(test_args)
 
 coverage: $(fixtures) run_coverage
 
 .PHONY: run_coverage
-run_coverage: test_args=--cov=dxf/__init__.py --cov-report=html --cov-report=term --cov-fail-under=89
+run_coverage: test_args=--cov=dxf/__init__.py --cov=dxf/main.py --cov-report=html --cov-report=term --cov-fail-under=89
 run_coverage: run_test
 
 test/fixtures/blob1:
