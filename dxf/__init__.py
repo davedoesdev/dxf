@@ -376,7 +376,8 @@ class DXF(DXFBase):
         return json.dumps({
             'name': self._repo,
             'tag': alias,
-            'fsLayers': [{'blobSum': 'sha256:' + dgst} for dgst in digests]
+            'fsLayers': [{'blobSum': 'sha256:' + dgst} for dgst in digests],
+            'history': [{'v1Compatibility': '{}'} for dgst in digests]
         }, sort_keys=True)
 
     def set_alias(self, alias, *digests):
