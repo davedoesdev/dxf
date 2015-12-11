@@ -69,9 +69,15 @@ repository you wish to work with in each case as the second argument.
 
 -  ``dxf pull-blob <repo> <hash>|<@alias>...``
 
-       Download blobs from the registry. For each blob you can specify
-       its hash (remember the registry is content-addressable) or an
-       alias you've given it (using ``push-blob`` or ``set-alias``).
+       Download blobs from the registry to standard output. For each
+       blob you can specify its hash (remember the registry is
+       content-addressable) or an alias you've given it (using
+       ``push-blob`` or ``set-alias``).
+
+-  ``dxf blob-size <repo> <hash>|<@alias>...``
+
+       Print the size of blobs in the registry. If you specify an alias,
+       the sum of all the blobs it points to will be printed.
 
 -  ``dxf del-blob <repo> <hash>|<@alias>...``
 

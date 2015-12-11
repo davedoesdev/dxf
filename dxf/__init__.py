@@ -26,6 +26,8 @@ if sys.version_info < (3, 0):
     _binary_type = str
 else:
     _binary_type = bytes
+    # pylint: disable=redefined-builtin
+    long = int
 
 def _to_bytes_2and3(s):
     return s if isinstance(s, _binary_type) else s.encode('utf-8')
@@ -359,6 +361,19 @@ class DXF(DXFBase):
         dgst = sha256.hexdigest()
         if dgst != digest:
             raise exceptions.DXFDigestMismatchError(dgst, digest)
+
+    def blob_size(self, digest):
+        """
+        Return the size of a blob in the registry given the hash of its content.
+
+        :param digest: Hash of the blob's content.
+        :type digest: str
+
+        :rtype: long
+        :returns: Whether the blob exists.
+        """
+        r = self._request('head', 'blobs/sha256:' + digest)
+        return long(r.headers['content-length'])
 
     def del_blob(self, digest):
         """

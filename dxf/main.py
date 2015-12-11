@@ -8,6 +8,7 @@ import dxf.exceptions
 _choices = ['auth',
             'push-blob',
             'pull-blob',
+            'blob-size',
             'del-blob',
             'set-alias',
             'get-alias',
@@ -83,6 +84,16 @@ def doit(args, environ):
             for dgst in dgsts:
                 for chunk in dxf_obj.pull_blob(dgst):
                     sys.stdout.write(chunk)
+
+        elif args.op == 'blob-size':
+            if len(args.args) == 0:
+                dgsts_list = [dxf_obj.get_alias(manifest=sys.stdin.read())]
+            else:
+                dgsts_list = [dxf_obj.get_alias(name[1:])
+                              if name.startswith('@') else [name]
+                              for name in args.args]
+            for dgsts in dgsts_list:
+                print(sum([dxf_obj.blob_size(dgst) for dgst in dgsts]))
 
         elif args.op == 'del-blob':
             if len(args.args) == 0:

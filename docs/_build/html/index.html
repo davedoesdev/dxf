@@ -81,6 +81,24 @@
 </tbody>
 </table>
 <dl class="method">
+<dt id="dxf.DXF.blob_size">
+<tt class="descname">blob_size</tt><big>(</big><em>digest</em><big>)</big><a class="headerlink" href="#dxf.DXF.blob_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the size of a blob in the registry given the hash of its content.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">long</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Whether the blob exists.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="dxf.DXF.del_alias">
 <tt class="descname">del_alias</tt><big>(</big><em>alias</em><big>)</big><a class="headerlink" href="#dxf.DXF.del_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete an alias from the registry. The blobs it points to won&#8217;t be deleted. Use <a class="reference internal" href="#dxf.DXF.del_blob" title="dxf.DXF.del_blob"><tt class="xref py py-meth docutils literal"><span class="pre">del_blob()</span></tt></a> for that.</p>

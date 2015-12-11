@@ -6,10 +6,24 @@ import dxf.exceptions
 
 # pylint: disable=no-member
 
+def _not_found(dxf_obj, dgst):
+    with pytest.raises(requests.exceptions.HTTPError) as ex:
+        dxf_obj.blob_size(dgst)
+    # pylint: disable=no-member
+    assert ex.value.response.status_code == requests.codes.not_found
+
+def test_not_found(dxf_obj):
+    _not_found(dxf_obj, pytest.blob1_hash)
+    _not_found(dxf_obj, pytest.blob2_hash)
+
 def test_push_blob(dxf_obj):
     assert dxf_obj.push_blob(pytest.blob1_file) == pytest.blob1_hash
     assert dxf_obj.push_blob(pytest.blob2_file) == pytest.blob2_hash
     assert dxf_obj.list_repos() == [pytest.repo]
+
+def test_blob_size(dxf_obj):
+    assert dxf_obj.blob_size(pytest.blob1_hash) == pytest.blob1_size
+    assert dxf_obj.blob_size(pytest.blob2_hash) == pytest.blob2_size
 
 def _pull_blob(dxf_obj, dgst):
     sha256 = hashlib.sha256()

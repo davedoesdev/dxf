@@ -13,6 +13,16 @@ def test_empty(dxf_main, capsys):
     assert out == ""
     assert err == ""
 
+def _not_found(dxf_main, name):
+    with pytest.raises(requests.exceptions.HTTPError) as ex:
+        dxf.main.doit(['blob-size', pytest.repo, name], dxf_main)
+    assert ex.value.response.status_code == requests.codes.not_found
+
+def test_not_found(dxf_main):
+    _not_found(dxf_main, pytest.blob1_hash)
+    _not_found(dxf_main, pytest.blob2_hash)
+    _not_found(dxf_main, '@fooey')
+
 def test_push_blob(dxf_main, capsys):
     assert dxf.main.doit(['push-blob', pytest.repo, pytest.blob1_file], dxf_main) == 0
     out, err = capsys.readouterr()
@@ -76,6 +86,16 @@ def test_get_alias(dxf_main, capsys):
     assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == 0
     out, err = capsys.readouterr()
     assert out == pytest.blob2_hash + '\n'
+    assert err == ""
+
+def test_blob_size(dxf_main, capsys):
+    assert dxf.main.doit(['blob-size', pytest.repo, pytest.blob1_hash, pytest.blob2_hash, '@hello', '@there', '@world'], dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == str(pytest.blob1_size) + '\n' + \
+                  str(pytest.blob2_size) + '\n' + \
+                  str(pytest.blob1_size) + '\n' + \
+                  str(pytest.blob1_size + pytest.blob2_size) + '\n' + \
+                  str(pytest.blob2_size) + '\n'
     assert err == ""
 
 def test_list_aliases(dxf_main, capsys):
