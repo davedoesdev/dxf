@@ -120,6 +120,10 @@ def test_manifest(dxf_main, capfd, monkeypatch):
     out, err = capfd.readouterr()
     assert out == pytest.blob1_hash + '\n'
     assert err == ""
+    assert dxf.main.doit(['blob-size', pytest.repo], dxf_main) == 0
+    out, err = capfd.readouterr()
+    assert out == str(pytest.blob1_size) + '\n'
+    assert err == ""
     assert dxf.main.doit(['pull-blob', pytest.repo], dxf_main) == 0
     # pylint: disable=protected-access
     capfd._capture.out.tmpfile.encoding = None
