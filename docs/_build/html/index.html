@@ -176,17 +176,23 @@
 
 <dl class="method">
 <dt id="dxf.DXF.pull_blob">
-<tt class="descname">pull_blob</tt><big>(</big><em>digest</em><big>)</big><a class="headerlink" href="#dxf.DXF.pull_blob" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">pull_blob</tt><big>(</big><em>digest</em>, <em>size=False</em><big>)</big><a class="headerlink" href="#dxf.DXF.pull_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a blob from the registry given the hash of its content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</li>
+<li><strong>size</strong> (<em>bool</em>) &#8211; Whether to return the size of the blob too</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">iterator</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">iterator</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Byte string iterator over the file&#8217;s content.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <tt class="docutils literal"><span class="pre">`size`</span></tt> is falsey, a byte string iterator over the file&#8217;s content. If <tt class="docutils literal"><span class="pre">`size`</span></tt> is truthy, a tuple containing the blob&#8217;s size and the iterator.</p>
+</td>
 </tr>
 </tbody>
 </table>

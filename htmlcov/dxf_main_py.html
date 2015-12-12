@@ -266,11 +266,11 @@
 <p id="t42" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">dxf_obj</span> <span class="op">=</span> <span class="nam">dxf</span><span class="op">.</span><span class="nam">DXF</span><span class="op">(</span><span class="nam">environ</span><span class="op">[</span><span class="str">&#39;DXF_HOST&#39;</span><span class="op">]</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t43" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">args</span><span class="op">.</span><span class="nam">repo</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t44" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">_auth</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t45" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">environ</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">&#39;DXF_INSECURE&#39;</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t45" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">environ</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">&#39;DXF_INSECURE&#39;</span><span class="op">)</span> <span class="op">==</span> <span class="str">&#39;1&#39;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t46" class="pln">&nbsp; &nbsp; <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t47" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">dxf_obj</span> <span class="op">=</span> <span class="nam">dxf</span><span class="op">.</span><span class="nam">DXFBase</span><span class="op">(</span><span class="nam">environ</span><span class="op">[</span><span class="str">&#39;DXF_HOST&#39;</span><span class="op">]</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t48" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">_auth</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t49" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">environ</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">&#39;DXF_INSECURE&#39;</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t49" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">environ</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">&#39;DXF_INSECURE&#39;</span><span class="op">)</span> <span class="op">==</span> <span class="str">&#39;1&#39;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t50" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t51" class="stm run hide_run">&nbsp; &nbsp; <span class="key">def</span> <span class="nam">_doit</span><span class="op">(</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t52" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="com"># pylint: disable=too-many-branches</span><span class="strut">&nbsp;</span></p>
@@ -382,7 +382,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org">coverage.py v4.0.3</a>,
-            created at 2015-12-12 08:55
+            created at 2015-12-12 22:40
         </p>
     </div>
 </div>

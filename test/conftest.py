@@ -101,7 +101,7 @@ def dxf_main(request):
     auth, do_token = _setup_fixture(request)
     environ = {
         'DXF_HOST': 'localhost:5000',
-        'DXF_INSECURE': not auth,
+        'DXF_INSECURE': '0' if auth else '1',
         'TEST_DO_TOKEN': do_token
     }
     if auth:

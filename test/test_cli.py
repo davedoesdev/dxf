@@ -138,7 +138,7 @@ def test_manifest(dxf_main, capfd, monkeypatch):
     assert ex.value.response.status_code == requests.codes.method_not_allowed
 
 def test_auth(dxf_main, capsys):
-    if dxf_main['DXF_INSECURE']:
+    if dxf_main['DXF_INSECURE'] == '1':
         environ = {
             'DXF_USERNAME': pytest.username,
             'DXF_PASSWORD': pytest.password
