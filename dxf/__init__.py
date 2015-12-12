@@ -452,7 +452,8 @@ class DXF(DXFBase):
     def get_alias(self,
                   alias=None,
                   manifest=None,
-                  verify=True):
+                  verify=True,
+                  sizes=False):
         """
         Get the blob hashes assigned to an alias.
 
@@ -465,8 +466,11 @@ class DXF(DXFBase):
         :param verify: Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won't need to change this from the default (``True``).
         :type verify: bool
 
+        :param sizes: Whether to return sizes of the blobs along with their hashes
+        :type sizes: bool
+
         :rtype: list
-        :returns: A list of blob hashes (strings) which are assigned to the alias.
+        :returns: If ```sizes``` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ```sizes``` is truthy, a list of (hash,size) tuples for each blob.
         """
         if alias:
             r = self._request('get', 'manifests/' + alias)
@@ -474,7 +478,13 @@ class DXF(DXFBase):
             dcd = r.headers['docker-content-digest']
         else:
             dcd = None
-        return _verify_manifest(manifest, dcd, verify)
+        dgsts = _verify_manifest(manifest, dcd, verify)
+        if not sizes:
+            return dgsts
+        # V2 Schema 2 will put the size in the manifest, so we wouldn't need
+        # to make separate requests to get the size of each blob.
+        # Instead, we could get _verify_manifest to return them.
+        return [(dgst, self.blob_size(dgst)) for dgst in dgsts]
 
     def del_alias(self, alias):
         """

@@ -134,7 +134,7 @@
 
 <dl class="method">
 <dt id="dxf.DXF.get_alias">
-<tt class="descname">get_alias</tt><big>(</big><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em><big>)</big><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_alias</tt><big>(</big><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em>, <em>sizes=False</em><big>)</big><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the blob hashes assigned to an alias.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -144,13 +144,14 @@
 <li><strong>alias</strong> (<em>str</em>) &#8211; Alias name. You almost definitely will only need to pass this argument.</li>
 <li><strong>manifest</strong> (<em>str</em>) &#8211; If you previously obtained a manifest, specify it here instead of <tt class="docutils literal"><span class="pre">alias</span></tt>. You almost definitely won&#8217;t need to do this.</li>
 <li><strong>verify</strong> (<em>bool</em>) &#8211; Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won&#8217;t need to change this from the default (<tt class="docutils literal"><span class="pre">True</span></tt>).</li>
+<li><strong>sizes</strong> (<em>bool</em>) &#8211; Whether to return sizes of the blobs along with their hashes</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of blob hashes (strings) which are assigned to the alias.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <tt class="docutils literal"><span class="pre">`sizes`</span></tt> is falsey, a list of blob hashes (strings) which are assigned to the alias. If <tt class="docutils literal"><span class="pre">`sizes`</span></tt> is truthy, a list of (hash,size) tuples for each blob.</p>
 </td>
 </tr>
 </tbody>
