@@ -343,24 +343,30 @@ class DXF(DXFBase):
             r = self._base_request('put', upload_url, data=f)
         return dgst
 
-    def pull_blob(self, digest):
+    def pull_blob(self, digest, size=False):
         """
         Download a blob from the registry given the hash of its content.
 
         :param digest: Hash of the blob's content.
         :type digest: str
 
+        :param size: Whether to return the size of the blob too
+        :type size: bool
+
         :rtype: iterator
-        :returns: Byte string iterator over the file's content.
+        :returns: If ```size``` is falsey, a byte string iterator over the file's content. If ```size``` is truthy, a tuple containing the blob's size and the iterator.
         """
         r = self._request('get', 'blobs/sha256:' + digest, stream=True)
-        sha256 = hashlib.sha256()
-        for chunk in r.iter_content(8192):
-            sha256.update(chunk)
-            yield chunk
-        dgst = sha256.hexdigest()
-        if dgst != digest:
-            raise exceptions.DXFDigestMismatchError(dgst, digest)
+        class Chunks(object):
+            def __iter__(self):
+                sha256 = hashlib.sha256()
+                for chunk in r.iter_content(8192):
+                    sha256.update(chunk)
+                    yield chunk
+                dgst = sha256.hexdigest()
+                if dgst != digest:
+                    raise exceptions.DXFDigestMismatchError(dgst, digest)
+        return (long(r.headers['content-length']), Chunks()) if size else Chunks()
 
     def blob_size(self, digest):
         """
