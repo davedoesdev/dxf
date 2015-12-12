@@ -42,11 +42,11 @@ def doit(args, environ):
         dxf_obj = dxf.DXF(environ['DXF_HOST'],
                           args.repo,
                           _auth,
-                          environ.get('DXF_INSECURE'))
+                          environ.get('DXF_INSECURE') == '1')
     else:
         dxf_obj = dxf.DXFBase(environ['DXF_HOST'],
                               _auth,
-                              environ.get('DXF_INSECURE'))
+                              environ.get('DXF_INSECURE') == '1')
 
     def _doit():
         # pylint: disable=too-many-branches
