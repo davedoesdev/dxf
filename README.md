@@ -52,6 +52,7 @@ The `dxf` command-line tool uses the following environment variables:
    `http` rather than `https` (which is the default).
 - `DXF_USERNAME` - Name of user to authenticate as
 - `DXF_PASSWORD` - User's password
+- `DXF_PROGRESS` - Set this to `1` if you want a progress bar to be displayed during `pull-blob`.
 
 You can use the following options with `dxf`. Supply the name of the repository
 you wish to work with in each case as the second argument.

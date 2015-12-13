@@ -1,5 +1,6 @@
 import sys
 import errno
+import time
 import hashlib
 import pytest
 import requests.exceptions
@@ -62,6 +63,27 @@ def test_pull_blob(dxf_main, capfd):
     _pull_blob(dxf_main, pytest.blob1_hash, pytest.blob1_hash, capfd)
     _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfd)
     _pull_blob(dxf_main, '@fooey', pytest.blob1_hash, capfd)
+
+def test_progress(dxf_main, capfd):
+    environ = {'DXF_PROGRESS': '1'}
+    environ.update(dxf_main)
+    assert dxf.main.doit(['pull-blob', pytest.repo, pytest.blob1_hash], environ) == 0
+    _, err = capfd.readouterr()
+    assert pytest.blob1_hash[0:8] in err
+    assert " 0%" in err
+    assert " 100%" in err
+    assert " " + str(pytest.blob1_size) + "/" + str(pytest.blob1_size) in err
+
+def test_see_progress(dxf_main, monkeypatch):
+    environ = {'DXF_PROGRESS': '1'}
+    environ.update(dxf_main)
+    # pylint: disable=too-few-public-methods
+    class FakeStdout(object):
+        # pylint: disable=no-self-use
+        def write(self, _):
+            time.sleep(0.05)
+    monkeypatch.setattr(sys, 'stdout', FakeStdout())
+    assert dxf.main.doit(['pull-blob', pytest.repo, pytest.blob1_hash], environ) == 0
 
 def test_set_alias(dxf_main, capsys):
     assert dxf.main.doit(['set-alias', pytest.repo, 'hello', pytest.blob1_hash], dxf_main) == 0

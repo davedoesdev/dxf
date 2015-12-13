@@ -2,6 +2,7 @@
 import os
 import argparse
 import sys
+from tqdm import tqdm
 import dxf
 import dxf.exceptions
 
@@ -82,8 +83,17 @@ def doit(args, environ):
                                   if name.startswith('@') else [name]
                                   for name in args.args])
             for dgst in dgsts:
-                for chunk in dxf_obj.pull_blob(dgst):
+                size, it = dxf_obj.pull_blob(dgst, size=True)
+                if environ.get('DXF_PROGRESS') == '1':
+                    progress = tqdm(desc=dgst[0:8], total=size, leave=True)
+                else:
+                    progress = None
+                for chunk in it:
+                    if progress is not None:
+                        progress.update(len(chunk))
                     sys.stdout.write(chunk)
+                if progress is not None:
+                    progress.close()
 
         elif args.op == 'blob-size':
             if len(args.args) == 0:
