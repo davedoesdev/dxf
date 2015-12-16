@@ -28,12 +28,18 @@ def pytest_namespace():
     return {
         'blob1_file': os.path.join(_fixture_dir, 'blob1'),
         'blob2_file': os.path.join(_fixture_dir, 'blob2'),
+        'blob3_file': os.path.join(_fixture_dir, 'blob3'),
+        'blob4_file': os.path.join(_fixture_dir, 'blob4'),
 
         'blob1_hash': os.environ['HASH1'],
         'blob2_hash': os.environ['HASH2'],
+        'blob3_hash': os.environ['HASH3'],
+        'blob4_hash': os.environ['HASH4'],
 
         'blob1_size': 1 * 1024 * 1024,
         'blob2_size': 2 * 1024 * 1024,
+        'blob3_size': 2 * 1024 * 1024,
+        'blob4_size': 2 * 1024 * 1024,
 
         'username': 'fred',
         'password': '!WordPass0$',

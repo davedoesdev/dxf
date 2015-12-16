@@ -4,6 +4,7 @@ import time
 import hashlib
 import pytest
 import requests.exceptions
+import tqdm
 import dxf.main
 
 # pylint: disable=no-member
@@ -73,6 +74,12 @@ def test_progress(dxf_main, capfd):
     assert " 0%" in err
     assert " 100%" in err
     assert " " + str(pytest.blob1_size) + "/" + str(pytest.blob1_size) in err
+    assert dxf.main.doit(['push-blob', pytest.repo, pytest.blob3_file], environ) == 0
+    _, err = capfd.readouterr()
+    assert pytest.blob3_hash[0:8] in err
+    assert " 0%" in err
+    assert " 100%" in err
+    assert " " + str(pytest.blob3_size) + "/" + str(pytest.blob3_size) in err
 
 def test_see_progress(dxf_main, monkeypatch):
     environ = {'DXF_PROGRESS': '1'}
@@ -84,6 +91,19 @@ def test_see_progress(dxf_main, monkeypatch):
             time.sleep(0.05)
     monkeypatch.setattr(sys, 'stdout', FakeStdout())
     assert dxf.main.doit(['pull-blob', pytest.repo, pytest.blob1_hash], environ) == 0
+    orig_tqdm = tqdm.tqdm
+    def new_tqdm(*args, **kwargs):
+        tqdm_obj = orig_tqdm(*args, **kwargs)
+        class TQDM(object):
+            # pylint: disable=no-self-use
+            def update(self, n):
+                tqdm_obj.update(n)
+                time.sleep(0.025)
+            def close(self):
+                tqdm_obj.close()
+        return TQDM()
+    monkeypatch.setattr(tqdm, 'tqdm', new_tqdm)
+    assert dxf.main.doit(['push-blob', pytest.repo, pytest.blob4_file], environ) == 0
 
 def test_set_alias(dxf_main, capsys):
     assert dxf.main.doit(['set-alias', pytest.repo, 'hello', pytest.blob1_hash], dxf_main) == 0

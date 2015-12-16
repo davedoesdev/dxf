@@ -18,7 +18,20 @@ def test_not_found(dxf_obj):
 
 def test_push_blob(dxf_obj):
     assert dxf_obj.push_blob(pytest.blob1_file) == pytest.blob1_hash
-    assert dxf_obj.push_blob(pytest.blob2_file) == pytest.blob2_hash
+    state = {
+        'called': False,
+        'total': 0
+    }
+    # pylint: disable=unused-argument
+    def progress1(dgst, chunk, size):
+        state['called'] = True
+    assert dxf_obj.push_blob(pytest.blob1_file, progress=progress1) == pytest.blob1_hash
+    assert not state['called']
+    def progress2(dgst, chunk, size):
+        assert size == pytest.blob2_size
+        state['total'] += len(chunk)
+    assert dxf_obj.push_blob(pytest.blob2_file, progress=progress2) == pytest.blob2_hash
+    assert state['total'] == pytest.blob2_size
     assert dxf_obj.list_repos() == [pytest.repo]
 
 def test_blob_size(dxf_obj):

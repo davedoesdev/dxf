@@ -2,7 +2,10 @@ SHELL := /bin/bash
 
 export PYTHONPATH=.
 
-fixtures = test/fixtures/blob1 test/fixtures/blob2
+fixtures = test/fixtures/blob1 \
+           test/fixtures/blob2 \
+           test/fixtures/blob3 \
+           test/fixtures/blob4
 registry_certs = test/registry/registry.key test/registry/registry.pem
 auth_certs = test/auth/auth.key test/auth/auth.pem
 ca_certs = test/ca.key test/ca.pem
@@ -29,6 +32,8 @@ test: $(fixtures) run_test
 run_test: $(registry_certs) $(auth_certs) $(ca_certs)
 run_test: export HASH1=$(shell sha256sum test/fixtures/blob1 | cut -d ' ' -f1)
 run_test: export HASH2=$(shell sha256sum test/fixtures/blob2 | cut -d ' ' -f1)
+run_test: export HASH3=$(shell sha256sum test/fixtures/blob3 | cut -d ' ' -f1)
+run_test: export HASH4=$(shell sha256sum test/fixtures/blob4 | cut -d ' ' -f1)
 run_test: export REQUESTS_CA_BUNDLE=test/ca.pem
 run_test:
 	py.test -s $(test_args)
@@ -41,8 +46,11 @@ run_coverage: run_test
 
 test/fixtures/blob1:
 	dd if=/dev/urandom of=$@ bs=1M count=1
-
 test/fixtures/blob2:
+	dd if=/dev/urandom of=$@ bs=1M count=2
+test/fixtures/blob3:
+	dd if=/dev/urandom of=$@ bs=1M count=2
+test/fixtures/blob4:
 	dd if=/dev/urandom of=$@ bs=1M count=2
 
 $(ca_certs):

@@ -179,6 +179,25 @@ def _raise_for_status(r):
         raise exceptions.DXFUnauthorizedError()
     r.raise_for_status()
 
+class _ReportingFile(object):
+    def __init__(self, dgst, f, cb):
+        self._dgst = dgst
+        self._f = f
+        self._cb = cb
+        self._size = requests.utils.super_len(f)
+    # define __iter__ so requests thinks we're a stream
+    # (models.py, PreparedRequest.prepare_body)
+    def __iter__(self):
+        assert not "called"
+    # define fileno so requests can find length
+    # (utils.py, super_len)
+    def fileno(self):
+        return self._f.fileno()
+    def read(self, n):
+        chunk = self._f.read(n)
+        self._cb(self._dgst, chunk, self._size)
+        return chunk
+
 class DXFBase(object):
     # pylint: disable=too-many-instance-attributes
     """
@@ -317,7 +336,7 @@ class DXF(DXFBase):
     def _request(self, method, path, **kwargs):
         return super(DXF, self)._base_request(method, self._repo + '/' + path, **kwargs)
 
-    def push_blob(self, filename):
+    def push_blob(self, filename, progress=None):
         """
         Upload a file to the registry and return its (SHA-256) hash.
 
@@ -331,6 +350,13 @@ class DXF(DXFBase):
         :returns: Hash of file's content.
         """
         dgst = hash_file(filename)
+        try:
+            self._request('head', 'blobs/sha256:' + dgst)
+            return dgst
+        except requests.exceptions.HTTPError as ex:
+            # pylint: disable=no-member
+            if ex.response.status_code != requests.codes.not_found:
+                raise
         r = self._request('post', 'blobs/uploads/')
         upload_url = r.headers['Location']
         url_parts = list(urlparse.urlparse(upload_url))
@@ -340,7 +366,9 @@ class DXF(DXFBase):
         url_parts[0] = 'http' if self._insecure else 'https'
         upload_url = urlparse.urlunparse(url_parts)
         with open(filename, 'rb') as f:
-            r = self._base_request('put', upload_url, data=f)
+            self._base_request('put',
+                               upload_url,
+                               data=_ReportingFile(dgst, f, progress) if progress else f)
         return dgst
 
     # pylint: disable=no-self-use

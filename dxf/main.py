@@ -2,7 +2,7 @@
 import os
 import argparse
 import sys
-from tqdm import tqdm
+import tqdm
 import dxf
 import dxf.exceptions
 
@@ -70,7 +70,18 @@ def doit(args, environ):
                 _parser.error('too many arguments')
             if len(args.args) == 2 and not args.args[1].startswith('@'):
                 _parser.error('invalid alias')
-            dgst = dxf_obj.push_blob(args.args[0])
+            if environ.get('DXF_PROGRESS') == '1':
+                bars = {}
+                def progress(dgst, chunk, size):
+                    if len(chunk) > 0:
+                        if dgst not in bars:
+                            bars[dgst] = tqdm.tqdm(desc=dgst[0:8], total=size, leave=True)
+                        bars[dgst].update(len(chunk))
+                    elif dgst in bars:
+                        bars[dgst].close()
+            else:
+                progress = None
+            dgst = dxf_obj.push_blob(args.args[0], progress)
             if len(args.args) == 2:
                 dxf_obj.set_alias(args.args[1][1:], dgst)
             print(dgst)
@@ -84,16 +95,17 @@ def doit(args, environ):
                                   for name in args.args])
             for dgst in dgsts:
                 size, it = dxf_obj.pull_blob(dgst, size=True)
+                # pylint: disable=blacklisted-name
                 if environ.get('DXF_PROGRESS') == '1':
-                    progress = tqdm(desc=dgst[0:8], total=size, leave=True)
+                    bar = tqdm.tqdm(desc=dgst[0:8], total=size, leave=True)
                 else:
-                    progress = None
+                    bar = None
                 for chunk in it:
-                    if progress is not None:
-                        progress.update(len(chunk))
+                    if bar is not None:
+                        bar.update(len(chunk))
                     sys.stdout.write(chunk)
-                if progress is not None:
-                    progress.close()
+                if bar is not None:
+                    bar.close()
 
         elif args.op == 'blob-size':
             if len(args.args) == 0:
