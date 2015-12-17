@@ -75,7 +75,9 @@ def doit(args, environ):
                 def progress(dgst, chunk, size):
                     if len(chunk) > 0:
                         if dgst not in bars:
-                            bars[dgst] = tqdm.tqdm(desc=dgst[0:8], total=size, leave=True)
+                            bars[dgst] = tqdm.tqdm(desc=dgst[0:8],
+                                                   total=size,
+                                                   leave=True)
                         bars[dgst].update(len(chunk))
                     elif dgst in bars:
                         bars[dgst].close()
