@@ -383,7 +383,7 @@ class DXF(DXFBase):
         :type size: bool
 
         :rtype: iterator
-        :returns: If ```size``` is falsey, a byte string iterator over the file's content. If ```size``` is truthy, a tuple containing the blob's size and the iterator.
+        :returns: If ```size``` is falsey, a byte string iterator over the file's content. If ```size``` is truthy, a tuple containing the iterator and the blob's size.
         """
         r = self._request('get', 'blobs/sha256:' + digest, stream=True)
         # pylint: disable=too-few-public-methods
@@ -396,7 +396,7 @@ class DXF(DXFBase):
                 dgst = sha256.hexdigest()
                 if dgst != digest:
                     raise exceptions.DXFDigestMismatchError(dgst, digest)
-        return (long(r.headers['content-length']), Chunks()) if size else Chunks()
+        return (Chunks(), long(r.headers['content-length'])) if size else Chunks()
 
     def blob_size(self, digest):
         """

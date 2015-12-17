@@ -31,12 +31,12 @@
 
         <h2 class="stats">
             243 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">229 run</span>
-            <span class="mis shortkey_m button_toggle_mis">14 missing</span>
+            <span class="run hide_run shortkey_r button_toggle_run">228 run</span>
+            <span class="mis shortkey_m button_toggle_mis">15 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
-                <span class="par run hide_run shortkey_p button_toggle_par">10 partial</span>
+                <span class="par run hide_run shortkey_p button_toggle_par">11 partial</span>
             
         </h2>
     </div>
@@ -121,8 +121,8 @@
 <p id="n50" class="stm run hide_run"><a href="#n50">50</a></p>
 <p id="n51" class="stm run hide_run"><a href="#n51">51</a></p>
 <p id="n52" class="pln"><a href="#n52">52</a></p>
-<p id="n53" class="stm run hide_run"><a href="#n53">53</a></p>
-<p id="n54" class="stm run hide_run"><a href="#n54">54</a></p>
+<p id="n53" class="stm par run hide_run"><a href="#n53">53</a></p>
+<p id="n54" class="stm mis"><a href="#n54">54</a></p>
 <p id="n55" class="stm run hide_run"><a href="#n55">55</a></p>
 <p id="n56" class="pln"><a href="#n56">56</a></p>
 <p id="n57" class="stm run hide_run"><a href="#n57">57</a></p>
@@ -672,8 +672,8 @@
 <p id="t50" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">b</span><span class="op">.</span><span class="nam">insert</span><span class="op">(</span><span class="num">0</span><span class="op">,</span> <span class="nam">n</span> <span class="op">&amp;</span> <span class="num">0xFF</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t51" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">n</span> <span class="op">&gt;&gt;=</span> <span class="num">8</span><span class="strut">&nbsp;</span></p>
 <p id="t52" class="pln">&nbsp; &nbsp; <span class="com"># need to pad to 32 bytes</span><span class="strut">&nbsp;</span></p>
-<p id="t53" class="stm run hide_run">&nbsp; &nbsp; <span class="key">while</span> <span class="nam">len</span><span class="op">(</span><span class="nam">b</span><span class="op">)</span> <span class="op">&lt;</span> <span class="num">32</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t54" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">b</span><span class="op">.</span><span class="nam">insert</span><span class="op">(</span><span class="num">0</span><span class="op">,</span> <span class="num">0</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t53" class="stm par run hide_run"><span class="annotate" title="Line 53 was executed, but never jumped to line 54">53&#x202F;&#x219B;&#x202F;54 [?]</span>&nbsp; &nbsp; <span class="key">while</span> <span class="nam">len</span><span class="op">(</span><span class="nam">b</span><span class="op">)</span> <span class="op">&lt;</span> <span class="num">32</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t54" class="stm mis">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">b</span><span class="op">.</span><span class="nam">insert</span><span class="op">(</span><span class="num">0</span><span class="op">,</span> <span class="num">0</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t55" class="stm run hide_run">&nbsp; &nbsp; <span class="key">return</span> <span class="nam">base64</span><span class="op">.</span><span class="nam">urlsafe_b64encode</span><span class="op">(</span><span class="nam">b</span><span class="op">)</span><span class="op">.</span><span class="nam">rstrip</span><span class="op">(</span><span class="str">b&#39;=&#39;</span><span class="op">)</span><span class="op">.</span><span class="nam">decode</span><span class="op">(</span><span class="str">&#39;utf-8&#39;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t56" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t57" class="stm run hide_run"><span class="key">def</span> <span class="nam">_base64_to_num</span><span class="op">(</span><span class="nam">s</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -1005,7 +1005,7 @@
 <p id="t383" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :type size: bool</span><span class="strut">&nbsp;</span></p>
 <p id="t384" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t385" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :rtype: iterator</span><span class="strut">&nbsp;</span></p>
-<p id="t386" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :returns: If ```size``` is falsey, a byte string iterator over the file&#39;s content. If ```size``` is truthy, a tuple containing the blob&#39;s size and the iterator.</span><span class="strut">&nbsp;</span></p>
+<p id="t386" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :returns: If ```size``` is falsey, a byte string iterator over the file&#39;s content. If ```size``` is truthy, a tuple containing the iterator and the blob&#39;s size.</span><span class="strut">&nbsp;</span></p>
 <p id="t387" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &quot;&quot;&quot;</span><span class="strut">&nbsp;</span></p>
 <p id="t388" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">r</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_request</span><span class="op">(</span><span class="str">&#39;get&#39;</span><span class="op">,</span> <span class="str">&#39;blobs/sha256:&#39;</span> <span class="op">+</span> <span class="nam">digest</span><span class="op">,</span> <span class="nam">stream</span><span class="op">=</span><span class="nam">True</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t389" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="com"># pylint: disable=too-few-public-methods</span><span class="strut">&nbsp;</span></p>
@@ -1018,7 +1018,7 @@
 <p id="t396" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">dgst</span> <span class="op">=</span> <span class="nam">sha256</span><span class="op">.</span><span class="nam">hexdigest</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t397" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="key">if</span> <span class="nam">dgst</span> <span class="op">!=</span> <span class="nam">digest</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t398" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="key">raise</span> <span class="nam">exceptions</span><span class="op">.</span><span class="nam">DXFDigestMismatchError</span><span class="op">(</span><span class="nam">dgst</span><span class="op">,</span> <span class="nam">digest</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t399" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">return</span> <span class="op">(</span><span class="nam">long</span><span class="op">(</span><span class="nam">r</span><span class="op">.</span><span class="nam">headers</span><span class="op">[</span><span class="str">&#39;content-length&#39;</span><span class="op">]</span><span class="op">)</span><span class="op">,</span> <span class="nam">Chunks</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="key">if</span> <span class="nam">size</span> <span class="key">else</span> <span class="nam">Chunks</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t399" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">return</span> <span class="op">(</span><span class="nam">Chunks</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">long</span><span class="op">(</span><span class="nam">r</span><span class="op">.</span><span class="nam">headers</span><span class="op">[</span><span class="str">&#39;content-length&#39;</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="key">if</span> <span class="nam">size</span> <span class="key">else</span> <span class="nam">Chunks</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t400" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t401" class="stm run hide_run">&nbsp; &nbsp; <span class="key">def</span> <span class="nam">blob_size</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">digest</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t402" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="str">&quot;&quot;&quot;</span><span class="strut">&nbsp;</span></p>
@@ -1178,7 +1178,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org">coverage.py v4.0.3</a>,
-            created at 2015-12-16 22:58
+            created at 2015-12-16 23:57
         </p>
     </div>
 </div>

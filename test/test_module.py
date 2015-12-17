@@ -42,7 +42,7 @@ def _pull_blob(dxf_obj, dgst, expected_size):
     if expected_size is None:
         it = dxf_obj.pull_blob(dgst)
     else:
-        size, it = dxf_obj.pull_blob(dgst, size=True)
+        it, size = dxf_obj.pull_blob(dgst, size=True)
         assert size == expected_size
     sha256 = hashlib.sha256()
     for chunk in it:

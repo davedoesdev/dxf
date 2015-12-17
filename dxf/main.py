@@ -94,7 +94,7 @@ def doit(args, environ):
                                   if name.startswith('@') else [name]
                                   for name in args.args])
             for dgst in dgsts:
-                size, it = dxf_obj.pull_blob(dgst, size=True)
+                it, size = dxf_obj.pull_blob(dgst, size=True)
                 # pylint: disable=blacklisted-name
                 if environ.get('DXF_PROGRESS') == '1':
                     bar = tqdm.tqdm(desc=dgst[0:8], total=size, leave=True)
