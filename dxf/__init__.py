@@ -189,10 +189,15 @@ class _ReportingFile(object):
     # (models.py, PreparedRequest.prepare_body)
     def __iter__(self):
         assert not "called"
-    # define fileno so requests can find length
+    # define fileno, tell and mode so requests can find length
     # (utils.py, super_len)
     def fileno(self):
         return self._f.fileno()
+    def tell(self):
+        return self._f.tell()
+    @property
+    def mode(self):
+        return self._f.mode
     def read(self, n):
         chunk = self._f.read(n)
         self._cb(self._dgst, chunk, self._size)

@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-export PYTHONPATH=.
+export PYTHONPATH := $(PYTHONPATH):.
 
 fixtures = test/fixtures/blob1 \
            test/fixtures/blob2 \
