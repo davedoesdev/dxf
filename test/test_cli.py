@@ -62,9 +62,6 @@ def _pull_blob(dxf_main, name, dgst, capfd):
     assert err == ""
 
 def test_pull_blob(dxf_main, capfd):
-    _pull_blob(dxf_main, pytest.blob1_hash, pytest.blob1_hash, capfd)
-    _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfd)
-    _pull_blob(dxf_main, '@fooey', pytest.blob1_hash, capfd)
     environ = {'DXF_BLOB_INFO': '1'}
     environ.update(dxf_main)
     assert dxf.main.doit(['pull-blob', pytest.repo, pytest.blob1_hash, pytest.blob2_hash], environ) == 0
@@ -90,6 +87,9 @@ def test_pull_blob(dxf_main, capfd):
             expected_sha256.update(chunk)
     assert out_sha256.digest() == expected_sha256.digest()
     assert err == ""
+    _pull_blob(dxf_main, pytest.blob1_hash, pytest.blob1_hash, capfd)
+    _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfd)
+    _pull_blob(dxf_main, '@fooey', pytest.blob1_hash, capfd)
 
 def test_progress(dxf_main, capfd):
     environ = {'DXF_PROGRESS': '1'}
