@@ -30,7 +30,22 @@ def _flatten(l):
 
 # pylint: disable=too-many-statements
 def doit(args, environ):
-    def _auth(dxf_obj, response):
+    if environ.get('DXF_PROGRESS') == '1':
+        bars = {}
+        def progress(dgst, chunk, size):
+            if dgst not in bars:
+                bars[dgst] = tqdm.tqdm(desc=dgst[0:8],
+                                       total=size,
+                                       leave=True)
+            if len(chunk) > 0:
+                bars[dgst].update(len(chunk))
+            if bars[dgst].n >= bars[dgst].total:
+                bars[dgst].close()
+                del bars[dgst]
+    else:
+        progress = None
+
+    def auth(dxf_obj, response):
         # pylint: disable=redefined-outer-name
         username = environ.get('DXF_USERNAME')
         password = environ.get('DXF_PASSWORD')
@@ -42,11 +57,11 @@ def doit(args, environ):
     if args.op != 'list-repos':
         dxf_obj = dxf.DXF(environ['DXF_HOST'],
                           args.repo,
-                          _auth,
+                          auth,
                           environ.get('DXF_INSECURE') == '1')
     else:
         dxf_obj = dxf.DXFBase(environ['DXF_HOST'],
-                              _auth,
+                              auth,
                               environ.get('DXF_INSECURE') == '1')
 
     def _doit():
@@ -70,19 +85,6 @@ def doit(args, environ):
                 _parser.error('too many arguments')
             if len(args.args) == 2 and not args.args[1].startswith('@'):
                 _parser.error('invalid alias')
-            if environ.get('DXF_PROGRESS') == '1':
-                bars = {}
-                def progress(dgst, chunk, size):
-                    if len(chunk) > 0:
-                        if dgst not in bars:
-                            bars[dgst] = tqdm.tqdm(desc=dgst[0:8],
-                                                   total=size,
-                                                   leave=True)
-                        bars[dgst].update(len(chunk))
-                    elif dgst in bars:
-                        bars[dgst].close()
-            else:
-                progress = None
             dgst = dxf_obj.push_blob(args.args[0], progress)
             if len(args.args) == 2:
                 dxf_obj.set_alias(args.args[1][1:], dgst)
@@ -97,17 +99,14 @@ def doit(args, environ):
                                   for name in args.args])
             for dgst in dgsts:
                 it, size = dxf_obj.pull_blob(dgst, size=True)
-                # pylint: disable=blacklisted-name
-                if environ.get('DXF_PROGRESS') == '1':
-                    bar = tqdm.tqdm(desc=dgst[0:8], total=size, leave=True)
-                else:
-                    bar = None
+                if environ.get('DXF_BLOB_INFO') == '1':
+                    print(dgst + ' ' + str(size))
+                if progress:
+                    progress(dgst, b'', size)
                 for chunk in it:
-                    if bar is not None:
-                        bar.update(len(chunk))
+                    if progress:
+                        progress(dgst, chunk, size)
                     sys.stdout.write(chunk)
-                if bar is not None:
-                    bar.close()
 
         elif args.op == 'blob-size':
             if len(args.args) == 0:

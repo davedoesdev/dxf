@@ -56,7 +56,10 @@ The ``dxf`` command-line tool uses the following environment variables:
 -  ``DXF_USERNAME`` - Name of user to authenticate as
 -  ``DXF_PASSWORD`` - User's password
 -  ``DXF_PROGRESS`` - Set this to ``1`` if you want a progress bar to be
-   displayed during ``push-blob`` or ``pull-blob``.
+   displayed (on standard error) during ``push-blob`` or ``pull-blob``.
+-  ``DXF_BLOB_INFO`` - Set this to ``1`` if you want ``pull-blob`` to
+   prepend each blob with its digest and size (printed in plain text,
+   separated by a space and followed by a newline).
 
 You can use the following options with ``dxf``. Supply the name of the
 repository you wish to work with in each case as the second argument.

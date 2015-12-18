@@ -1,3 +1,4 @@
+import os
 import sys
 import errno
 import time
@@ -28,26 +29,26 @@ def test_not_found(dxf_main):
 def test_push_blob(dxf_main, capsys):
     assert dxf.main.doit(['push-blob', pytest.repo, pytest.blob1_file], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == pytest.blob1_hash + "\n"
+    assert out == pytest.blob1_hash + os.linesep
     assert err == ""
     assert dxf.main.doit(['push-blob', pytest.repo, pytest.blob2_file], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == pytest.blob2_hash + "\n"
+    assert out == pytest.blob2_hash + os.linesep
     assert err == ""
     with pytest.raises(requests.exceptions.HTTPError) as ex:
         dxf.main.doit(['get-alias', pytest.repo, 'fooey'], dxf_main)
     assert ex.value.response.status_code == requests.codes.not_found
     assert dxf.main.doit(['push-blob', pytest.repo, pytest.blob1_file, '@fooey'], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == pytest.blob1_hash + "\n"
+    assert out == pytest.blob1_hash + os.linesep
     assert err == ""
     assert dxf.main.doit(['get-alias', pytest.repo, 'fooey'], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == pytest.blob1_hash + "\n"
+    assert out == pytest.blob1_hash + os.linesep
     assert err == ""
     assert dxf.main.doit(['list-repos'], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == pytest.repo + "\n"
+    assert out == pytest.repo + os.linesep
     assert err == ""
 
 def _pull_blob(dxf_main, name, dgst, capfd):
@@ -64,6 +65,30 @@ def test_pull_blob(dxf_main, capfd):
     _pull_blob(dxf_main, pytest.blob1_hash, pytest.blob1_hash, capfd)
     _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfd)
     _pull_blob(dxf_main, '@fooey', pytest.blob1_hash, capfd)
+    environ = {'DXF_BLOB_INFO': '1'}
+    environ.update(dxf_main)
+    assert dxf.main.doit(['pull-blob', pytest.repo, pytest.blob1_hash, pytest.blob2_hash], environ) == 0
+    capfd._capture.out.tmpfile.encoding = None
+    out, err = capfd.readouterr()
+    out_sha256 = hashlib.sha256()
+    out_sha256.update(out)
+    expected_sha256 = hashlib.sha256()
+    expected_sha256.update(pytest.blob1_hash.encode('utf-8'))
+    expected_sha256.update(b' ')
+    expected_sha256.update(str(pytest.blob1_size).encode('utf-8'))
+    expected_sha256.update(os.linesep.encode('utf-8'))
+    with open(pytest.blob1_file, 'rb') as f:
+        for chunk in iter(lambda: f.read(8192), b''):
+            expected_sha256.update(chunk)
+    expected_sha256.update(pytest.blob2_hash.encode('utf-8'))
+    expected_sha256.update(b' ')
+    expected_sha256.update(str(pytest.blob2_size).encode('utf-8'))
+    expected_sha256.update(os.linesep.encode('utf-8'))
+    with open(pytest.blob2_file, 'rb') as f:
+        for chunk in iter(lambda: f.read(8192), b''):
+            expected_sha256.update(chunk)
+    assert out_sha256.digest() == expected_sha256.digest()
+    assert err == ""
 
 def test_progress(dxf_main, capfd):
     environ = {'DXF_PROGRESS': '1'}
@@ -101,6 +126,12 @@ def test_see_progress(dxf_main, monkeypatch):
                 time.sleep(0.025)
             def close(self):
                 tqdm_obj.close()
+            @property
+            def n(self):
+                return tqdm_obj.n
+            @property
+            def total(self):
+                return tqdm_obj.total
         return TQDM()
     monkeypatch.setattr(tqdm, 'tqdm', new_tqdm)
     assert dxf.main.doit(['push-blob', pytest.repo, pytest.blob4_file], environ) == 0
@@ -119,31 +150,32 @@ def test_set_alias(dxf_main, capsys):
 def test_get_alias(dxf_main, capsys):
     assert dxf.main.doit(['get-alias', pytest.repo, 'hello'], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == pytest.blob1_hash + '\n'
+    assert out == pytest.blob1_hash + os.linesep
     assert err == ""
     assert dxf.main.doit(['get-alias', pytest.repo, 'there'], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == pytest.blob1_hash + '\n' + pytest.blob2_hash + '\n'
+    assert out == pytest.blob1_hash + os.linesep + \
+                  pytest.blob2_hash + os.linesep
     assert err == ""
     assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == pytest.blob2_hash + '\n'
+    assert out == pytest.blob2_hash + os.linesep
     assert err == ""
 
 def test_blob_size(dxf_main, capsys):
     assert dxf.main.doit(['blob-size', pytest.repo, pytest.blob1_hash, pytest.blob2_hash, '@hello', '@there', '@world'], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert out == str(pytest.blob1_size) + '\n' + \
-                  str(pytest.blob2_size) + '\n' + \
-                  str(pytest.blob1_size) + '\n' + \
-                  str(pytest.blob1_size + pytest.blob2_size) + '\n' + \
-                  str(pytest.blob2_size) + '\n'
+    assert out == str(pytest.blob1_size) + os.linesep + \
+                  str(pytest.blob2_size) + os.linesep + \
+                  str(pytest.blob1_size) + os.linesep + \
+                  str(pytest.blob1_size + pytest.blob2_size) + os.linesep + \
+                  str(pytest.blob2_size) + os.linesep
     assert err == ""
 
 def test_list_aliases(dxf_main, capsys):
     assert dxf.main.doit(['list-aliases', pytest.repo], dxf_main) == 0
     out, err = capsys.readouterr()
-    assert sorted(out.split('\n')) == ['', 'fooey', 'hello', 'there', 'world']
+    assert sorted(out.split(os.linesep)) == ['', 'fooey', 'hello', 'there', 'world']
     assert err == ""
 
 def test_manifest(dxf_main, capfd, monkeypatch):
@@ -160,11 +192,11 @@ def test_manifest(dxf_main, capfd, monkeypatch):
     monkeypatch.setattr(sys, 'stdin', FakeStdin())
     assert dxf.main.doit(['get-alias', pytest.repo], dxf_main) == 0
     out, err = capfd.readouterr()
-    assert out == pytest.blob1_hash + '\n'
+    assert out == pytest.blob1_hash + os.linesep
     assert err == ""
     assert dxf.main.doit(['blob-size', pytest.repo], dxf_main) == 0
     out, err = capfd.readouterr()
-    assert out == str(pytest.blob1_size) + '\n'
+    assert out == str(pytest.blob1_size) + os.linesep
     assert err == ""
     assert dxf.main.doit(['pull-blob', pytest.repo], dxf_main) == 0
     # pylint: disable=protected-access
@@ -203,7 +235,7 @@ def test_auth(dxf_main, capsys):
         environ['DXF_TOKEN'] = token.strip()
         assert dxf.main.doit(['list-aliases', pytest.repo], environ) == 0
         out, err = capsys.readouterr()
-        assert sorted(out.split('\n')) == ['', 'fooey', 'hello', 'mani_test', 'there', 'world']
+        assert sorted(out.split(os.linesep)) == ['', 'fooey', 'hello', 'mani_test', 'there', 'world']
         assert err == ""
     else:
         assert dxf.main.doit(['auth', pytest.repo], dxf_main) == 0

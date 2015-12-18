@@ -185,6 +185,7 @@ class _ReportingFile(object):
         self._f = f
         self._cb = cb
         self._size = requests.utils.super_len(f)
+        cb(dgst, b'', self._size)
     # define __iter__ so requests thinks we're a stream
     # (models.py, PreparedRequest.prepare_body)
     def __iter__(self):
@@ -200,7 +201,8 @@ class _ReportingFile(object):
         return self._f.mode
     def read(self, n):
         chunk = self._f.read(n)
-        self._cb(self._dgst, chunk, self._size)
+        if len(chunk) > 0:
+            self._cb(self._dgst, chunk, self._size)
         return chunk
 
 class DXFBase(object):
