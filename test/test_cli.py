@@ -68,6 +68,7 @@ def test_pull_blob(dxf_main, capfd):
     environ = {'DXF_BLOB_INFO': '1'}
     environ.update(dxf_main)
     assert dxf.main.doit(['pull-blob', pytest.repo, pytest.blob1_hash, pytest.blob2_hash], environ) == 0
+    # pylint: disable=protected-access
     capfd._capture.out.tmpfile.encoding = None
     out, err = capfd.readouterr()
     out_sha256 = hashlib.sha256()
