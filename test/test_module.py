@@ -82,6 +82,10 @@ def test_get_alias(dxf_obj):
 def test_list_aliases(dxf_obj):
     assert sorted(dxf_obj.list_aliases()) == ['hello', 'there', 'world']
 
+def test_context_manager(dxf_obj):
+    with dxf_obj as odxf:
+        test_list_aliases(odxf)
+
 def test_manifest(dxf_obj):
     manifest = dxf_obj.set_alias('mani_test', pytest.blob1_hash)
     assert manifest

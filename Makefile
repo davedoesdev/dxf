@@ -41,7 +41,7 @@ run_test:
 coverage: $(fixtures) run_coverage
 
 .PHONY: run_coverage
-run_coverage: test_args=--cov=dxf/__init__.py --cov=dxf/main.py --cov-report=html --cov-report=term --cov-fail-under=89
+run_coverage: test_args=--cov=dxf/__init__.py --cov=dxf/main.py --cov-report=html --cov-report=term --cov-fail-under=90
 run_coverage: run_test
 
 test/fixtures/blob1:

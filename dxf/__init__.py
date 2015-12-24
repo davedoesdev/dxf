@@ -210,6 +210,16 @@ class DXFBase(object):
     """
     Class for communicating with a Docker v2 registry.
     Contains only operations which aren't related to repositories.
+
+    Can act as a context manager. For each context entered, a new
+    `requests.Session <http://docs.python-requests.org/en/latest/user/advanced/#session-objects>`_
+    is obtained. Connections to the same host are shared by the session.
+    When the context exits, all the session's connections are closed.
+
+    If you don't use :class:`DXFBase` as a context manager, each request
+    uses an ephemeral session. If you don't read all the data from an iterator
+    returned by :meth:`DXF.pull_blob` then the underlying connection won't be
+    closed until Python garbage collects the iterator.
     """
     def __init__(self, host, auth=None, insecure=False):
         """
@@ -228,6 +238,7 @@ class DXFBase(object):
         self._token = None
         self._headers = {}
         self._repo = None
+        self._sessions = [requests]
 
     @property
     def token(self):
@@ -247,13 +258,13 @@ class DXFBase(object):
 
     def _base_request(self, method, path, **kwargs):
         url = urlparse.urljoin(self._base_url, path)
-        r = getattr(requests, method)(url, headers=self._headers, **kwargs)
+        r = getattr(self._sessions[0], method)(url, headers=self._headers, **kwargs)
         # pylint: disable=no-member
         if r.status_code == requests.codes.unauthorized and self._auth:
             headers = self._headers
             self._auth(self, r)
             if self._headers != headers:
-                r = getattr(requests, method)(url, headers=self._headers, **kwargs)
+                r = getattr(self._sessions[0], method)(url, headers=self._headers, **kwargs)
         _raise_for_status(r)
         return r
 
@@ -279,7 +290,7 @@ class DXFBase(object):
         if self._insecure:
             raise exceptions.DXFAuthInsecureError()
         if response is None:
-            response = requests.get(self._base_url)
+            response = self._sessions[0].get(self._base_url)
         # pylint: disable=no-member
         if response.status_code != requests.codes.unauthorized:
             raise exceptions.DXFUnexpectedStatusCodeError(response.status_code,
@@ -303,7 +314,7 @@ class DXFBase(object):
             url_parts[4] = urlencode(query, True)
             url_parts[0] = 'https'
             auth_url = urlparse.urlunparse(url_parts)
-            r = requests.get(auth_url, headers=headers)
+            r = self._sessions[0].get(auth_url, headers=headers)
             _raise_for_status(r)
             self.token = r.json()['token']
             return self._token
@@ -318,6 +329,18 @@ class DXFBase(object):
         :returns: List of repository names.
         """
         return self._base_request('get', '_catalog').json()['repositories']
+
+    def __enter__(self):
+        assert len(self._sessions) > 0
+        session = requests.Session()
+        session.__enter__()
+        self._sessions.insert(0, session)
+        return self
+
+    def __exit__(self, *args):
+        assert len(self._sessions) > 1
+        session = self._sessions.pop(0)
+        return session.__exit__(*args)
 
 class DXF(DXFBase):
     """

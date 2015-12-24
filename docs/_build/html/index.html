@@ -251,6 +251,14 @@ the hash of its content.</p>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Class for communicating with a Docker v2 registry.
 Contains only operations which aren&#8217;t related to repositories.</p>
+<p>Can act as a context manager. For each context entered, a new
+<a class="reference external" href="http://docs.python-requests.org/en/latest/user/advanced/#session-objects">requests.Session</a>
+is obtained. Connections to the same host are shared by the session.
+When the context exits, all the session&#8217;s connections are closed.</p>
+<p>If you don&#8217;t use <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-class docutils literal"><span class="pre">DXFBase</span></tt></a> as a context manager, each request
+uses an ephemeral session. If you don&#8217;t read all the data from an iterator
+returned by <a class="reference internal" href="#dxf.DXF.pull_blob" title="dxf.DXF.pull_blob"><tt class="xref py py-meth docutils literal"><span class="pre">DXF.pull_blob()</span></tt></a> then the underlying connection won&#8217;t be
+closed until Python garbage collects the iterator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
