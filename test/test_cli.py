@@ -222,7 +222,7 @@ def test_auth(dxf_main, capsys):
         with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
             dxf.main.doit(['auth', pytest.repo], environ)
     elif dxf_main['TEST_DO_TOKEN']:
-        dxf.main.doit(['auth', pytest.repo, '*'], dxf_main)
+        assert dxf.main.doit(['auth', pytest.repo, '*'], dxf_main) == 0
         token, err = capsys.readouterr()
         assert token
         assert err == ""
