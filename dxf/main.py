@@ -30,7 +30,8 @@ def _flatten(l):
 
 # pylint: disable=too-many-statements
 def doit(args, environ):
-    if environ.get('DXF_PROGRESS') == '1':
+    dxf_progress = environ.get('DXF_PROGRESS')
+    if dxf_progress == '1' or (dxf_progress != '0' and sys.stderr.isatty()):
         bars = {}
         def progress(dgst, chunk, size):
             if dgst not in bars:

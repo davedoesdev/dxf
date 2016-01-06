@@ -55,8 +55,11 @@ The ``dxf`` command-line tool uses the following environment variables:
    registry using ``http`` rather than ``https`` (which is the default).
 -  ``DXF_USERNAME`` - Name of user to authenticate as
 -  ``DXF_PASSWORD`` - User's password
--  ``DXF_PROGRESS`` - Set this to ``1`` if you want a progress bar to be
-   displayed (on standard error) during ``push-blob`` or ``pull-blob``.
+-  ``DXF_PROGRESS`` - If this is set to ``1``, a progress bar is
+   displayed (on standard error) during ``push-blob`` and ``pull-blob``.
+   If this is set to ``0``, a progress bar is not displayed. If this is
+   set to any other value, a progress bar is only displayed if standard
+   error is a terminal.
 -  ``DXF_BLOB_INFO`` - Set this to ``1`` if you want ``pull-blob`` to
    prepend each blob with its digest and size (printed in plain text,
    separated by a space and followed by a newline).
