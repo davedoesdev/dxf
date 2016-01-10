@@ -288,3 +288,12 @@ def test_bad_args(dxf_main, capsys):
     out, err = capsys.readouterr()
     assert out == ""
     assert "invalid alias" in err
+
+def test_auth_host(dxf_main):
+    if dxf_main['TEST_DO_TOKEN']:
+        environ = {
+            'DXF_AUTH_HOST': 'localhost:5002'
+        }
+        environ.update(dxf_main)
+        with pytest.raises(requests.exceptions.ConnectionError):
+            dxf.main.doit(['list-repos'], environ)

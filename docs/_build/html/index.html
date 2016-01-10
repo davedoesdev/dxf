@@ -52,10 +52,10 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-obj docutils literal"><span class="pre">dxf.DXFBase</span></tt></a>(host[,&nbsp;auth,&nbsp;insecure])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-obj docutils literal"><span class="pre">dxf.DXFBase</span></tt></a>(host[,&nbsp;auth,&nbsp;insecure,&nbsp;auth_host])</td>
 <td>Class for communicating with a Docker v2 registry.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><tt class="xref py py-obj docutils literal"><span class="pre">dxf.DXF</span></tt></a>(host,&nbsp;repo[,&nbsp;auth,&nbsp;insecure])</td>
+<tr class="row-even"><td><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><tt class="xref py py-obj docutils literal"><span class="pre">dxf.DXF</span></tt></a>(host,&nbsp;repo[,&nbsp;auth,&nbsp;insecure,&nbsp;auth_host])</td>
 <td>Class for operating on a Docker v2 repositories.</td>
 </tr>
 </tbody>
@@ -63,7 +63,7 @@
 <span class="target" id="module-dxf"></span><p>Module for accessing a Docker v2 Registry</p>
 <dl class="class">
 <dt id="dxf.DXF">
-<em class="property">class </em><tt class="descclassname">dxf.</tt><tt class="descname">DXF</tt><big>(</big><em>host</em>, <em>repo</em>, <em>auth=None</em>, <em>insecure=False</em><big>)</big><a class="headerlink" href="#dxf.DXF" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">dxf.</tt><tt class="descname">DXF</tt><big>(</big><em>host</em>, <em>repo</em>, <em>auth=None</em>, <em>insecure=False</em>, <em>auth_host=None</em><big>)</big><a class="headerlink" href="#dxf.DXF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-class docutils literal"><span class="pre">dxf.DXFBase</span></tt></a></p>
 <p>Class for operating on a Docker v2 repositories.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -75,6 +75,7 @@
 <li><strong>repo</strong> (<em>str</em>) &#8211; Name of the repository to access on the registry. Typically this is of the form <tt class="docutils literal"><span class="pre">username/reponame</span></tt> but for your own registries you don&#8217;t actually have to stick to that.</li>
 <li><strong>auth</strong> (<em>function(dxf_obj, response)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><tt class="xref py py-class docutils literal"><span class="pre">DXF</span></tt></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.auth_by_password" title="dxf.DXFBase.auth_by_password"><tt class="xref py py-meth docutils literal"><span class="pre">DXFBase.auth_by_password()</span></tt></a> with a username, password and <tt class="docutils literal"><span class="pre">response</span></tt> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
+<li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
 </ul>
 </td>
 </tr>
@@ -247,7 +248,7 @@ the hash of its content.</p>
 
 <dl class="class">
 <dt id="dxf.DXFBase">
-<em class="property">class </em><tt class="descclassname">dxf.</tt><tt class="descname">DXFBase</tt><big>(</big><em>host</em>, <em>auth=None</em>, <em>insecure=False</em><big>)</big><a class="headerlink" href="#dxf.DXFBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">dxf.</tt><tt class="descname">DXFBase</tt><big>(</big><em>host</em>, <em>auth=None</em>, <em>insecure=False</em>, <em>auth_host=None</em><big>)</big><a class="headerlink" href="#dxf.DXFBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Class for communicating with a Docker v2 registry.
 Contains only operations which aren&#8217;t related to repositories.</p>
@@ -267,6 +268,7 @@ closed until Python garbage collects the iterator.</p>
 <li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <tt class="docutils literal"><span class="pre">registry-1.docker.io</span></tt>, <tt class="docutils literal"><span class="pre">localhost:5000</span></tt>.</li>
 <li><strong>auth</strong> (<em>function(dxf_obj, response)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><tt class="xref py py-class docutils literal"><span class="pre">DXFBase</span></tt></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.auth_by_password" title="dxf.DXFBase.auth_by_password"><tt class="xref py py-meth docutils literal"><span class="pre">auth_by_password()</span></tt></a> with a username, password and <tt class="docutils literal"><span class="pre">response</span></tt> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
+<li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
 </ul>
 </td>
 </tr>

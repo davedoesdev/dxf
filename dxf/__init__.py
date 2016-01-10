@@ -221,7 +221,7 @@ class DXFBase(object):
     returned by :meth:`DXF.pull_blob` then the underlying connection won't be
     closed until Python garbage collects the iterator.
     """
-    def __init__(self, host, auth=None, insecure=False):
+    def __init__(self, host, auth=None, insecure=False, auth_host=None):
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
         :type host: str
@@ -231,10 +231,14 @@ class DXFBase(object):
 
         :param insecure: Use HTTP instead of HTTPS (which is the default) when connecting to the registry.
         :type insecure: bool
+
+        :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.
+        :type auth_host: str
         """
         self._base_url = ('http' if insecure else 'https') + '://' + host + '/v2/'
         self._auth = auth
         self._insecure = insecure
+        self._auth_host = auth_host
         self._token = None
         self._headers = {}
         self._repo = None
@@ -313,6 +317,8 @@ class DXFBase(object):
             })
             url_parts[4] = urlencode(query, True)
             url_parts[0] = 'https'
+            if self._auth_host:
+                url_parts[1] = self._auth_host
             auth_url = urlparse.urlunparse(url_parts)
             r = self._sessions[0].get(auth_url, headers=headers)
             _raise_for_status(r)
@@ -346,7 +352,7 @@ class DXF(DXFBase):
     """
     Class for operating on a Docker v2 repositories.
     """
-    def __init__(self, host, repo, auth=None, insecure=False):
+    def __init__(self, host, repo, auth=None, insecure=False, auth_host=None):
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
         :type host: str
@@ -359,8 +365,11 @@ class DXF(DXFBase):
 
         :param insecure: Use HTTP instead of HTTPS (which is the default) when connecting to the registry.
         :type insecure: bool
+
+        :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.
+        :type auth_host: str
         """
-        super(DXF, self).__init__(host, auth, insecure)
+        super(DXF, self).__init__(host, auth, insecure, auth_host)
         self._repo = repo
 
     def _request(self, method, path, **kwargs):

@@ -55,6 +55,8 @@ The ``dxf`` command-line tool uses the following environment variables:
    registry using ``http`` rather than ``https`` (which is the default).
 -  ``DXF_USERNAME`` - Name of user to authenticate as
 -  ``DXF_PASSWORD`` - User's password
+-  ``DXF_AUTH_HOST`` - If set, always perform token authentication to
+   this host, overriding the value returned by the registry.
 -  ``DXF_PROGRESS`` - If this is set to ``1``, a progress bar is
    displayed (on standard error) during ``push-blob`` and ``pull-blob``.
    If this is set to ``0``, a progress bar is not displayed. If this is
