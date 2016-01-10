@@ -352,6 +352,7 @@ class DXF(DXFBase):
     """
     Class for operating on a Docker v2 repositories.
     """
+    # pylint: disable=too-many-arguments
     def __init__(self, host, repo, auth=None, insecure=False, auth_host=None):
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
