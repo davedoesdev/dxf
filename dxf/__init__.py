@@ -226,7 +226,7 @@ class DXFBase(object):
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
         :type host: str
 
-        :param auth: Authentication function to be called whenever authentication to the registry is required. Receives the :class:`DXFBase` object and a HTTP response object. It should call :meth:`auth_by_password` with a username, password and ``response`` before it returns.
+        :param auth: Authentication function to be called whenever authentication to the registry is required. Receives the :class:`DXFBase` object and a HTTP response object. It should call :meth:`authenticate` with a username, password and ``response`` before it returns.
         :type auth: function(dxf_obj, response)
 
         :param insecure: Use HTTP instead of HTTPS (which is the default) when connecting to the registry.
@@ -248,7 +248,7 @@ class DXFBase(object):
     def token(self):
         """
         str: Authentication token. This will be obtained automatically when
-        you call :meth:`auth_by_password`. If you've obtained a token
+        you call :meth:`authenticate`. If you've obtained a token
         previously, you can also set it but be aware tokens expire quickly.
         """
         return self._token
@@ -272,9 +272,12 @@ class DXFBase(object):
         _raise_for_status(r)
         return r
 
-    def auth_by_password(self, username, password, actions=None, response=None):
+    def authenticate(self,
+                     username=None, password=None,
+                     actions=None, response=None):
         """
-        Authenticate to the registry using a username and password.
+        Authenticate to the registry, using a username and password if supplied,
+        otherwise as the anonymous user.
 
         :param username: User name to authenticate as.
         :type username: str
@@ -285,7 +288,7 @@ class DXFBase(object):
         :param actions: If you know which types of operation you need to make on the registry, specify them here. Valid actions are ``pull``, ``push`` and ``*``.
         :type actions: list
 
-        :param response: When the ``auth`` function you passed to :class:`DXFBase`'s constructor is called, it is passed a HTTP response object. Pass it back to :meth:`auth_by_password` to have it automatically detect which actions are required.
+        :param response: When the ``auth`` function you passed to :class:`DXFBase`'s constructor is called, it is passed a HTTP response object. Pass it back to :meth:`authenticate` to have it automatically detect which actions are required.
         :type response: requests.Response
 
         :rtype: str
@@ -300,9 +303,12 @@ class DXFBase(object):
             raise exceptions.DXFUnexpectedStatusCodeError(response.status_code,
                                                           requests.codes.unauthorized)
         parsed = www_authenticate.parse(response.headers['www-authenticate'])
-        headers = {
-            'Authorization': 'Basic ' + base64.b64encode(_to_bytes_2and3(username + ':' + password)).decode('utf-8')
-        }
+        if username is not None and password is not None:
+            headers = {
+                'Authorization': 'Basic ' + base64.b64encode(_to_bytes_2and3(username + ':' + password)).decode('utf-8')
+            }
+        else:
+            headers = {}
         if 'bearer' in parsed:
             info = parsed['bearer']
             if actions and self._repo:
@@ -361,7 +367,7 @@ class DXF(DXFBase):
         :param repo: Name of the repository to access on the registry. Typically this is of the form ``username/reponame`` but for your own registries you don't actually have to stick to that.
         :type repo: str
 
-        :param auth: Authentication function to be called whenever authentication to the registry is required. Receives the :class:`DXF` object and a HTTP response object. It should call :meth:`DXFBase.auth_by_password` with a username, password and ``response`` before it returns.
+        :param auth: Authentication function to be called whenever authentication to the registry is required. Receives the :class:`DXF` object and a HTTP response object. It should call :meth:`DXFBase.authenticate` with a username, password and ``response`` before it returns.
         :type auth: function(dxf_obj, response)
 
         :param insecure: Use HTTP instead of HTTPS (which is the default) when connecting to the registry.

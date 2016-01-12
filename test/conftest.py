@@ -49,7 +49,7 @@ def pytest_namespace():
 
 # pylint: disable=redefined-outer-name
 def _auth(dxf_obj, response):
-    dxf_obj.auth_by_password(pytest.username, pytest.password, response=response)
+    dxf_obj.authenticate(pytest.username, pytest.password, response=response)
 
 def _setup_fixture(request):
     setattr(request.node, 'rep_failed', False)

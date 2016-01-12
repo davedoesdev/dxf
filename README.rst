@@ -30,7 +30,7 @@ Module example:
     from dxf import DXF
 
     def auth(dxf, response):
-        dxf.auth_by_password('fred', 'somepassword', response=response)
+        dxf.authenticate('fred', 'somepassword', response=response)
 
     dxf = DXF('registry-1.docker.io', 'fred/datalogger', auth)
 

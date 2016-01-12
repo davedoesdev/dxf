@@ -50,8 +50,7 @@ def doit(args, environ):
         # pylint: disable=redefined-outer-name
         username = environ.get('DXF_USERNAME')
         password = environ.get('DXF_PASSWORD')
-        if username and password:
-            dxf_obj.auth_by_password(username, password, response=response)
+        dxf_obj.authenticate(username, password, response=response)
 
     # pylint: disable=redefined-variable-type
     args = _parser.parse_args(args)
@@ -70,9 +69,9 @@ def doit(args, environ):
     def _doit():
         # pylint: disable=too-many-branches
         if args.op == "auth":
-            token = dxf_obj.auth_by_password(environ['DXF_USERNAME'],
-                                             environ['DXF_PASSWORD'],
-                                             actions=args.args)
+            token = dxf_obj.authenticate(environ['DXF_USERNAME'],
+                                         environ['DXF_PASSWORD'],
+                                         actions=args.args)
             if token:
                 print(token)
             return

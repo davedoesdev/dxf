@@ -9,7 +9,6 @@ import tqdm
 import dxf.main
 
 # pylint: disable=no-member
-
 def test_empty(dxf_main, capsys):
     assert dxf.main.doit(['list-repos'], dxf_main) == 0
     out, err = capsys.readouterr()
@@ -230,6 +229,10 @@ def test_auth(dxf_main, capsys):
         environ.update(dxf_main)
         del environ['DXF_USERNAME']
         del environ['DXF_PASSWORD']
+        assert dxf.main.doit(['list-repos'], environ) == 0
+        out, err = capsys.readouterr()
+        assert out == pytest.repo + os.linesep
+        assert err == ""
         assert dxf.main.doit(['list-aliases', pytest.repo], environ) == errno.EACCES
         out, err = capsys.readouterr()
         assert out == ""

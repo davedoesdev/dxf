@@ -104,12 +104,12 @@ def test_auth(dxf_obj):
     # pylint: disable=protected-access
     if dxf_obj._insecure:
         with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
-            dxf_obj.auth_by_password(pytest.username, pytest.password)
+            dxf_obj.authenticate(pytest.username, pytest.password)
     elif dxf_obj.test_do_token:
-        assert dxf_obj.auth_by_password(pytest.username, pytest.password, '*') == dxf_obj.token
+        assert dxf_obj.authenticate(pytest.username, pytest.password, '*') == dxf_obj.token
         assert dxf_obj.token
     else:
-        assert dxf_obj.auth_by_password(pytest.username, pytest.password) is None
+        assert dxf_obj.authenticate(pytest.username, pytest.password) is None
 
 def _del_blob(dxf_obj, dgst):
     with pytest.raises(requests.exceptions.HTTPError) as ex:
