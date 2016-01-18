@@ -292,7 +292,7 @@ class DXFBase(object):
         :type response: requests.Response
 
         :rtype: str
-        :returns: Authentication token, if the registry supports bearer tokens. Otherwise ```None```, and HTTP Basic auth is used.
+        :returns: Authentication token, if the registry supports bearer tokens. Otherwise ``None``, and HTTP Basic auth is used.
         """
         if self._insecure:
             raise exceptions.DXFAuthInsecureError()
@@ -429,7 +429,7 @@ class DXF(DXFBase):
         :type size: bool
 
         :rtype: iterator
-        :returns: If ```size``` is falsey, a byte string iterator over the file's content. If ```size``` is truthy, a tuple containing the iterator and the blob's size.
+        :returns: If ``size`` is falsey, a byte string iterator over the file's content. If ``size`` is truthy, a tuple containing the iterator and the blob's size.
         """
         r = self._request('get', 'blobs/sha256:' + digest, stream=True)
         # pylint: disable=too-few-public-methods
@@ -552,7 +552,7 @@ class DXF(DXFBase):
         :type sizes: bool
 
         :rtype: list
-        :returns: If ```sizes``` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ```sizes``` is truthy, a list of (hash,size) tuples for each blob.
+        :returns: If ``sizes`` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ``sizes`` is truthy, a list of (hash,size) tuples for each blob.
         """
         if alias:
             r = self._request('get', 'manifests/' + alias)

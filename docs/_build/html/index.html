@@ -152,7 +152,7 @@
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <tt class="docutils literal"><span class="pre">`sizes`</span></tt> is falsey, a list of blob hashes (strings) which are assigned to the alias. If <tt class="docutils literal"><span class="pre">`sizes`</span></tt> is truthy, a list of (hash,size) tuples for each blob.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <tt class="docutils literal"><span class="pre">sizes</span></tt> is falsey, a list of blob hashes (strings) which are assigned to the alias. If <tt class="docutils literal"><span class="pre">sizes</span></tt> is truthy, a list of (hash,size) tuples for each blob.</p>
 </td>
 </tr>
 </tbody>
@@ -192,7 +192,7 @@
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">iterator</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <tt class="docutils literal"><span class="pre">`size`</span></tt> is falsey, a byte string iterator over the file&#8217;s content. If <tt class="docutils literal"><span class="pre">`size`</span></tt> is truthy, a tuple containing the iterator and the blob&#8217;s size.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <tt class="docutils literal"><span class="pre">size</span></tt> is falsey, a byte string iterator over the file&#8217;s content. If <tt class="docutils literal"><span class="pre">size</span></tt> is truthy, a tuple containing the iterator and the blob&#8217;s size.</p>
 </td>
 </tr>
 </tbody>
@@ -277,7 +277,7 @@ closed until Python garbage collects the iterator.</p>
 <dl class="method">
 <dt id="dxf.DXFBase.authenticate">
 <tt class="descname">authenticate</tt><big>(</big><em>username=None</em>, <em>password=None</em>, <em>actions=None</em>, <em>response=None</em><big>)</big><a class="headerlink" href="#dxf.DXFBase.authenticate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Authenticate to the registry, using a username and password if supplied
+<dd><p>Authenticate to the registry, using a username and password if supplied,
 otherwise as the anonymous user.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -294,7 +294,7 @@ otherwise as the anonymous user.</p>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Authentication token, if the registry supports bearer tokens. Otherwise <tt class="docutils literal"><span class="pre">`None`</span></tt>, and HTTP Basic auth is used.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Authentication token, if the registry supports bearer tokens. Otherwise <tt class="docutils literal"><span class="pre">None</span></tt>, and HTTP Basic auth is used.</p>
 </td>
 </tr>
 </tbody>
