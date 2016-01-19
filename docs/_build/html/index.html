@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dxf module &mdash; python-dxf 2.0.0 documentation</title>
+    <title>dxf module &mdash; python-dxf 2.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '2.0.0',
+        VERSION:     '2.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="python-dxf 2.0.0 documentation" href="#" /> 
+    <link rel="top" title="python-dxf 2.0.1 documentation" href="#" /> 
   </head>
   <body>
     <div class="related">
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">python-dxf 2.0.0 documentation</a> &raquo;</li> 
+        <li><a href="#">python-dxf 2.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -209,11 +209,17 @@ can be retrieved later by passing the hash to <a class="reference internal" href
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str</em>) &#8211; File to upload.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<em>str</em>) &#8211; File to upload.</li>
+<li><strong>progress</strong> (<em>function(dgst, chunk, total)</em>) &#8211; Optional function to call as the upload progresses. The function will be called with the hash of the file&#8217;s content, the blob just read and the total size of the file.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hash of file&#8217;s content.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Hash of file&#8217;s content.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -559,7 +565,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">python-dxf 2.0.0 documentation</a> &raquo;</li> 
+        <li><a href="#">python-dxf 2.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

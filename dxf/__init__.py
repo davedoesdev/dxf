@@ -392,6 +392,9 @@ class DXF(DXFBase):
         :param filename: File to upload.
         :type filename: str
 
+        :param progress: Optional function to call as the upload progresses. The function will be called with the hash of the file's content, the blob just read and the total size of the file.
+        :type progress: function(dgst, chunk, total)
+
         :rtype: str
         :returns: Hash of file's content.
         """
