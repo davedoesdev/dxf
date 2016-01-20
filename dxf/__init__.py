@@ -428,11 +428,11 @@ class DXF(DXFBase):
         :param digest: Hash of the blob's content.
         :type digest: str
 
-        :param size: Whether to return the size of the blob too
+        :param size: Whether to return the size of the blob too.
         :type size: bool
 
         :rtype: iterator
-        :returns: If ``size`` is falsey, a byte string iterator over the file's content. If ``size`` is truthy, a tuple containing the iterator and the blob's size.
+        :returns: If ``size`` is falsey, a byte string iterator over the blob's content. If ``size`` is truthy, a tuple containing the iterator and the blob's size.
         """
         r = self._request('get', 'blobs/sha256:' + digest, stream=True)
         # pylint: disable=too-few-public-methods
