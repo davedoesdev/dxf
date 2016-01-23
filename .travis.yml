@@ -6,6 +6,6 @@ python:
   - "2.7"
   - "3.4"
 script:
-  - make travis_test
+  - make travis_test && ./test/cli_example.sh
 after_success:
   - coveralls

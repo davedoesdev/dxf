@@ -93,6 +93,7 @@ def doit(args, environ):
             print(dgst)
 
         elif args.op == "pull-blob":
+            _stdout = getattr(sys.stdout, 'buffer', sys.stdout)
             if len(args.args) == 0:
                 dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
             else:
@@ -108,7 +109,7 @@ def doit(args, environ):
                 for chunk in it:
                     if progress:
                         progress(dgst, chunk, size)
-                    sys.stdout.write(chunk)
+                    _stdout.write(chunk)
 
         elif args.op == 'blob-size':
             if len(args.args) == 0:

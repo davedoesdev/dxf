@@ -38,7 +38,7 @@ dxf.set_alias('may15-readings', dgst)
 assert dxf.get_alias('may15-readings') == [dgst]
 
 for chunk in dxf.pull_blob(dgst):
-    std:stdout.write(chunk)
+    sys.stdout.write(chunk)
 ```
 
 ## Usage

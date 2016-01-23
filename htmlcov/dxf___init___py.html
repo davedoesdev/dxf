@@ -1099,11 +1099,11 @@
 <p id="t428" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :param digest: Hash of the blob&#39;s content.</span><span class="strut">&nbsp;</span></p>
 <p id="t429" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :type digest: str</span><span class="strut">&nbsp;</span></p>
 <p id="t430" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t431" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :param size: Whether to return the size of the blob too</span><span class="strut">&nbsp;</span></p>
+<p id="t431" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :param size: Whether to return the size of the blob too.</span><span class="strut">&nbsp;</span></p>
 <p id="t432" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :type size: bool</span><span class="strut">&nbsp;</span></p>
 <p id="t433" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t434" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :rtype: iterator</span><span class="strut">&nbsp;</span></p>
-<p id="t435" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :returns: If ``size`` is falsey, a byte string iterator over the file&#39;s content. If ``size`` is truthy, a tuple containing the iterator and the blob&#39;s size.</span><span class="strut">&nbsp;</span></p>
+<p id="t435" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; :returns: If ``size`` is falsey, a byte string iterator over the blob&#39;s content. If ``size`` is truthy, a tuple containing the iterator and the blob&#39;s size.</span><span class="strut">&nbsp;</span></p>
 <p id="t436" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &quot;&quot;&quot;</span><span class="strut">&nbsp;</span></p>
 <p id="t437" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">r</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_request</span><span class="op">(</span><span class="str">&#39;get&#39;</span><span class="op">,</span> <span class="str">&#39;blobs/sha256:&#39;</span> <span class="op">+</span> <span class="nam">digest</span><span class="op">,</span> <span class="nam">stream</span><span class="op">=</span><span class="nam">True</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t438" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="com"># pylint: disable=too-few-public-methods</span><span class="strut">&nbsp;</span></p>
@@ -1276,7 +1276,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org">coverage.py v4.0.3</a>,
-            created at 2016-01-19 22:33
+            created at 2016-01-23 22:07
         </p>
     </div>
 </div>
