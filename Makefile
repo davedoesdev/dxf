@@ -70,7 +70,7 @@ dist: make_dist
 .PHONY: make_dist
 make_dist:
 	python setup.py sdist
-	python setup.py bdist_wheel
+	python setup.py bdist_wheel --universal
 
 register:
 	twine register dist/$(name)-$(version).tar.gz
