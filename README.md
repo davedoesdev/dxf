@@ -142,7 +142,7 @@ exit with `EACCES`.
 ## Installation
 
 ```shell
-pip install python_dxf
+pip install python-dxf
 ```
 
 ## Licence
