@@ -421,7 +421,7 @@ class DXF(DXFBase):
         return dgst
 
     # pylint: disable=no-self-use
-    def pull_blob(self, digest, size=False):
+    def pull_blob(self, digest, size=False, chunk_size=None):
         """
         Download a blob from the registry given the hash of its content.
 
@@ -431,15 +431,20 @@ class DXF(DXFBase):
         :param size: Whether to return the size of the blob too.
         :type size: bool
 
+        :param chunk_size: Number of bytes to download at a time. Defaults to 8192.
+        :type chunk_size: int
+
         :rtype: iterator
         :returns: If ``size`` is falsey, a byte string iterator over the blob's content. If ``size`` is truthy, a tuple containing the iterator and the blob's size.
         """
+        if chunk_size is None:
+            chunk_size = 8192
         r = self._request('get', 'blobs/sha256:' + digest, stream=True)
         # pylint: disable=too-few-public-methods
         class Chunks(object):
             def __iter__(self):
                 sha256 = hashlib.sha256()
-                for chunk in r.iter_content(8192):
+                for chunk in r.iter_content(chunk_size):
                     sha256.update(chunk)
                     yield chunk
                 dgst = sha256.hexdigest()

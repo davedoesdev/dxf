@@ -38,20 +38,25 @@ def test_blob_size(dxf_obj):
     assert dxf_obj.blob_size(pytest.blob1_hash) == pytest.blob1_size
     assert dxf_obj.blob_size(pytest.blob2_hash) == pytest.blob2_size
 
-def _pull_blob(dxf_obj, dgst, expected_size):
+def _pull_blob(dxf_obj, dgst, expected_size, chunk_size):
     if expected_size is None:
-        it = dxf_obj.pull_blob(dgst)
+        it = dxf_obj.pull_blob(dgst, chunk_size=chunk_size)
     else:
-        it, size = dxf_obj.pull_blob(dgst, size=True)
+        it, size = dxf_obj.pull_blob(dgst, size=True, chunk_size=chunk_size)
         assert size == expected_size
     sha256 = hashlib.sha256()
     for chunk in it:
+        if chunk_size is None:
+            assert len(chunk) == 8192
+        else:
+            assert len(chunk) == chunk_size
         sha256.update(chunk)
     assert sha256.hexdigest() == dgst
 
 def test_pull_blob(dxf_obj):
-    _pull_blob(dxf_obj, pytest.blob1_hash, None)
-    _pull_blob(dxf_obj, pytest.blob2_hash, pytest.blob2_size)
+    _pull_blob(dxf_obj, pytest.blob1_hash, None, None)
+    _pull_blob(dxf_obj, pytest.blob2_hash, pytest.blob2_size, None)
+    _pull_blob(dxf_obj, pytest.blob1_hash, None, 4096)
     with pytest.raises(dxf.exceptions.DXFDigestMismatchError) as ex:
         class DummySHA256(object):
             # pylint: disable=no-self-use

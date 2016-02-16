@@ -3,8 +3,8 @@ import sys
 import errno
 import time
 import hashlib
-import pytest
 import requests.exceptions
+import pytest
 import tqdm
 import dxf.main
 

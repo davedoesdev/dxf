@@ -101,7 +101,8 @@ def doit(args, environ):
                                   if name.startswith('@') else [name]
                                   for name in args.args])
             for dgst in dgsts:
-                it, size = dxf_obj.pull_blob(dgst, size=True)
+                it, size = dxf_obj.pull_blob(
+                    dgst, size=True, chunk_size=environ.get('DXF_CHUNK_SIZE'))
                 if environ.get('DXF_BLOB_INFO') == '1':
                     print(dgst + ' ' + str(size))
                 if progress:

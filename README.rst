@@ -65,6 +65,8 @@ The ``dxf`` command-line tool uses the following environment variables:
 -  ``DXF_BLOB_INFO`` - Set this to ``1`` if you want ``pull-blob`` to
    prepend each blob with its digest and size (printed in plain text,
    separated by a space and followed by a newline).
+-  ``DXF_CHUNK_SIZE`` - Number of bytes ``pull-blob`` should download at
+   a time. Defaults to 8192.
 
 You can use the following options with ``dxf``. Supply the name of the
 repository you wish to work with in each case as the second argument.

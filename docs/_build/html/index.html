@@ -177,7 +177,7 @@
 
 <dl class="method">
 <dt id="dxf.DXF.pull_blob">
-<tt class="descname">pull_blob</tt><big>(</big><em>digest</em>, <em>size=False</em><big>)</big><a class="headerlink" href="#dxf.DXF.pull_blob" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">pull_blob</tt><big>(</big><em>digest</em>, <em>size=False</em>, <em>chunk_size=None</em><big>)</big><a class="headerlink" href="#dxf.DXF.pull_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a blob from the registry given the hash of its content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -186,6 +186,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</li>
 <li><strong>size</strong> (<em>bool</em>) &#8211; Whether to return the size of the blob too.</li>
+<li><strong>chunk_size</strong> (<em>int</em>) &#8211; Number of bytes to download at a time. Defaults to 8192.</li>
 </ul>
 </td>
 </tr>

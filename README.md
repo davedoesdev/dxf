@@ -55,6 +55,7 @@ The `dxf` command-line tool uses the following environment variables:
 - `DXF_AUTH_HOST` - If set, always perform token authentication to this host, overriding the value returned by the registry.
 - `DXF_PROGRESS` - If this is set to `1`, a progress bar is displayed (on standard error) during `push-blob` and `pull-blob`. If this is set to `0`, a progress bar is not displayed. If this is set to any other value, a progress bar is only displayed if standard error is a terminal.
 - `DXF_BLOB_INFO` - Set this to `1` if you want `pull-blob` to prepend each blob with its digest and size (printed in plain text, separated by a space and followed by a newline).
+- `DXF_CHUNK_SIZE` - Number of bytes `pull-blob` should download at a time. Defaults to 8192.
 
 You can use the following options with `dxf`. Supply the name of the repository
 you wish to work with in each case as the second argument.
