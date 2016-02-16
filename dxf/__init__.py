@@ -479,6 +479,7 @@ class DXF(DXFBase):
     # For dtuf; highly unlikely anyone else will want this
     def make_unsigned_manifest(self, alias, *digests):
         return json.dumps({
+            'schemaVersion': 1,
             'name': self._repo,
             'tag': alias,
             'fsLayers': [{'blobSum': 'sha256:' + dgst} for dgst in digests],
