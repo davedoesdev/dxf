@@ -17,10 +17,10 @@ except ImportError:
 
 import requests
 import www_authenticate
-import ecdsa
-import jws
 # pylint: disable=wildcard-import
 from dxf import exceptions
+
+_schema2_mimetype = 'application/vnd.docker.distribution.manifest.v2+json'
 
 if sys.version_info < (3, 0):
     _binary_type = str
@@ -32,51 +32,12 @@ else:
 def _to_bytes_2and3(s):
     return s if isinstance(s, _binary_type) else s.encode('utf-8')
 
-jws.utils.to_bytes_2and3 = _to_bytes_2and3
-jws.algos.to_bytes_2and3 = _to_bytes_2and3
-
-def _urlsafe_b64encode(s):
-    return base64.urlsafe_b64encode(_to_bytes_2and3(s)).rstrip(b'=').decode('utf-8')
-
-def _pad64(s):
-    return s + b'=' * (-len(s) % 4)
-
-def _urlsafe_b64decode(s):
-    return base64.urlsafe_b64decode(_pad64(_to_bytes_2and3(s)))
-
-def _num_to_base64(n):
-    b = bytearray()
-    while n:
-        b.insert(0, n & 0xFF)
-        n >>= 8
-    # need to pad to 32 bytes
-    while len(b) < 32:
-        b.insert(0, 0)
-    return base64.urlsafe_b64encode(b).rstrip(b'=').decode('utf-8')
-
-def _base64_to_num(s):
-    b = bytearray(_urlsafe_b64decode(s))
-    m = len(b) - 1
-    return sum((1 << ((m - bi)*8)) * bb for (bi, bb) in enumerate(b))
-
-def _jwk_to_key(jwk):
-    if jwk['kty'] != 'EC':
-        raise exceptions.DXFUnexpectedKeyTypeError(jwk['kty'], 'EC')
-    if jwk['crv'] != 'P-256':
-        raise exceptions.DXFUnexpectedKeyTypeError(jwk['crv'], 'P-256')
-    # pylint: disable=bad-continuation
-    return ecdsa.VerifyingKey.from_public_point(
-            ecdsa.ellipticcurve.Point(ecdsa.NIST256p.curve,
-                                      _base64_to_num(jwk['x']),
-                                      _base64_to_num(jwk['y'])),
-            ecdsa.NIST256p)
-
 def hash_bytes(buf):
     """
     Hash bytes using the same method the registry uses (currently SHA-256).
 
-    :param filename: Bytes to hash
-    :type filename: str
+    :param buf: Bytes to hash
+    :type buf: str
 
     :rtype: str
     :returns: Hex-encoded hash of file's content
@@ -100,78 +61,6 @@ def hash_file(filename):
         for chunk in iter(lambda: f.read(8192), b''):
             sha256.update(chunk)
     return sha256.hexdigest()
-
-def _verify_manifest(content,
-                     content_digest=None,
-                     verify=True):
-    # pylint: disable=too-many-locals,too-many-branches
-
-    # Adapted from https://github.com/joyent/node-docker-registry-client
-    manifest = json.loads(content)
-
-    if verify or ('signatures' in manifest):
-        signatures = []
-        for sig in manifest['signatures']:
-            protected64 = sig['protected']
-            protected = _urlsafe_b64decode(protected64).decode('utf-8')
-            protected_header = json.loads(protected)
-
-            format_length = protected_header['formatLength']
-            format_tail64 = protected_header['formatTail']
-            format_tail = _urlsafe_b64decode(format_tail64).decode('utf-8')
-
-            alg = sig['header']['alg']
-            if alg.lower() == 'none':
-                raise exceptions.DXFDisallowedSignatureAlgorithmError('none')
-            if sig['header'].get('chain'):
-                raise exceptions.DXFSignatureChainNotImplementedError()
-
-            signatures.append({
-                'alg': alg,
-                'signature': sig['signature'],
-                'protected64': protected64,
-                'key': _jwk_to_key(sig['header']['jwk']),
-                'format_length': format_length,
-                'format_tail': format_tail
-            })
-
-        payload = content[:signatures[0]['format_length']] + \
-                  signatures[0]['format_tail']
-        payload64 = _urlsafe_b64encode(payload)
-    else:
-        payload = content
-
-    if content_digest:
-        method, expected_dgst = content_digest.split(':')
-        if method != 'sha256':
-            raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
-        hasher = hashlib.new(method)
-        hasher.update(payload.encode('utf-8'))
-        dgst = hasher.hexdigest()
-        if dgst != expected_dgst:
-            raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
-
-    if verify:
-        for sig in signatures:
-            data = {
-                'key': sig['key'],
-                'header': {
-                    'alg': sig['alg']
-                }
-            }
-            jws.header.process(data, 'verify')
-            sig64 = sig['signature']
-            data['verifier']("%s.%s" % (sig['protected64'], payload64),
-                             _urlsafe_b64decode(sig64),
-                             sig['key'])
-
-    dgsts = []
-    for layer in manifest['fsLayers']:
-        method, dgst = layer['blobSum'].split(':')
-        if method != 'sha256':
-            raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
-        dgsts.append(dgst)
-    return dgsts
 
 def _raise_for_status(r):
     # pylint: disable=no-member
@@ -261,14 +150,21 @@ class DXFBase(object):
         }
 
     def _base_request(self, method, path, **kwargs):
+        def make_kwargs():
+            r = {}
+            r.update(kwargs)
+            if 'headers' not in r:
+                r['headers'] = {}
+            r['headers'].update(self._headers)
+            return r
         url = urlparse.urljoin(self._base_url, path)
-        r = getattr(self._sessions[0], method)(url, headers=self._headers, **kwargs)
+        r = getattr(self._sessions[0], method)(url, **make_kwargs())
         # pylint: disable=no-member
         if r.status_code == requests.codes.unauthorized and self._auth:
             headers = self._headers
             self._auth(self, r)
             if self._headers != headers:
-                r = getattr(self._sessions[0], method)(url, headers=self._headers, **kwargs)
+                r = getattr(self._sessions[0], method)(url, **make_kwargs())
         _raise_for_status(r)
         return r
 
@@ -477,13 +373,24 @@ class DXF(DXFBase):
         self._request('delete', 'blobs/sha256:' + digest)
 
     # For dtuf; highly unlikely anyone else will want this
-    def make_unsigned_manifest(self, alias, *digests):
+    def make_manifest(self, *digests):
+        layers = [{
+            'mediaType': 'application/octet-stream',
+            'size': self.blob_size(dgst),
+            'digest': 'sha256:' + dgst
+        } for dgst in digests]
         return json.dumps({
-            'schemaVersion': 1,
-            'name': self._repo,
-            'tag': alias,
-            'fsLayers': [{'blobSum': 'sha256:' + dgst} for dgst in digests],
-            'history': [{'v1Compatibility': '{}'} for dgst in digests]
+            'schemaVersion': 2,
+            'mediaType': 'application/vnd.docker.distribution.manifest.v2+json',
+            # V2 Schema 2 insists on a config dependency. We're just using the
+            # registry as a blob store so to save us uploading extra blobs,
+            # use the first layer.
+            'config': {
+                'mediaType': 'application/octet-stream',
+                'size': layers[0]['size'],
+                'digest': layers[0]['digest']
+            },
+            'layers': layers
         }, sort_keys=True)
 
     def set_alias(self, alias, *digests):
@@ -501,49 +408,16 @@ class DXF(DXFBase):
         :rtype: str
         :returns: The registry manifest used to define the alias. You almost definitely won't need this.
         """
-        manifest_json = self.make_unsigned_manifest(alias, *digests)
-        manifest64 = _urlsafe_b64encode(manifest_json)
-        format_length = manifest_json.rfind('}')
-        format_tail = manifest_json[format_length:]
-        protected_json = json.dumps({
-            'formatLength': format_length,
-            'formatTail': _urlsafe_b64encode(format_tail)
-        })
-        protected64 = _urlsafe_b64encode(protected_json)
-        key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
-        point = key.privkey.public_key.point
-        data = {
-            'key': key,
-            'header': {
-                'alg': 'ES256'
-            }
-        }
-        jws.header.process(data, 'sign')
-        sig = data['signer']("%s.%s" % (protected64, manifest64), key)
-        signatures = [{
-            'header': {
-                'jwk': {
-                    'kty': 'EC',
-                    'crv': 'P-256',
-                    'x': _num_to_base64(point.x()),
-                    'y': _num_to_base64(point.y())
-                },
-                'alg': 'ES256'
-            },
-            'signature': _urlsafe_b64encode(sig),
-            'protected': protected64
-        }]
-        signed_json = manifest_json[:format_length] + \
-                        ', "signatures": ' + json.dumps(signatures) + \
-                        format_tail
-        #print _verify_manifest(signed_json)
-        self._request('put', 'manifests/' + alias, data=signed_json)
-        return signed_json
+        manifest_json = self.make_manifest(*digests)
+        self._request('put',
+                      'manifests/' + alias,
+                      data=manifest_json,
+                      headers={'Content-Type': _schema2_mimetype})
+        return manifest_json
 
     def get_alias(self,
                   alias=None,
                   manifest=None,
-                  verify=True,
                   sizes=False):
         """
         Get the blob hashes assigned to an alias.
@@ -554,9 +428,6 @@ class DXF(DXFBase):
         :param manifest: If you previously obtained a manifest, specify it here instead of ``alias``. You almost definitely won't need to do this.
         :type manifest: str
 
-        :param verify: Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won't need to change this from the default (``True``).
-        :type verify: bool
-
         :param sizes: Whether to return sizes of the blobs along with their hashes
         :type sizes: bool
 
@@ -564,18 +435,26 @@ class DXF(DXFBase):
         :returns: If ``sizes`` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ``sizes`` is truthy, a list of (hash,size) tuples for each blob.
         """
         if alias:
-            r = self._request('get', 'manifests/' + alias)
+            r = self._request('get',
+                              'manifests/' + alias,
+                              headers={'Accept': _schema2_mimetype})
+            method, expected_dgst = r.headers['docker-content-digest'].split(':')
+            if method != 'sha256':
+                raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+            hasher = hashlib.new(method)
+            hasher.update(r.content)
+            dgst = hasher.hexdigest()
+            if dgst != expected_dgst:
+                raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
             manifest = r.content.decode('utf-8')
-            dcd = r.headers['docker-content-digest']
-        else:
-            dcd = None
-        dgsts = _verify_manifest(manifest, dcd, verify)
-        if not sizes:
-            return dgsts
-        # V2 Schema 2 will put the size in the manifest, so we wouldn't need
-        # to make separate requests to get the size of each blob.
-        # Instead, we could get _verify_manifest to return them.
-        return [(dgst, self.blob_size(dgst)) for dgst in dgsts]
+
+        r = []
+        for layer in json.loads(manifest)['layers']:
+            method, dgst = layer['digest'].split(':')
+            if method != 'sha256':
+                raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+            r.append((dgst, layer['size']) if sizes else dgst)
+        return r
 
     def del_alias(self, alias):
         """

@@ -6,7 +6,7 @@ Docker registry.
 -  Store arbitrary data (blob-store)
 -  Content addressable
 -  Set up named aliases to blobs
--  Supports Docker registry version 2
+-  Supports Docker registry version 2.3.0 upwards (schema v2)
 -  Works on Python 2.7 and 3.4
 
 Command-line example:

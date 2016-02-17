@@ -1,7 +1,6 @@
 import hashlib
 import requests
 import pytest
-import jws.exceptions
 import dxf.exceptions
 
 # pylint: disable=no-member
@@ -95,15 +94,11 @@ def test_manifest(dxf_obj):
     manifest = dxf_obj.set_alias('mani_test', pytest.blob1_hash)
     assert manifest
     assert dxf_obj.get_alias(manifest=manifest) == [pytest.blob1_hash]
-    with pytest.raises(jws.exceptions.SignatureError):
-        dxf_obj.get_alias(manifest=' '+manifest)
 
 def test_unsigned_manifest(dxf_obj):
-    manifest = dxf_obj.make_unsigned_manifest('mani_test2', pytest.blob2_hash)
+    manifest = dxf_obj.make_manifest(pytest.blob2_hash)
     assert manifest
-    with pytest.raises(KeyError):
-        dxf_obj.get_alias(manifest=manifest)
-    assert dxf_obj.get_alias(manifest=manifest, verify=False) == [pytest.blob2_hash]
+    assert dxf_obj.get_alias(manifest=manifest) == [pytest.blob2_hash]
 
 def test_auth(dxf_obj):
     # pylint: disable=protected-access
