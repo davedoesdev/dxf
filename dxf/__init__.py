@@ -151,7 +151,7 @@ class DXFBase(object):
 
     def _base_request(self, method, path, **kwargs):
         def make_kwargs():
-            r = { 'allow_redirects': True }
+            r = {'allow_redirects': True}
             r.update(kwargs)
             if 'headers' not in r:
                 r['headers'] = {}
