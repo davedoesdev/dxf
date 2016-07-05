@@ -116,6 +116,16 @@ you wish to work with in each case as the second argument.
     > Print the names of all the repositories in the registry. Not all versions
     > of the registry support this.
 
+## Certificates
+
+If your registry uses SSL with a self-issued certificate, you'll need to supply
+`dxf` with a set of trusted certificate authorities.
+
+Set the `REQUESTS_CA_BUNDLE` environment variable to the path of a PEM file
+containing the trusted certificate authorities certificates.
+
+Both the module and command-line tool support `REQUESTS_CA_BUNDLE`.
+
 ## Authentication tokens
 
 `dxf` automatically obtains Docker registry authentication tokens using your
