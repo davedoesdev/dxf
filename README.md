@@ -122,7 +122,7 @@ If your registry uses SSL with a self-issued certificate, you'll need to supply
 `dxf` with a set of trusted certificate authorities.
 
 Set the `REQUESTS_CA_BUNDLE` environment variable to the path of a PEM file
-containing the trusted certificate authorities certificates.
+containing the trusted certificate authority certificates.
 
 Both the module and command-line tool support `REQUESTS_CA_BUNDLE`.
 
