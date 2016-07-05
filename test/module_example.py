@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-# Requires DOCKER_HUB_USERNAME, DOCKER_HUB_PASSWORD and DOCKER_HUB_REPO env vars
-# $DOCKER_HUB_REPO should have been created on Docker Hub
+# Requires DOCKER_REG_USERNAME, DOCKER_REG_PASSWORD and DOCKER_REG_REPO env vars
+# Defaults to using the Docker Hub unless you specify DOCKER_REG_HOST env var
+# If using the Docker Hub, create $DOCKER_REG_REPO first
 
 # pylint: disable=wrong-import-position,superfluous-parens
 # pylint: disable=redefined-outer-name,redefined-variable-type
@@ -16,12 +17,12 @@ os.chdir('/tmp')
 from dxf import DXF
 
 def auth(dxf, response):
-    dxf.authenticate(os.environ['DOCKER_HUB_USERNAME'],
-                     os.environ['DOCKER_HUB_PASSWORD'],
+    dxf.authenticate(os.environ['DOCKER_REG_USERNAME'],
+                     os.environ['DOCKER_REG_PASSWORD'],
                      response=response)
 
-dxf = DXF('registry-1.docker.io',
-          os.environ['DOCKER_HUB_REPO'],
+dxf = DXF(os.environ.get('DOCKER_REG_HOST', 'registry-1.docker.io'),
+          os.environ['DOCKER_REG_REPO'],
           auth)
 
 with open('logger.dat', 'wb') as f:

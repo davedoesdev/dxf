@@ -9,10 +9,10 @@ dxf() {
 
 cleanup() {
     trap - EXIT
-    "$HERE/remove_container.sh" dtuf_registry
+    "$HERE/remove_container.sh" dxf_registry
 }
 trap cleanup EXIT
-docker run -d -p 5000:5000 --name dtuf_registry registry:2
+docker run -d -p 5000:5000 --name dxf_registry registry:2
 
 export DXF_HOST=localhost:5000
 export DXF_INSECURE=1
