@@ -1,4 +1,4 @@
-# dxf&nbsp;&nbsp;&nbsp;[![Build Status](https://travis-ci.org/davedoesdev/dxf.png)](https://travis-ci.org/davedoesdev/dxf) [![Coverage Status](https://coveralls.io/repos/davedoesdev/dxf/badge.png?branch=master)](https://coveralls.io/r/davedoesdev/dxf?branch=master) [![PyPI version](https://badge.fury.io/py/python_dxf.png)](http://badge.fury.io/py/python_dxf)
+# dxf&nbsp;&nbsp;&nbsp;[![Build Status](https://travis-ci.org/davedoesdev/dxf.png)](https://travis-ci.org/davedoesdev/dxf) [![Coverage Status](https://coveralls.io/repos/davedoesdev/dxf/badge.png?branch=master)](https://coveralls.io/r/davedoesdev/dxf?branch=master) [![PyPI version](https://badge.fury.io/py/python-dxf.png)](http://badge.fury.io/py/python-dxf)
 
 Python module and command-line tool for storing and retrieving data in a Docker registry.
 

@@ -212,5 +212,5 @@ Coveralls page is `here <https://coveralls.io/r/davedoesdev/dxf>`__.
    :target: https://travis-ci.org/davedoesdev/dxf
 .. |Coverage Status| image:: https://coveralls.io/repos/davedoesdev/dxf/badge.png?branch=master
    :target: https://coveralls.io/r/davedoesdev/dxf?branch=master
-.. |PyPI version| image:: https://badge.fury.io/py/python_dxf.png
-   :target: http://badge.fury.io/py/python_dxf
+.. |PyPI version| image:: https://badge.fury.io/py/python-dxf.png
+   :target: http://badge.fury.io/py/python-dxf
