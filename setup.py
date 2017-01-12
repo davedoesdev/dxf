@@ -6,7 +6,7 @@ def read(name):
 
 setup(
     name='python-dxf',
-    version='3.0.2',
+    version='4.0.0',
     description="Package for accessing a Docker v2 registry",
     long_description=read('README.rst'),
     keywords='docker registry',
@@ -16,7 +16,9 @@ setup(
     license='MIT',
     packages=['dxf'],
     entry_points={'console_scripts': ['dxf=dxf.main:main']},
-    install_requires=['www-authenticate>=0.9.2',
+    install_requires=['ecdsa>=0.13',
+                      'www-authenticate>=0.9.2',
                       'requests>=2.9.0',
+                      'jws>=0.1.3',
                       'tqdm>=3.1.4']
 )

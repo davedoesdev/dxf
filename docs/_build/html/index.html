@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dxf module &mdash; python-dxf 2.0.1 documentation</title>
+    <title>dxf module &#8212; python-dxf 2.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,6 +23,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="python-dxf 2.0.1 documentation" href="#" /> 
   </head>
   <body role="document">
@@ -35,7 +37,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 2.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 2.0.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -135,7 +137,7 @@
 
 <dl class="method">
 <dt id="dxf.DXF.get_alias">
-<code class="descname">get_alias</code><span class="sig-paren">(</span><em>alias=None</em>, <em>manifest=None</em>, <em>sizes=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_alias</code><span class="sig-paren">(</span><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em>, <em>sizes=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the blob hashes assigned to an alias.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -144,6 +146,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>alias</strong> (<em>str</em>) &#8211; Alias name. You almost definitely will only need to pass this argument.</li>
 <li><strong>manifest</strong> (<em>str</em>) &#8211; If you previously obtained a manifest, specify it here instead of <code class="docutils literal"><span class="pre">alias</span></code>. You almost definitely won&#8217;t need to do this.</li>
+<li><strong>verify</strong> (<em>bool</em>) &#8211; (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won&#8217;t need to change this from the default (<code class="docutils literal"><span class="pre">True</span></code>).</li>
 <li><strong>sizes</strong> (<em>bool</em>) &#8211; Whether to return sizes of the blobs along with their hashes</li>
 </ul>
 </td>
@@ -515,9 +518,9 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
 </div>
 
@@ -544,14 +547,11 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -567,12 +567,12 @@ previously, you can also set it but be aware tokens expire quickly.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 2.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 2.0.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2016, David Halls.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2016, David Halls.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

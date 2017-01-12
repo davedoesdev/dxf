@@ -15,6 +15,8 @@ except ImportError:
     from urllib import urlencode
     import urlparse
 
+import ecdsa
+import jws
 import requests
 import www_authenticate
 # pylint: disable=wildcard-import
@@ -408,16 +410,26 @@ class DXF(DXFBase):
         :rtype: str
         :returns: The registry manifest used to define the alias. You almost definitely won't need this.
         """
-        manifest_json = self.make_manifest(*digests)
-        self._request('put',
-                      'manifests/' + alias,
-                      data=manifest_json,
-                      headers={'Content-Type': _schema2_mimetype})
-        return manifest_json
+        try:
+            manifest_json = self.make_manifest(*digests)
+            self._request('put',
+                          'manifests/' + alias,
+                          data=manifest_json,
+                          headers={'Content-Type': _schema2_mimetype})
+            return manifest_json
+        except requests.exceptions.HTTPError as ex:
+            # pylint: disable=no-member
+            if ex.response.status_code != requests.codes.bad_request:
+                raise
+            manifest_json = self.make_unsigned_manifest(alias, *digests)
+            signed_json = _sign_manifest(manifest_json)
+            self._request('put', 'manifests/' + alias, data=signed_json)
+            return signed_json
 
     def get_alias(self,
                   alias=None,
                   manifest=None,
+                  verify=True,
                   sizes=False):
         """
         Get the blob hashes assigned to an alias.
@@ -428,6 +440,9 @@ class DXF(DXFBase):
         :param manifest: If you previously obtained a manifest, specify it here instead of ``alias``. You almost definitely won't need to do this.
         :type manifest: str
 
+        :param verify: (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won't need to change this from the default (``True``).
+        :type verify: bool
+
         :param sizes: Whether to return sizes of the blobs along with their hashes
         :type sizes: bool
 
@@ -437,24 +452,36 @@ class DXF(DXFBase):
         if alias:
             r = self._request('get',
                               'manifests/' + alias,
-                              headers={'Accept': _schema2_mimetype})
-            method, expected_dgst = r.headers['docker-content-digest'].split(':')
-            if method != 'sha256':
-                raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
-            hasher = hashlib.new(method)
-            hasher.update(r.content)
-            dgst = hasher.hexdigest()
-            if dgst != expected_dgst:
-                raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
+                              headers={'Accept': _schema2_mimetype + ', ' +
+                                                 _schema1_mimetype})
             manifest = r.content.decode('utf-8')
+            dcd = r.headers['docker-content-digest']
+        else:
+            dcd = None
+        parsed_manifest = json.loads(manifest)
+        if parsed_manifest['schemaVersion'] == 1:
+            dgsts = _verify_manifest(manifest, parsed_manifest, dcd, verify)
+            if not sizes:
+                return dgsts
+            return [(dgst, self.blob_size(dgst)) for dgst in dgsts]
+        else:
+            if dcd:
+                method, expected_dgst = dcd.split(':')
+                if method != 'sha256':
+                    raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+                hasher = hashlib.new(method)
+                hasher.update(r.content)
+                dgst = hasher.hexdigest()
+                if dgst != expected_dgst:
+                    raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
 
-        r = []
-        for layer in json.loads(manifest)['layers']:
-            method, dgst = layer['digest'].split(':')
-            if method != 'sha256':
-                raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
-            r.append((dgst, layer['size']) if sizes else dgst)
-        return r
+            r = []
+            for layer in parsed_manifest['layers']:
+                method, dgst = layer['digest'].split(':')
+                if method != 'sha256':
+                    raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+                r.append((dgst, layer['size']) if sizes else dgst)
+            return r
 
     def del_alias(self, alias):
         """
@@ -480,3 +507,163 @@ class DXF(DXFBase):
         :returns: List of alias names (strings).
         """
         return self._request('get', 'tags/list').json()['tags']
+
+# v1 schema support functions below
+
+    def make_unsigned_manifest(self, alias, *digests):
+        return json.dumps({
+            'schemaVersion': 1,
+            'name': self._repo,
+            'tag': alias,
+            'fsLayers': [{'blobSum': 'sha256:' + dgst} for dgst in digests],
+            'history': [{'v1Compatibility': '{}'} for dgst in digests]
+        }, sort_keys=True)
+
+_schema1_mimetype = 'application/vnd.docker.distribution.manifest.v1+json'
+
+def _urlsafe_b64encode(s):
+    return base64.urlsafe_b64encode(_to_bytes_2and3(s)).rstrip(b'=').decode('utf-8')
+
+def _pad64(s):
+    return s + b'=' * (-len(s) % 4)
+
+def _urlsafe_b64decode(s):
+    return base64.urlsafe_b64decode(_pad64(_to_bytes_2and3(s)))
+
+def _num_to_base64(n):
+    b = bytearray()
+    while n:
+        b.insert(0, n & 0xFF)
+        n >>= 8
+    # need to pad to 32 bytes
+    while len(b) < 32:
+        b.insert(0, 0)
+    return base64.urlsafe_b64encode(b).rstrip(b'=').decode('utf-8')
+
+def _base64_to_num(s):
+    b = bytearray(_urlsafe_b64decode(s))
+    m = len(b) - 1
+    return sum((1 << ((m - bi)*8)) * bb for (bi, bb) in enumerate(b))
+
+def _jwk_to_key(jwk):
+    if jwk['kty'] != 'EC':
+        raise exceptions.DXFUnexpectedKeyTypeError(jwk['kty'], 'EC')
+    if jwk['crv'] != 'P-256':
+        raise exceptions.DXFUnexpectedKeyTypeError(jwk['crv'], 'P-256')
+    # pylint: disable=bad-continuation
+    return ecdsa.VerifyingKey.from_public_point(
+            ecdsa.ellipticcurve.Point(ecdsa.NIST256p.curve,
+                                      _base64_to_num(jwk['x']),
+                                      _base64_to_num(jwk['y'])),
+            ecdsa.NIST256p)
+
+def _sign_manifest(manifest_json):
+    manifest64 = _urlsafe_b64encode(manifest_json)
+    format_length = manifest_json.rfind('}')
+    format_tail = manifest_json[format_length:]
+    protected_json = json.dumps({
+        'formatLength': format_length,
+        'formatTail': _urlsafe_b64encode(format_tail)
+    })
+    protected64 = _urlsafe_b64encode(protected_json)
+    key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
+    point = key.privkey.public_key.point
+    data = {
+        'key': key,
+        'header': {
+            'alg': 'ES256'
+        }
+    }
+    jws.header.process(data, 'sign')
+    sig = data['signer']("%s.%s" % (protected64, manifest64), key)
+    signatures = [{
+        'header': {
+            'jwk': {
+                'kty': 'EC',
+                'crv': 'P-256',
+                'x': _num_to_base64(point.x()),
+                'y': _num_to_base64(point.y())
+            },
+            'alg': 'ES256'
+        },
+        'signature': _urlsafe_b64encode(sig),
+        'protected': protected64
+    }]
+    return manifest_json[:format_length] + \
+           ', "signatures": ' + json.dumps(signatures) + \
+           format_tail
+
+def _verify_manifest(content,
+                     manifest,
+                     content_digest=None,
+                     verify=True):
+    # pylint: disable=too-many-locals,too-many-branches
+
+    # Adapted from https://github.com/joyent/node-docker-registry-client
+
+    if verify or ('signatures' in manifest):
+        signatures = []
+        for sig in manifest['signatures']:
+            protected64 = sig['protected']
+            protected = _urlsafe_b64decode(protected64).decode('utf-8')
+            protected_header = json.loads(protected)
+
+            format_length = protected_header['formatLength']
+            format_tail64 = protected_header['formatTail']
+            format_tail = _urlsafe_b64decode(format_tail64).decode('utf-8')
+
+            alg = sig['header']['alg']
+            if alg.lower() == 'none':
+                raise exceptions.DXFDisallowedSignatureAlgorithmError('none')
+            if sig['header'].get('chain'):
+                raise exceptions.DXFSignatureChainNotImplementedError()
+
+            signatures.append({
+                'alg': alg,
+                'signature': sig['signature'],
+                'protected64': protected64,
+                'key': _jwk_to_key(sig['header']['jwk']),
+                'format_length': format_length,
+                'format_tail': format_tail
+            })
+
+        payload = content[:signatures[0]['format_length']] + \
+                  signatures[0]['format_tail']
+        payload64 = _urlsafe_b64encode(payload)
+    else:
+        payload = content
+
+    if content_digest:
+        method, expected_dgst = content_digest.split(':')
+        if method != 'sha256':
+            raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+        hasher = hashlib.new(method)
+        hasher.update(payload.encode('utf-8'))
+        dgst = hasher.hexdigest()
+        if dgst != expected_dgst:
+            raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
+
+    if verify:
+        for sig in signatures:
+            data = {
+                'key': sig['key'],
+                'header': {
+                    'alg': sig['alg']
+                }
+            }
+            jws.header.process(data, 'verify')
+            sig64 = sig['signature']
+            data['verifier']("%s.%s" % (sig['protected64'], payload64),
+                             _urlsafe_b64decode(sig64),
+                             sig['key'])
+
+    dgsts = []
+    for layer in manifest['fsLayers']:
+        method, dgst = layer['blobSum'].split(':')
+        if method != 'sha256':
+            raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+        dgsts.append(dgst)
+    return dgsts
+
+jws.utils.to_bytes_2and3 = _to_bytes_2and3
+jws.algos.to_bytes_2and3 = _to_bytes_2and3

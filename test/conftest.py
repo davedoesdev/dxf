@@ -62,7 +62,7 @@ def _setup_fixture(request):
     request.addfinalizer(cleanup)
     cleanup()
     cmd = ['docker', 'run', '-d', '-p', '5000:5000', '--name', 'dxf_registry']
-    auth, do_token = request.param
+    regver, auth, do_token = request.param
     if auth:
         cmd += ['-v', _registry_dir + ':/registry',
                 '-v', _auth_dir + ':/auth',
@@ -83,11 +83,15 @@ def _setup_fixture(request):
             cmd += ['-e', 'REGISTRY_AUTH=htpasswd',
                     '-e', 'REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm',
                     '-e', 'REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd']
-    cmd += ['registry:2']
+    cmd += ['registry:' + str(regver)]
     subprocess.check_call(cmd, stdout=DEVNULL)
-    return request.param
+    return auth, do_token
 
-_fixture_params = [(None, False), (_auth, False), (_auth, True)]
+_fixture_params = []
+for regver in [2, 2.2]:
+    _fixture_params.extend([(regver, None, False),
+                            (regver, _auth, False),
+                            (regver, _auth, True)])
 
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_obj(request):
