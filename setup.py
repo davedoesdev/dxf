@@ -20,5 +20,5 @@ setup(
                       'www-authenticate>=0.9.2',
                       'requests>=2.9.0',
                       'jws>=0.1.3',
-                      'tqdm>=3.1.4']
+                      'tqdm>=4.10.0']
 )

@@ -1,2 +1,8 @@
 [run]
 branch = True
+include =
+    dxf/__init__.py
+    dxf/main.py
+
+[report]
+fail_under = 90
