@@ -151,8 +151,11 @@ def doit(args, environ):
 
         elif args.op == "del-alias":
             for name in args.args:
-                for dgst in dxf_obj.del_alias(name):
-                    print(dgst)
+                try:
+                    print('\n'.join(dxf_obj.del_alias(name)))
+                # pylint: disable=broad-except
+                except Exception as error:
+                    sys.stderr.write('error: %r: %s\n' %(name, error))
 
         elif args.op == 'list-aliases':
             if len(args.args) > 0:
