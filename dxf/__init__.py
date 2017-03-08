@@ -367,8 +367,6 @@ class DXF(DXFBase):
         """
         Delete a blob from the registry given the hash of its content.
 
-        Note that the registry doesn't support deletes yet so expect an error.
-
         :param digest: Hash of the blob's content.
         :type digest: str
         """
@@ -489,6 +487,11 @@ class DXF(DXFBase):
         :param str alias: alias name
         :rtype: str
         '''
+        # https://docs.docker.com/registry/spec/api/#deleting-an-image
+        # Note When deleting a manifest from a registry version 2.3 or later,
+        # the following header must be used when HEAD or GET-ing the manifest
+        # to obtain the correct digest to delete:
+        # Accept: application/vnd.docker.distribution.manifest.v2+json
         return self._request(
             'head',
             'manifests/{}'.format(alias),
@@ -500,8 +503,8 @@ class DXF(DXFBase):
         Delete an alias from the registry. The blobs it points to won't be deleted. Use :meth:`del_blob` for that.
 
         .. Note::
-           On private registry, garbage collection might need to be ran manually; see:
-           https://docs.docker.com/v1.13/registry/garbage-collection/#/running-garbage-collection
+           On private registry, garbage collection might need to be run manually; see:
+           https://docs.docker.com/registry/garbage-collection/
 
         :param alias: Alias name.
         :type alias: str

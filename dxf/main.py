@@ -2,9 +2,12 @@
 import os
 import argparse
 import sys
+import traceback
+import errno
 import tqdm
 import dxf
 import dxf.exceptions
+import requests.exceptions
 
 _choices = ['auth',
             'push-blob',
@@ -151,11 +154,8 @@ def doit(args, environ):
 
         elif args.op == "del-alias":
             for name in args.args:
-                try:
-                    print('\n'.join(dxf_obj.del_alias(name)))
-                # pylint: disable=broad-except
-                except Exception as error:
-                    sys.stderr.write('error: %r: %s\n' %(name, error))
+                for dgst in dxf_obj.del_alias(name):
+                    print(dgst)
 
         elif args.op == 'list-aliases':
             if len(args.args) > 0:
@@ -171,10 +171,14 @@ def doit(args, environ):
         _doit()
         return 0
     except dxf.exceptions.DXFUnauthorizedError:
-        import traceback
         traceback.print_exc()
-        import errno
         return errno.EACCES
+    except requests.exceptions.HTTPError as ex:
+        # pylint: disable=no-member
+        if ex.response.status_code == requests.codes.not_found:
+            traceback.print_exc()
+            return errno.ENOENT
+        raise
 
 def main():
     exit(doit(sys.argv[1:], os.environ))

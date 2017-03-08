@@ -24,6 +24,9 @@ _remove_container = os.path.join(_here, 'remove_container.sh')
 
 DEVNULL = open(os.devnull, 'wb')
 
+def gc():
+    subprocess.check_call(['docker', 'exec', 'dxf_registry', 'bin/registry', 'garbage-collect', '/etc/docker/registry/config.yml'])
+
 def pytest_namespace():
     return {
         'blob1_file': os.path.join(_fixture_dir, 'blob1'),
@@ -44,7 +47,9 @@ def pytest_namespace():
         'username': 'fred',
         'password': '!WordPass0$',
 
-        'repo': 'foo/bar'
+        'repo': 'foo/bar',
+
+        'gc': gc
     }
 
 # pylint: disable=redefined-outer-name
@@ -83,9 +88,10 @@ def _setup_fixture(request):
             cmd += ['-e', 'REGISTRY_AUTH=htpasswd',
                     '-e', 'REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm',
                     '-e', 'REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd']
+    cmd += ['-e', 'REGISTRY_STORAGE_DELETE_ENABLED=true']
     cmd += ['registry:' + str(regver)]
     subprocess.check_call(cmd, stdout=DEVNULL)
-    return auth, do_token
+    return request.param
 
 _fixture_params = []
 for regver in [2, 2.2]:
@@ -95,9 +101,10 @@ for regver in [2, 2.2]:
 
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_obj(request):
-    auth, do_token = _setup_fixture(request)
+    regver, auth, do_token = _setup_fixture(request)
     r = dxf.DXF('localhost:5000', pytest.repo, auth, not auth)
     r.test_do_token = do_token
+    r.regver = regver
     for _ in range(5):
         try:
             assert r.list_repos() == []
@@ -108,11 +115,12 @@ def dxf_obj(request):
 
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_main(request):
-    auth, do_token = _setup_fixture(request)
+    regver, auth, do_token = _setup_fixture(request)
     environ = {
         'DXF_HOST': 'localhost:5000',
         'DXF_INSECURE': '0' if auth else '1',
-        'TEST_DO_TOKEN': do_token
+        'TEST_DO_TOKEN': do_token,
+        'REGVER': regver
     }
     if auth:
         environ['DXF_USERNAME'] = pytest.username
