@@ -10,7 +10,6 @@ import dxf.exceptions
 def _not_found(dxf_obj, dgst):
     with pytest.raises(requests.exceptions.HTTPError) as ex:
         dxf_obj.blob_size(dgst)
-    # pylint: disable=no-member
     assert ex.value.response.status_code == requests.codes.not_found
 
 def test_not_found(dxf_obj):
@@ -123,26 +122,31 @@ def test_auth(dxf_obj):
     else:
         assert dxf_obj.authenticate(pytest.username, pytest.password) is None
 
-def _del_blob(dxf_obj, dgst):
-    with pytest.raises(requests.exceptions.HTTPError) as ex:
-        dxf_obj.del_blob(dgst)
-    # pylint: disable=no-member
-    assert ex.value.response.status_code == requests.codes.method_not_allowed
-
 def test_del_blob(dxf_obj):
-    _del_blob(dxf_obj, pytest.blob1_hash)
-    _del_blob(dxf_obj, pytest.blob2_hash)
-
-def _del_alias(dxf_obj, alias):
+    _pull_blob(dxf_obj, pytest.blob2_hash, None, None)
+    dxf_obj.del_blob(pytest.blob2_hash)
+    _not_found(dxf_obj, pytest.blob2_hash)
     with pytest.raises(requests.exceptions.HTTPError) as ex:
-        dxf_obj.del_alias(alias)
-    # pylint: disable=no-member
-    assert ex.value.response.status_code == requests.codes.method_not_allowed
+        dxf_obj.del_blob(pytest.blob2_hash)
+    assert ex.value.response.status_code == requests.codes.not_found
 
 def test_del_alias(dxf_obj):
-    _del_alias(dxf_obj, 'hello')
-    _del_alias(dxf_obj, 'there')
-    _del_alias(dxf_obj, 'world')
+    assert dxf_obj.get_alias('world') == [pytest.blob2_hash]
+    if dxf_obj.regver == 2.2:
+        with pytest.raises(requests.exceptions.HTTPError) as ex:
+            dxf_obj.del_alias('world')
+        assert ex.value.response.status_code == requests.codes.method_not_allowed
+        assert dxf_obj.get_alias('world') == [pytest.blob2_hash]
+    else:
+        assert dxf_obj.del_alias('world') == [pytest.blob2_hash]
+        # Note: test gc but it isn't needed to make a 404
+        pytest.gc()
+        with pytest.raises(requests.exceptions.HTTPError) as ex:
+            dxf_obj.get_alias('world')
+        assert ex.value.response.status_code == requests.codes.not_found
+        with pytest.raises(requests.exceptions.HTTPError) as ex:
+            dxf_obj.del_alias('world')
+        assert ex.value.response.status_code == requests.codes.not_found
 
 def test_hash_bytes():
     assert dxf.hash_bytes(b'abc') == 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'

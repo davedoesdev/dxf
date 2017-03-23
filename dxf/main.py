@@ -2,9 +2,12 @@
 import os
 import argparse
 import sys
+import traceback
+import errno
 import tqdm
 import dxf
 import dxf.exceptions
+import requests.exceptions
 
 _choices = ['auth',
             'push-blob',
@@ -168,10 +171,14 @@ def doit(args, environ):
         _doit()
         return 0
     except dxf.exceptions.DXFUnauthorizedError:
-        import traceback
         traceback.print_exc()
-        import errno
         return errno.EACCES
+    except requests.exceptions.HTTPError as ex:
+        # pylint: disable=no-member
+        if ex.response.status_code == requests.codes.not_found:
+            traceback.print_exc()
+            return errno.ENOENT
+        raise
 
 def main():
     exit(doit(sys.argv[1:], os.environ))

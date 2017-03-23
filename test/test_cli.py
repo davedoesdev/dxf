@@ -9,6 +9,7 @@ import tqdm
 import dxf.main
 
 # pylint: disable=no-member
+
 def test_empty(dxf_main, capsys):
     assert dxf.main.doit(['list-repos'], dxf_main) == 0
     out, err = capsys.readouterr()
@@ -16,9 +17,7 @@ def test_empty(dxf_main, capsys):
     assert err == ""
 
 def _not_found(dxf_main, name):
-    with pytest.raises(requests.exceptions.HTTPError) as ex:
-        dxf.main.doit(['blob-size', pytest.repo, name], dxf_main)
-    assert ex.value.response.status_code == requests.codes.not_found
+    assert dxf.main.doit(['blob-size', pytest.repo, name], dxf_main) == errno.ENOENT
 
 def test_not_found(dxf_main):
     _not_found(dxf_main, pytest.blob1_hash)
@@ -34,9 +33,10 @@ def test_push_blob(dxf_main, capsys):
     out, err = capsys.readouterr()
     assert out == pytest.blob2_hash + os.linesep
     assert err == ""
-    with pytest.raises(requests.exceptions.HTTPError) as ex:
-        dxf.main.doit(['get-alias', pytest.repo, 'fooey'], dxf_main)
-    assert ex.value.response.status_code == requests.codes.not_found
+    assert dxf.main.doit(['get-alias', pytest.repo, 'fooey'], dxf_main) == errno.ENOENT
+    out, err = capsys.readouterr()
+    assert out == ""
+    assert err.index('Not Found') >= 0
     assert dxf.main.doit(['push-blob', pytest.repo, pytest.blob1_file, '@fooey'], dxf_main) == 0
     out, err = capsys.readouterr()
     assert out == pytest.blob1_hash + os.linesep
@@ -179,7 +179,6 @@ def test_list_aliases(dxf_main, capsys):
     assert err == ""
 
 def test_manifest(dxf_main, capfd, monkeypatch):
-    # pylint: disable=no-member
     assert dxf.main.doit(['set-alias', pytest.repo, 'mani_test', pytest.blob1_hash], dxf_main) == 0
     manifest, err = capfd.readouterr()
     assert manifest
@@ -206,10 +205,8 @@ def test_manifest(dxf_main, capfd, monkeypatch):
     sha256.update(out)
     assert sha256.hexdigest() == pytest.blob1_hash
     assert err == ""
-    with pytest.raises(requests.exceptions.HTTPError) as ex:
-        dxf.main.doit(['del-blob', pytest.repo], dxf_main)
-    # pylint: disable=no-member
-    assert ex.value.response.status_code == requests.codes.method_not_allowed
+    assert dxf.main.doit(['del-blob', pytest.repo], dxf_main) == 0
+    assert dxf.main.doit(['pull-blob', pytest.repo], dxf_main) == errno.ENOENT
 
 def test_auth(dxf_main, capsys):
     if dxf_main['DXF_INSECURE'] == '1':
@@ -247,26 +244,30 @@ def test_auth(dxf_main, capsys):
         assert out == ""
         assert err == ""
 
-def _del_blob(dxf_main, dgst):
-    # pylint: disable=no-member
-    with pytest.raises(requests.exceptions.HTTPError) as ex:
-        dxf.main.doit(['del-blob', pytest.repo, dgst], dxf_main)
-    assert ex.value.response.status_code == requests.codes.method_not_allowed
+def test_del_blob(dxf_main, capfd):
+    _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfd)
+    assert dxf.main.doit(['del-blob', pytest.repo, pytest.blob2_hash], dxf_main) == 0
+    _not_found(dxf_main, pytest.blob2_hash)
+    assert dxf.main.doit(['del-blob', pytest.repo, pytest.blob2_hash], dxf_main) == errno.ENOENT
 
-def test_del_blob(dxf_main):
-    _del_blob(dxf_main, pytest.blob1_hash)
-    _del_blob(dxf_main, pytest.blob2_hash)
-
-def _del_alias(dxf_main, alias):
-    # pylint: disable=no-member
-    with pytest.raises(requests.exceptions.HTTPError) as ex:
-        dxf.main.doit(['del-alias', pytest.repo, alias], dxf_main)
-    assert ex.value.response.status_code == requests.codes.method_not_allowed
-
-def test_del_alias(dxf_main):
-    _del_alias(dxf_main, 'hello')
-    _del_alias(dxf_main, 'there')
-    _del_alias(dxf_main, 'world')
+def test_del_alias(dxf_main, capsys):
+    assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == pytest.blob2_hash + os.linesep
+    assert err == ""
+    if dxf_main['REGVER'] == 2.2:
+        with pytest.raises(requests.exceptions.HTTPError) as ex:
+            dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main)
+        assert ex.value.response.status_code == requests.codes.method_not_allowed
+        assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == 0
+    else:
+        assert dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main) == 0
+        out, err = capsys.readouterr()
+        assert out == pytest.blob2_hash + os.linesep
+        # Note: test gc but it isn't needed to make a 404
+        pytest.gc()
+        assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == errno.ENOENT
+        assert dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main) == errno.ENOENT
 
 def _num_args(dxf_main, op, minimum, maximum, capsys):
     if minimum is not None:

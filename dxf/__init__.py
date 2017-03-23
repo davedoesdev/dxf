@@ -367,8 +367,6 @@ class DXF(DXFBase):
         """
         Delete a blob from the registry given the hash of its content.
 
-        Note that the registry doesn't support deletes yet so expect an error.
-
         :param digest: Hash of the blob's content.
         :type digest: str
         """
@@ -483,11 +481,30 @@ class DXF(DXFBase):
                 r.append((dgst, layer['size']) if sizes else dgst)
             return r
 
+    def _get_dcd(self, alias):
+        '''get the Docker Content Digest ID
+
+        :param str alias: alias name
+        :rtype: str
+        '''
+        # https://docs.docker.com/registry/spec/api/#deleting-an-image
+        # Note When deleting a manifest from a registry version 2.3 or later,
+        # the following header must be used when HEAD or GET-ing the manifest
+        # to obtain the correct digest to delete:
+        # Accept: application/vnd.docker.distribution.manifest.v2+json
+        return self._request(
+            'head',
+            'manifests/{}'.format(alias),
+            headers={'Accept': _schema2_mimetype},
+        ).headers.get('Docker-Content-Digest')
+
     def del_alias(self, alias):
         """
         Delete an alias from the registry. The blobs it points to won't be deleted. Use :meth:`del_blob` for that.
 
-        Note that the registry doesn't support deletes yet so expect an error.
+        .. Note::
+           On private registry, garbage collection might need to be run manually; see:
+           https://docs.docker.com/registry/garbage-collection/
 
         :param alias: Alias name.
         :type alias: str
@@ -495,8 +512,9 @@ class DXF(DXFBase):
         :rtype: list
         :returns: A list of blob hashes (strings) which were assigned to the alias.
         """
+        dcd = self._get_dcd(alias)
         dgsts = self.get_alias(alias)
-        self._request('delete', 'manifests/' + alias)
+        self._request('delete', 'manifests/{}'.format(dcd))
         return dgsts
 
     def list_aliases(self):

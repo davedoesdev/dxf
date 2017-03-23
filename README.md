@@ -84,9 +84,6 @@ you wish to work with in each case as the second argument.
     > Delete blobs from the registry. If you specify an alias the blobs it
     > points to will be deleted, not the alias itself. Use `del-alias` for that.
 
-    > Note that the Docker registry doesn't support deletes yet so expect an
-    > error.
-
 -   `dxf set-alias <repo> <alias> <hash>|<file>...`
 
     > Give a name (alias) to a set of blobs. For each blob you can either
@@ -103,9 +100,6 @@ you wish to work with in each case as the second argument.
 
     > Delete each specified alias. The blobs they point to won't be deleted
     > (use `del-blob` for that), but their hashes will be printed.
-
-    > Note that the Docker registry doesn't support deletes yet so expect an
-    > error.
 
 -   `dxf list-aliases <repo>`
 

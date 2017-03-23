@@ -105,7 +105,11 @@
 <dt id="dxf.DXF.del_alias">
 <code class="descname">del_alias</code><span class="sig-paren">(</span><em>alias</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.del_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete an alias from the registry. The blobs it points to won&#8217;t be deleted. Use <a class="reference internal" href="#dxf.DXF.del_blob" title="dxf.DXF.del_blob"><code class="xref py py-meth docutils literal"><span class="pre">del_blob()</span></code></a> for that.</p>
-<p>Note that the registry doesn&#8217;t support deletes yet so expect an error.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On private registry, garbage collection might need to be run manually; see:
+<a class="reference external" href="https://docs.docker.com/registry/garbage-collection/">https://docs.docker.com/registry/garbage-collection/</a></p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -124,7 +128,6 @@
 <dt id="dxf.DXF.del_blob">
 <code class="descname">del_blob</code><span class="sig-paren">(</span><em>digest</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.del_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a blob from the registry given the hash of its content.</p>
-<p>Note that the registry doesn&#8217;t support deletes yet so expect an error.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
