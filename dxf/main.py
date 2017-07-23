@@ -41,7 +41,7 @@ def doit(args, environ):
                 bars[dgst] = tqdm.tqdm(desc=dgst[0:8],
                                        total=size,
                                        leave=True)
-            if len(chunk) > 0:
+            if chunk:
                 bars[dgst].update(len(chunk))
             if bars[dgst].n >= bars[dgst].total:
                 bars[dgst].close()
@@ -53,9 +53,11 @@ def doit(args, environ):
         # pylint: disable=redefined-outer-name
         username = environ.get('DXF_USERNAME')
         password = environ.get('DXF_PASSWORD')
-        dxf_obj.authenticate(username, password, response=response)
+        authorization = environ.get('DXF_AUTHORIZATION')
+        dxf_obj.authenticate(username, password,
+                             response=response,
+                             authorization=authorization)
 
-    # pylint: disable=redefined-variable-type
     args = _parser.parse_args(args)
     if args.op != 'list-repos':
         dxf_obj = dxf.DXF(environ['DXF_HOST'],
@@ -72,9 +74,12 @@ def doit(args, environ):
     def _doit():
         # pylint: disable=too-many-branches
         if args.op == "auth":
-            token = dxf_obj.authenticate(environ['DXF_USERNAME'],
-                                         environ['DXF_PASSWORD'],
-                                         actions=args.args)
+            username = environ.get('DXF_USERNAME')
+            password = environ.get('DXF_PASSWORD')
+            authorization = environ.get('DXF_AUTHORIZATION')
+            token = dxf_obj.authenticate(username, password,
+                                         actions=args.args,
+                                         authorization=authorization)
             if token:
                 print(token)
             return
@@ -97,12 +102,12 @@ def doit(args, environ):
 
         elif args.op == "pull-blob":
             _stdout = getattr(sys.stdout, 'buffer', sys.stdout)
-            if len(args.args) == 0:
-                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
-            else:
+            if args.args:
                 dgsts = _flatten([dxf_obj.get_alias(name[1:])
                                   if name.startswith('@') else [name]
                                   for name in args.args])
+            else:
+                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
             for dgst in dgsts:
                 it, size = dxf_obj.pull_blob(
                     dgst, size=True, chunk_size=environ.get('DXF_CHUNK_SIZE'))
@@ -116,24 +121,24 @@ def doit(args, environ):
                     _stdout.write(chunk)
 
         elif args.op == 'blob-size':
-            if len(args.args) == 0:
-                sizes = [dxf_obj.get_alias(manifest=sys.stdin.read(),
-                                           sizes=True)]
-            else:
+            if args.args:
                 sizes = [dxf_obj.get_alias(name[1:], sizes=True)
                          if name.startswith('@') else
                          [(name, dxf_obj.blob_size(name))]
                          for name in args.args]
+            else:
+                sizes = [dxf_obj.get_alias(manifest=sys.stdin.read(),
+                                           sizes=True)]
             for tuples in sizes:
                 print(sum([size for _, size in tuples]))
 
         elif args.op == 'del-blob':
-            if len(args.args) == 0:
-                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
-            else:
+            if args.args:
                 dgsts = _flatten([dxf_obj.del_alias(name[1:])
                                   if name.startswith('@') else [name]
                                   for name in args.args])
+            else:
+                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
             for dgst in dgsts:
                 dxf_obj.del_blob(dgst)
 
@@ -145,10 +150,10 @@ def doit(args, environ):
             sys.stdout.write(dxf_obj.set_alias(args.args[0], *dgsts))
 
         elif args.op == "get-alias":
-            if len(args.args) == 0:
-                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
-            else:
+            if args.args:
                 dgsts = _flatten([dxf_obj.get_alias(name) for name in args.args])
+            else:
+                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
             for dgst in dgsts:
                 print(dgst)
 
@@ -158,7 +163,7 @@ def doit(args, environ):
                     print(dgst)
 
         elif args.op == 'list-aliases':
-            if len(args.args) > 0:
+            if args.args:
                 _parser.error('too many arguments')
             for name in dxf_obj.list_aliases():
                 print(name)

@@ -17,15 +17,15 @@
         VERSION:     '2.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="python-dxf 2.0.1 documentation" href="#" /> 
+    <link rel="search" title="Search" href="search.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -75,7 +75,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <code class="docutils literal"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal"><span class="pre">localhost:5000</span></code>.</li>
 <li><strong>repo</strong> (<em>str</em>) &#8211; Name of the repository to access on the registry. Typically this is of the form <code class="docutils literal"><span class="pre">username/reponame</span></code> but for your own registries you don&#8217;t actually have to stick to that.</li>
-<li><strong>auth</strong> (<em>function(dxf_obj, response)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">DXFBase.authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
+<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em><em></em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">DXFBase.authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
 <li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
 </ul>
@@ -217,7 +217,7 @@ can be retrieved later by passing the hash to <a class="reference internal" href
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>filename</strong> (<em>str</em>) &#8211; File to upload.</li>
-<li><strong>progress</strong> (<em>function(dgst, chunk, total)</em>) &#8211; Optional function to call as the upload progresses. The function will be called with the hash of the file&#8217;s content, the blob just read from the file and the total size of the file.</li>
+<li><strong>progress</strong> (<em>function</em><em>(</em><em>dgst</em><em>, </em><em>chunk</em><em>, </em><em>total</em><em>)</em><em></em>) &#8211; Optional function to call as the upload progresses. The function will be called with the hash of the file&#8217;s content, the blob just read from the file and the total size of the file.</li>
 </ul>
 </td>
 </tr>
@@ -278,7 +278,7 @@ closed until Python garbage collects the iterator.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <code class="docutils literal"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal"><span class="pre">localhost:5000</span></code>.</li>
-<li><strong>auth</strong> (<em>function(dxf_obj, response)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
+<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em><em></em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
 <li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
 </ul>
@@ -288,9 +288,9 @@ closed until Python garbage collects the iterator.</p>
 </table>
 <dl class="method">
 <dt id="dxf.DXFBase.authenticate">
-<code class="descname">authenticate</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>actions=None</em>, <em>response=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase.authenticate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Authenticate to the registry, using a username and password if supplied,
-otherwise as the anonymous user.</p>
+<code class="descname">authenticate</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>actions=None</em>, <em>response=None</em>, <em>authorization=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authenticate to the registry using a username and password,
+an authorization header or otherwise as the anonymous user.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -300,6 +300,7 @@ otherwise as the anonymous user.</p>
 <li><strong>password</strong> (<em>str</em>) &#8211; User&#8217;s password.</li>
 <li><strong>actions</strong> (<em>list</em>) &#8211; If you know which types of operation you need to make on the registry, specify them here. Valid actions are <code class="docutils literal"><span class="pre">pull</span></code>, <code class="docutils literal"><span class="pre">push</span></code> and <code class="docutils literal"><span class="pre">*</span></code>.</li>
 <li><strong>response</strong> (<em>requests.Response</em>) &#8211; When the <code class="docutils literal"><span class="pre">auth</span></code> function you passed to <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a>&#8216;s constructor is called, it is passed a HTTP response object. Pass it back to <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> to have it automatically detect which actions are required.</li>
+<li><strong>authorization</strong> (<em>str</em>) &#8211; <code class="docutils literal"><span class="pre">Authorization</span></code> header value.</li>
 </ul>
 </td>
 </tr>
@@ -543,7 +544,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
+      <li><a href="_sources/index.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -575,7 +576,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, David Halls.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
     </div>
   </body>
 </html>

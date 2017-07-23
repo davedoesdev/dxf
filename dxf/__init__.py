@@ -92,7 +92,7 @@ class _ReportingFile(object):
         return self._f.mode
     def read(self, n):
         chunk = self._f.read(n)
-        if len(chunk) > 0:
+        if chunk:
             self._cb(self._dgst, chunk, self._size)
         return chunk
 
@@ -172,10 +172,12 @@ class DXFBase(object):
 
     def authenticate(self,
                      username=None, password=None,
-                     actions=None, response=None):
+                     actions=None, response=None,
+                     authorization=None):
+        # pylint: disable=too-many-arguments
         """
-        Authenticate to the registry, using a username and password if supplied,
-        otherwise as the anonymous user.
+        Authenticate to the registry using a username and password,
+        an authorization header or otherwise as the anonymous user.
 
         :param username: User name to authenticate as.
         :type username: str
@@ -188,6 +190,9 @@ class DXFBase(object):
 
         :param response: When the ``auth`` function you passed to :class:`DXFBase`'s constructor is called, it is passed a HTTP response object. Pass it back to :meth:`authenticate` to have it automatically detect which actions are required.
         :type response: requests.Response
+
+        :param authorization: ``Authorization`` header value.
+        :type authorization: str
 
         :rtype: str
         :returns: Authentication token, if the registry supports bearer tokens. Otherwise ``None``, and HTTP Basic auth is used.
@@ -204,6 +209,10 @@ class DXFBase(object):
         if username is not None and password is not None:
             headers = {
                 'Authorization': 'Basic ' + base64.b64encode(_to_bytes_2and3(username + ':' + password)).decode('utf-8')
+            }
+        elif authorization is not None:
+            headers = {
+                'Authorization': authorization
             }
         else:
             headers = {}
@@ -241,7 +250,7 @@ class DXFBase(object):
         return self._base_request('get', '_catalog').json()['repositories']
 
     def __enter__(self):
-        assert len(self._sessions) > 0
+        assert self._sessions
         session = requests.Session()
         session.__enter__()
         self._sessions.insert(0, session)

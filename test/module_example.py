@@ -5,7 +5,7 @@
 # If using the Docker Hub, create $DOCKER_REG_REPO first
 
 # pylint: disable=wrong-import-position,superfluous-parens
-# pylint: disable=redefined-outer-name,redefined-variable-type
+# pylint: disable=redefined-outer-name
 import os
 from os import path
 import sys
