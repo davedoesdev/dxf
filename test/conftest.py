@@ -1,6 +1,7 @@
 import os
 import subprocess
 import time
+import base64
 import requests
 import pytest
 import dxf
@@ -21,6 +22,8 @@ _fixture_dir = os.path.join(_here, 'fixtures')
 _registry_dir = os.path.join(_here, 'registry')
 _auth_dir = os.path.join(_here, 'auth')
 _remove_container = os.path.join(_here, 'remove_container.sh')
+_username = 'fred'
+_password = '!WordPass0$'
 
 DEVNULL = open(os.devnull, 'wb')
 
@@ -44,17 +47,23 @@ def pytest_namespace():
         'blob3_size': 2 * 1024 * 1024,
         'blob4_size': 2 * 1024 * 1024,
 
-        'username': 'fred',
-        'password': '!WordPass0$',
+        'username': _username,
+        'password': _password,
+        # pylint: disable=protected-access
+        'authorization': 'Basic ' + base64.b64encode(dxf._to_bytes_2and3(_username + ':' + _password)).decode('utf-8'),
 
         'repo': 'foo/bar',
 
         'gc': gc
     }
 
-# pylint: disable=redefined-outer-name
-def _auth(dxf_obj, response):
+def _auth_up(dxf_obj, response):
+    # pylint: disable=redefined-outer-name
     dxf_obj.authenticate(pytest.username, pytest.password, response=response)
+
+def _auth_authz(dxf_obj, response):
+    # pylint: disable=redefined-outer-name
+    dxf_obj.authenticate(authorization=pytest.authorization, response=response)
 
 def _setup_fixture(request):
     setattr(request.node, 'rep_failed', False)
@@ -67,6 +76,7 @@ def _setup_fixture(request):
     request.addfinalizer(cleanup)
     cleanup()
     cmd = ['docker', 'run', '-d', '-p', '5000:5000', '--name', 'dxf_registry']
+    # pylint: disable=redefined-outer-name
     regver, auth, do_token = request.param
     if auth:
         cmd += ['-v', _registry_dir + ':/registry',
@@ -96,11 +106,14 @@ def _setup_fixture(request):
 _fixture_params = []
 for regver in [2, 2.2]:
     _fixture_params.extend([(regver, None, False),
-                            (regver, _auth, False),
-                            (regver, _auth, True)])
+                            (regver, _auth_up, False),
+                            (regver, _auth_up, True),
+                            (regver, _auth_authz, False),
+                            (regver, _auth_authz, True)])
 
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_obj(request):
+    # pylint: disable=redefined-outer-name
     regver, auth, do_token = _setup_fixture(request)
     r = dxf.DXF('localhost:5000', pytest.repo, auth, not auth)
     r.test_do_token = do_token
@@ -115,16 +128,20 @@ def dxf_obj(request):
 
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_main(request):
+    # pylint: disable=redefined-outer-name
     regver, auth, do_token = _setup_fixture(request)
     environ = {
         'DXF_HOST': 'localhost:5000',
         'DXF_INSECURE': '0' if auth else '1',
+        'TEST_DO_AUTHZ': '1' if auth is _auth_authz else _auth_up,
         'TEST_DO_TOKEN': do_token,
         'REGVER': regver
     }
-    if auth:
+    if auth is _auth_up:
         environ['DXF_USERNAME'] = pytest.username
         environ['DXF_PASSWORD'] = pytest.password
+    elif auth is _auth_authz:
+        environ['DXF_AUTHORIZATION'] = pytest.authorization
     for _ in range(5):
         try:
             assert dxf.main.doit(['list-repos'], environ) == 0

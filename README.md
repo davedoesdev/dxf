@@ -47,11 +47,12 @@ The module API is described [here](http://rawgit.davedoesdev.com/davedoesdev/dxf
 
 The `dxf` command-line tool uses the following environment variables:
 
-- `DXF_HOST` - Host where Docker registry is running
+- `DXF_HOST` - Host where Docker registry is running.
 - `DXF_INSECURE` - Set this to `1` if you want to connect to the registry using
    `http` rather than `https` (which is the default).
-- `DXF_USERNAME` - Name of user to authenticate as
-- `DXF_PASSWORD` - User's password
+- `DXF_USERNAME` - Name of user to authenticate as.
+- `DXF_PASSWORD` - User's password.
+- `DXF_AUTHORIZATION` - HTTP `Authorization` header value.
 - `DXF_AUTH_HOST` - If set, always perform token authentication to this host, overriding the value returned by the registry.
 - `DXF_PROGRESS` - If this is set to `1`, a progress bar is displayed (on standard error) during `push-blob` and `pull-blob`. If this is set to `0`, a progress bar is not displayed. If this is set to any other value, a progress bar is only displayed if standard error is a terminal.
 - `DXF_BLOB_INFO` - Set this to `1` if you want `pull-blob` to prepend each blob with its digest and size (printed in plain text, separated by a space and followed by a newline).
@@ -123,14 +124,15 @@ Both the module and command-line tool support `REQUESTS_CA_BUNDLE`.
 ## Authentication tokens
 
 `dxf` automatically obtains Docker registry authentication tokens using your
-`DXF_USERNAME` and `DXF_PASSWORD` environment variables as necessary.
+`DXF_USERNAME` and `DXF_PASSWORD`, or `DXF_AUTHORIZATION`, environment variables
+as necessary.
 
 However, if you wish to override this then you can use the following command:
 
 -   `dxf auth <repo> <action>...`
 
     > Authenticate to the registry using `DXF_USERNAME` and `DXF_PASSWORD`,
-    > and print the resulting token.
+    > or `DXF_AUTHORIZATION`, and print the resulting token.
 
     > `action` can be `pull`, `push` or `*`.
 
@@ -139,7 +141,7 @@ If you assign the token to the `DXF_TOKEN` environment variable, for example:
 `DXF_TOKEN=$(dxf auth fred/datalogger pull)`
 
 then subsequent `dxf` commands will use the token without needing
-`DXF_USERNAME` and `DXF_PASSWORD` to be set.
+`DXF_USERNAME` and `DXF_PASSWORD`, or `DXF_AUTHORIZATION`, to be set.
 
 Note however that the token expires after a few minutes, after which `dxf` will
 exit with `EACCES`.

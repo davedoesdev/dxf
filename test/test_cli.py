@@ -210,10 +210,15 @@ def test_manifest(dxf_main, capfd, monkeypatch):
 
 def test_auth(dxf_main, capsys):
     if dxf_main['DXF_INSECURE'] == '1':
-        environ = {
-            'DXF_USERNAME': pytest.username,
-            'DXF_PASSWORD': pytest.password
-        }
+        if dxf_main['TEST_DO_AUTHZ'] == '1':
+            environ = {
+                'DXF_AUTHORIZATION': pytest.authorization
+            }
+        else:
+            environ = {
+                'DXF_USERNAME': pytest.username,
+                'DXF_PASSWORD': pytest.password
+            }
         environ.update(dxf_main)
         with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
             dxf.main.doit(['auth', pytest.repo], environ)
@@ -224,8 +229,9 @@ def test_auth(dxf_main, capsys):
         assert err == ""
         environ = {}
         environ.update(dxf_main)
-        del environ['DXF_USERNAME']
-        del environ['DXF_PASSWORD']
+        environ.pop('DXF_USERNAME', None)
+        environ.pop('DXF_PASSWORD', None)
+        environ.pop('DXF_AUTHORIZATION', None)
         assert dxf.main.doit(['list-repos'], environ) == 0
         out, err = capsys.readouterr()
         assert out == pytest.repo + os.linesep
