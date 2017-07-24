@@ -6,6 +6,7 @@ import base64
 import hashlib
 import json
 import sys
+import dockercloud.api.auth
 
 try:
     import urllib.parse as urlparse
@@ -215,7 +216,9 @@ class DXFBase(object):
                 'Authorization': authorization
             }
         else:
-            headers = {}
+            headers = {
+                'Authorization': 'Basic ' + dockercloud.api.auth.load_from_file("~/.docker/config.json")
+            }
         if 'bearer' in parsed:
             info = parsed['bearer']
             if actions and self._repo:
