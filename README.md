@@ -146,6 +146,21 @@ then subsequent `dxf` commands will use the token without needing
 Note however that the token expires after a few minutes, after which `dxf` will
 exit with `EACCES`.
 
+## Docker Cloud authentication
+
+You can use the [`dockercloud`](https://github.com/docker/python-dockercloud)
+library to read authentication information from your Docker configuration file
+and pass it to `dxf`:
+
+```python
+auth = 'Basic ' + dockercloud.api.auth.load_from_file()
+dxf_obj = dxf.DXF('index.docker.io', repo='myorganizatiom/myimage')
+dxf_obj.authenticate(authorization=auth, actions=['pull'])
+dxf_obj.list_aliases()
+```
+
+Thanks to @cyrilleverrier for this tip.
+
 ## Installation
 
 ```shell
