@@ -154,12 +154,12 @@ and pass it to `dxf`:
 
 ```python
 auth = 'Basic ' + dockercloud.api.auth.load_from_file()
-dxf_obj = dxf.DXF('index.docker.io', repo='myorganizatiom/myimage')
+dxf_obj = dxf.DXF('index.docker.io', repo='myorganization/myimage')
 dxf_obj.authenticate(authorization=auth, actions=['pull'])
 dxf_obj.list_aliases()
 ```
 
-Thanks to @cyrilleverrier for this tip.
+Thanks to [cyrilleverrier](https://github.com/cyrilleverrier) for this tip.
 
 ## Installation
 
