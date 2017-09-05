@@ -165,6 +165,24 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="dxf.DXF.get_manifest">
+<code class="descname">get_manifest</code><span class="sig-paren">(</span><em>alias</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.get_manifest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the manifest for an alias</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) &#8211; Alias name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The manifest as string(JSON)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="dxf.DXF.list_aliases">
 <code class="descname">list_aliases</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.list_aliases" title="Permalink to this definition">¶</a></dt>
 <dd><p>List all aliases defined in the repository.</p>
@@ -250,6 +268,24 @@ the hash of its content.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The registry manifest used to define the alias. You almost definitely won&#8217;t need this.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.set_manifest">
+<code class="descname">set_manifest</code><span class="sig-paren">(</span><em>alias</em>, <em>manifest_json</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.set_manifest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Give a name (alias) to a manifest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>alias</strong> (<em>str</em>) &#8211; Alias name</li>
+<li><strong>manifest_json</strong> &#8211; A V2 Schema 2 manifest JSON string</li>
+</ul>
 </td>
 </tr>
 </tbody>
