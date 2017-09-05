@@ -402,6 +402,26 @@ class DXF(DXFBase):
             'layers': layers
         }, sort_keys=True)
 
+    def set_manifest(self, alias, manifest_json):
+        """
+        Give a name (alias) to a manifest.
+
+        :param alias: Alias name
+        :type alias: str
+
+        :param manifest_json: A manifest JSON string
+        :type digests: list
+        """
+        try:
+            self._request('put',
+                          'manifests/' + alias,
+                          data=manifest_json,
+                          headers={'Content-Type': _schema2_mimetype})
+        except requests.exceptions.HTTPError as ex:
+            # pylint: disable=no-member
+            if ex.response.status_code != requests.codes.bad_request:
+                raise        
+
     def set_alias(self, alias, *digests):
         # pylint: disable=too-many-locals
         """
@@ -433,6 +453,23 @@ class DXF(DXFBase):
             self._request('put', 'manifests/' + alias, data=signed_json)
             return signed_json
 
+    def get_manifest(self,
+                     alias):
+        """
+        Get the manifest for an alias
+
+        :param alias: Alias name.
+        :type alias: str
+
+        :rtype: str
+        :returns: The manifest as string(JSON)
+        """
+        r = self._request('get',
+                          'manifests/' + alias,
+                          headers={'Accept': _schema2_mimetype + ', ' +
+                                             _schema1_mimetype})
+        return r.content.decode('utf-8')
+
     def get_alias(self,
                   alias=None,
                   manifest=None,
@@ -462,9 +499,11 @@ class DXF(DXFBase):
                               headers={'Accept': _schema2_mimetype + ', ' +
                                                  _schema1_mimetype})
             manifest = r.content.decode('utf-8')
+
             dcd = r.headers['docker-content-digest']
         else:
             dcd = None
+
         parsed_manifest = json.loads(manifest)
         if parsed_manifest['schemaVersion'] == 1:
             dgsts = _verify_manifest(manifest, parsed_manifest, dcd, verify)
