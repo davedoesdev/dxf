@@ -94,13 +94,21 @@ def test_context_manager(dxf_obj):
 def test_manifest(dxf_obj):
     manifest = dxf_obj.set_alias('mani_test', pytest.blob1_hash)
     assert manifest
+    if dxf_obj.regver != 2.2:
+        assert dxf_obj.get_manifest('mani_test') == manifest
+    #assert json.dumps(json.loads(dxf_obj.get_manifest('mani_test')),
+    #                  sort_keys=True) == \
+    #       json.dumps(json.loads(manifest), sort_keys=True)
     assert dxf_obj.get_alias(manifest=manifest) == [pytest.blob1_hash]
     if json.loads(manifest)['schemaVersion'] == 1:
         with pytest.raises(jws.exceptions.SignatureError):
             dxf_obj.get_alias(manifest=' '+manifest)
+    if dxf_obj.regver != 2.2:
+        dxf_obj.set_manifest('mani_test2', manifest)
+        assert dxf_obj.get_alias('mani_test2') == [pytest.blob1_hash]
 
 def test_unsigned_manifest_v1(dxf_obj):
-    manifest = dxf_obj.make_unsigned_manifest('mani_test2', pytest.blob2_hash)
+    manifest = dxf_obj.make_unsigned_manifest('mani_test3', pytest.blob2_hash)
     assert manifest
     with pytest.raises(KeyError):
         dxf_obj.get_alias(manifest=manifest)

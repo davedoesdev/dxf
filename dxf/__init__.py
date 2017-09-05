@@ -402,6 +402,21 @@ class DXF(DXFBase):
             'layers': layers
         }, sort_keys=True)
 
+    def set_manifest(self, alias, manifest_json):
+        """
+        Give a name (alias) to a manifest.
+
+        :param alias: Alias name
+        :type alias: str
+
+        :param manifest_json: A V2 Schema 2 manifest JSON string
+        :type digests: list
+        """
+        self._request('put',
+                      'manifests/' + alias,
+                      data=manifest_json,
+                      headers={'Content-Type': _schema2_mimetype})
+
     def set_alias(self, alias, *digests):
         # pylint: disable=too-many-locals
         """
@@ -419,10 +434,7 @@ class DXF(DXFBase):
         """
         try:
             manifest_json = self.make_manifest(*digests)
-            self._request('put',
-                          'manifests/' + alias,
-                          data=manifest_json,
-                          headers={'Content-Type': _schema2_mimetype})
+            self.set_manifest(alias, manifest_json)
             return manifest_json
         except requests.exceptions.HTTPError as ex:
             # pylint: disable=no-member
@@ -432,6 +444,26 @@ class DXF(DXFBase):
             signed_json = _sign_manifest(manifest_json)
             self._request('put', 'manifests/' + alias, data=signed_json)
             return signed_json
+
+    def _get_manifest(self, alias):
+        r = self._request('get',
+                          'manifests/' + alias,
+                          headers={'Accept': _schema2_mimetype + ', ' +
+                                             _schema1_mimetype})
+        return r, r.content.decode('utf-8')
+
+    def get_manifest(self, alias):
+        """
+        Get the manifest for an alias
+
+        :param alias: Alias name.
+        :type alias: str
+
+        :rtype: str
+        :returns: The manifest as string(JSON)
+        """
+        _, manifest = self._get_manifest(alias)
+        return manifest
 
     def get_alias(self,
                   alias=None,
@@ -457,11 +489,7 @@ class DXF(DXFBase):
         :returns: If ``sizes`` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ``sizes`` is truthy, a list of (hash,size) tuples for each blob.
         """
         if alias:
-            r = self._request('get',
-                              'manifests/' + alias,
-                              headers={'Accept': _schema2_mimetype + ', ' +
-                                                 _schema1_mimetype})
-            manifest = r.content.decode('utf-8')
+            r, manifest = self._get_manifest(alias)
             dcd = r.headers['docker-content-digest']
         else:
             dcd = None
