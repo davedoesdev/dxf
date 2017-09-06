@@ -74,6 +74,23 @@ def test_pull_blob(dxf_obj):
     assert ex.value.got == hashlib.sha256().hexdigest()
     assert ex.value.expected == pytest.blob1_hash
 
+def test_pull_and_push_blob(dxf_obj):
+    it = dxf_obj.pull_blob(pytest.blob1_hash)
+    state = {'total': 0}
+    sha256 = hashlib.sha256()
+    def progress(dgst, chunk):
+        assert dgst == pytest.blob1_hash
+        state['total'] += len(chunk)
+        sha256.update(chunk)
+    assert dxf_obj.push_blob(data=it,
+                             digest=pytest.blob1_hash,
+                             progress=progress,
+                             check_exists=False) == \
+           pytest.blob1_hash
+    assert state['total'] == pytest.blob1_size
+    assert sha256.hexdigest() == pytest.blob1_hash
+    _pull_blob(dxf_obj, pytest.blob1_hash, pytest.blob1_size, None)
+
 def test_set_alias(dxf_obj):
     dxf_obj.set_alias('hello', pytest.blob1_hash)
     dxf_obj.set_alias('there', pytest.blob1_hash, pytest.blob2_hash)

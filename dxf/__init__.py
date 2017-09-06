@@ -96,6 +96,18 @@ class _ReportingFile(object):
             self._cb(self._dgst, chunk, self._size)
         return chunk
 
+class _ReportingChunks(object):
+    # pylint: disable=too-few-public-methods
+    def __init__(self, dgst, data, cb):
+        self._dgst = dgst
+        self._data = data
+        self._cb = cb
+    def __iter__(self):
+        for chunk in self._data:
+            if chunk:
+                self._cb(self._dgst, chunk)
+            yield chunk
+
 class DXFBase(object):
     # pylint: disable=too-many-instance-attributes
     """
@@ -289,7 +301,11 @@ class DXF(DXFBase):
     def _request(self, method, path, **kwargs):
         return super(DXF, self)._base_request(method, self._repo + '/' + path, **kwargs)
 
-    def push_blob(self, filename, progress=None):
+    def push_blob(self,
+                  filename=None,
+                  progress=None,
+                  data=None, digest=None,
+                  check_exists=True):
         """
         Upload a file to the registry and return its (SHA-256) hash.
 
@@ -299,20 +315,33 @@ class DXF(DXFBase):
         :param filename: File to upload.
         :type filename: str
 
-        :param progress: Optional function to call as the upload progresses. The function will be called with the hash of the file's content, the blob just read from the file and the total size of the file.
-        :type progress: function(dgst, chunk, total)
+        :param data: Data to upload if ``filename`` isn't given. The data is uploaded in chunks and you must also pass ``digest``.
+        :type data: Generator or iterator
+
+        :param digest: Hash of the data to be uploaded in ``data``, if specified.
+        :type digest: str (hex-encoded SHA-256)
+
+        :param progress: Optional function to call as the upload progresses. The function will be called with the hash of the file's content (or ``digest``), the blob just read from the file (or chunk from ``data``) and if ``filename`` is specified the total size of the file.
+        :type progress: function(dgst, chunk, size)
+
+        :param check_exists: Whether to check if a blob with the same hash already exists in the registry. If so, it won't be uploaded again.
+        :type check_exists: bool
 
         :rtype: str
         :returns: Hash of file's content.
         """
-        dgst = hash_file(filename)
-        try:
-            self._request('head', 'blobs/sha256:' + dgst)
-            return dgst
-        except requests.exceptions.HTTPError as ex:
-            # pylint: disable=no-member
-            if ex.response.status_code != requests.codes.not_found:
-                raise
+        if filename is None:
+            dgst = digest
+        else:
+            dgst = hash_file(filename)
+        if check_exists:
+            try:
+                self._request('head', 'blobs/sha256:' + dgst)
+                return dgst
+            except requests.exceptions.HTTPError as ex:
+                # pylint: disable=no-member
+                if ex.response.status_code != requests.codes.not_found:
+                    raise
         r = self._request('post', 'blobs/uploads/')
         upload_url = r.headers['Location']
         url_parts = list(urlparse.urlparse(upload_url))
@@ -321,10 +350,13 @@ class DXF(DXFBase):
         url_parts[4] = urlencode(query, True)
         url_parts[0] = 'http' if self._insecure else 'https'
         upload_url = urlparse.urlunparse(url_parts)
-        with open(filename, 'rb') as f:
-            self._base_request('put',
-                               upload_url,
-                               data=_ReportingFile(dgst, f, progress) if progress else f)
+        if filename is None:
+            data = _ReportingChunks(dgst, data, progress) if progress else data
+            self._base_request('put', upload_url, data=data)
+        else:
+            with open(filename, 'rb') as f:
+                data = _ReportingFile(dgst, f, progress) if progress else f
+                self._base_request('put', upload_url, data=data)
         return dgst
 
     # pylint: disable=no-self-use
@@ -347,8 +379,8 @@ class DXF(DXFBase):
         if chunk_size is None:
             chunk_size = 8192
         r = self._request('get', 'blobs/sha256:' + digest, stream=True)
-        # pylint: disable=too-few-public-methods
         class Chunks(object):
+            # pylint: disable=too-few-public-methods
             def __iter__(self):
                 sha256 = hashlib.sha256()
                 for chunk in r.iter_content(chunk_size):
