@@ -15,8 +15,7 @@ except ImportError:
     from urllib import urlencode
     import urlparse
 
-import ecdsa
-import jws
+from jwcrypto import jwk, jws
 import requests
 import www_authenticate
 # pylint: disable=wildcard-import
@@ -617,67 +616,27 @@ def _pad64(s):
 def _urlsafe_b64decode(s):
     return base64.urlsafe_b64decode(_pad64(_to_bytes_2and3(s)))
 
-def _num_to_base64(n):
-    b = bytearray()
-    while n:
-        b.insert(0, n & 0xFF)
-        n >>= 8
-    # need to pad to 32 bytes
-    while len(b) < 32:
-        b.insert(0, 0)
-    return base64.urlsafe_b64encode(b).rstrip(b'=').decode('utf-8')
-
-def _base64_to_num(s):
-    b = bytearray(_urlsafe_b64decode(s))
-    m = len(b) - 1
-    return sum((1 << ((m - bi)*8)) * bb for (bi, bb) in enumerate(b))
-
-def _jwk_to_key(jwk):
-    if jwk['kty'] != 'EC':
-        raise exceptions.DXFUnexpectedKeyTypeError(jwk['kty'], 'EC')
-    if jwk['crv'] != 'P-256':
-        raise exceptions.DXFUnexpectedKeyTypeError(jwk['crv'], 'P-256')
-    # pylint: disable=bad-continuation
-    return ecdsa.VerifyingKey.from_public_point(
-            ecdsa.ellipticcurve.Point(ecdsa.NIST256p.curve,
-                                      _base64_to_num(jwk['x']),
-                                      _base64_to_num(jwk['y'])),
-            ecdsa.NIST256p)
+def _import_key(expkey):
+    if expkey['kty'] != 'EC':
+        raise exceptions.DXFUnexpectedKeyTypeError(expkey['kty'], 'EC')
+    if expkey['crv'] != 'P-256':
+        raise exceptions.DXFUnexpectedKeyTypeError(expkey['crv'], 'P-256')
+    return jwk.JWK(kty='EC', crv='P-256', x=expkey['x'], y=expkey['y'])
 
 def _sign_manifest(manifest_json):
-    manifest64 = _urlsafe_b64encode(manifest_json)
     format_length = manifest_json.rfind('}')
     format_tail = manifest_json[format_length:]
-    protected_json = json.dumps({
+    key = jwk.JWK.generate(kty='EC', crv='P-256')
+    jwstoken = jws.JWS(manifest_json.encode('utf-8'))
+    jwstoken.add_signature(key, None, {
         'formatLength': format_length,
         'formatTail': _urlsafe_b64encode(format_tail)
+    }, {
+        'jwk': json.loads(key.export_public()),
+        'alg': 'ES256'
     })
-    protected64 = _urlsafe_b64encode(protected_json)
-    key = ecdsa.SigningKey.generate(curve=ecdsa.NIST256p)
-    point = key.privkey.public_key.point
-    data = {
-        'key': key,
-        'header': {
-            'alg': 'ES256'
-        }
-    }
-    jws.header.process(data, 'sign')
-    sig = data['signer']("%s.%s" % (protected64, manifest64), key)
-    signatures = [{
-        'header': {
-            'jwk': {
-                'kty': 'EC',
-                'crv': 'P-256',
-                'x': _num_to_base64(point.x()),
-                'y': _num_to_base64(point.y())
-            },
-            'alg': 'ES256'
-        },
-        'signature': _urlsafe_b64encode(sig),
-        'protected': protected64
-    }]
     return manifest_json[:format_length] + \
-           ', "signatures": ' + json.dumps(signatures) + \
+           ', "signatures": [' + jwstoken.serialize() + ']' + \
            format_tail
 
 def _verify_manifest(content,
@@ -709,7 +668,7 @@ def _verify_manifest(content,
                 'alg': alg,
                 'signature': sig['signature'],
                 'protected64': protected64,
-                'key': _jwk_to_key(sig['header']['jwk']),
+                'key': _import_key(sig['header']['jwk']),
                 'format_length': format_length,
                 'format_tail': format_tail
             })
@@ -732,17 +691,12 @@ def _verify_manifest(content,
 
     if verify:
         for sig in signatures:
-            data = {
-                'key': sig['key'],
-                'header': {
-                    'alg': sig['alg']
-                }
-            }
-            jws.header.process(data, 'verify')
-            sig64 = sig['signature']
-            data['verifier']("%s.%s" % (sig['protected64'], payload64),
-                             _urlsafe_b64decode(sig64),
-                             sig['key'])
+            jwstoken = jws.JWS()
+            jwstoken.deserialize(json.dumps({
+                'payload': payload64,
+                'protected': sig['protected64'],
+                'signature': sig['signature']
+            }), sig['key'], sig['alg'])
 
     dgsts = []
     for layer in manifest['fsLayers']:
@@ -751,6 +705,3 @@ def _verify_manifest(content,
             raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
         dgsts.append(dgst)
     return dgsts
-
-jws.utils.to_bytes_2and3 = _to_bytes_2and3
-jws.algos.to_bytes_2and3 = _to_bytes_2and3

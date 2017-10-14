@@ -2,7 +2,7 @@ import hashlib
 import json
 import requests
 import pytest
-import jws.exceptions
+from jwcrypto import jws
 import dxf.exceptions
 
 # pylint: disable=no-member
@@ -118,7 +118,7 @@ def test_manifest(dxf_obj):
     #       json.dumps(json.loads(manifest), sort_keys=True)
     assert dxf_obj.get_alias(manifest=manifest) == [pytest.blob1_hash]
     if json.loads(manifest)['schemaVersion'] == 1:
-        with pytest.raises(jws.exceptions.SignatureError):
+        with pytest.raises(jws.InvalidJWSSignature):
             dxf_obj.get_alias(manifest=' '+manifest)
     if dxf_obj.regver != 2.2:
         dxf_obj.set_manifest('mani_test2', manifest)
