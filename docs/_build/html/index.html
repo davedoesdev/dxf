@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dxf module &#8212; python-dxf 6.0.0 documentation</title>
+    <title>dxf module &#8212; python-dxf 6.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '6.0.0',
+        VERSION:     '6.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -37,7 +37,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.1.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -54,10 +54,10 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-obj docutils literal"><span class="pre">dxf.DXFBase</span></code></a>(host[,&nbsp;auth,&nbsp;insecure,&nbsp;auth_host])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-obj docutils literal"><span class="pre">dxf.DXFBase</span></code></a>(host[,&nbsp;auth,&nbsp;insecure,&nbsp;...])</td>
 <td>Class for communicating with a Docker v2 registry.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-obj docutils literal"><span class="pre">dxf.DXF</span></code></a>(host,&nbsp;repo[,&nbsp;auth,&nbsp;insecure,&nbsp;auth_host])</td>
+<tr class="row-even"><td><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-obj docutils literal"><span class="pre">dxf.DXF</span></code></a>(host,&nbsp;repo[,&nbsp;auth,&nbsp;insecure,&nbsp;...])</td>
 <td>Class for operating on a Docker v2 repositories.</td>
 </tr>
 </tbody>
@@ -65,7 +65,7 @@
 <span class="target" id="module-dxf"></span><p>Module for accessing a Docker v2 Registry</p>
 <dl class="class">
 <dt id="dxf.DXF">
-<em class="property">class </em><code class="descclassname">dxf.</code><code class="descname">DXF</code><span class="sig-paren">(</span><em>host</em>, <em>repo</em>, <em>auth=None</em>, <em>insecure=False</em>, <em>auth_host=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">dxf.</code><code class="descname">DXF</code><span class="sig-paren">(</span><em>host</em>, <em>repo</em>, <em>auth=None</em>, <em>insecure=False</em>, <em>auth_host=None</em>, <em>tlsverify=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">dxf.DXFBase</span></code></a></p>
 <p>Class for operating on a Docker v2 repositories.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -78,6 +78,7 @@
 <li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em><em></em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">DXFBase.authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
 <li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
+<li><strong>tlsverify</strong> (<em>bool</em>) &#8211; When set to False do not verify TLS certificate</li>
 </ul>
 </td>
 </tr>
@@ -299,7 +300,7 @@ the hash of its content.</p>
 
 <dl class="class">
 <dt id="dxf.DXFBase">
-<em class="property">class </em><code class="descclassname">dxf.</code><code class="descname">DXFBase</code><span class="sig-paren">(</span><em>host</em>, <em>auth=None</em>, <em>insecure=False</em>, <em>auth_host=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">dxf.</code><code class="descname">DXFBase</code><span class="sig-paren">(</span><em>host</em>, <em>auth=None</em>, <em>insecure=False</em>, <em>auth_host=None</em>, <em>tlsverify=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class for communicating with a Docker v2 registry.
 Contains only operations which aren&#8217;t related to repositories.</p>
@@ -320,6 +321,7 @@ closed until Python garbage collects the iterator.</p>
 <li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em><em></em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
 <li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
+<li><strong>tlsverify</strong> (<em>bool</em>) &#8211; When set to False, do not verify TLS certificate.</li>
 </ul>
 </td>
 </tr>
@@ -610,7 +612,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.1.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

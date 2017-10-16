@@ -124,6 +124,7 @@ class DXFBase(object):
     closed until Python garbage collects the iterator.
     """
     def __init__(self, host, auth=None, insecure=False, auth_host=None, tlsverify=True):
+        # pylint: disable=too-many-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
         :type host: str
@@ -137,7 +138,7 @@ class DXFBase(object):
         :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.
         :type auth_host: str
 
-        :param tlsverify: When set to False, do not verify TLS certificate
+        :param tlsverify: When set to False, do not verify TLS certificate.
         :type tlsverify: bool
         """
         self._base_url = ('http' if insecure else 'https') + '://' + host + '/v2/'
@@ -287,8 +288,8 @@ class DXF(DXFBase):
     """
     Class for operating on a Docker v2 repositories.
     """
-    # pylint: disable=too-many-arguments
     def __init__(self, host, repo, auth=None, insecure=False, auth_host=None, tlsverify=True):
+        # pylint: disable=too-many-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
         :type host: str
@@ -319,6 +320,7 @@ class DXF(DXFBase):
                   progress=None,
                   data=None, digest=None,
                   check_exists=True):
+        # pylint: disable=too-many-arguments
         """
         Upload a file to the registry and return its (SHA-256) hash.
 

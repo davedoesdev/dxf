@@ -307,3 +307,15 @@ def test_auth_host(dxf_main):
         environ.update(dxf_main)
         with pytest.raises(requests.exceptions.ConnectionError):
             dxf.main.doit(['list-repos'], environ)
+
+#@pytest.mark.onlytest
+def test_tlsverify(dxf_main):
+    if dxf_main['DXF_INSECURE'] == '0':
+        v = os.environ['REQUESTS_CA_BUNDLE']
+        del os.environ['REQUESTS_CA_BUNDLE']
+        if dxf_main['DXF_SKIPTLSVERIFY'] == '0':
+            with pytest.raises(requests.exceptions.SSLError) as ex:
+                dxf.main.doit(['list-repos'], dxf_main)
+        else:
+            assert dxf.main.doit(['list-repos'], dxf_main) == 0
+        os.environ['REQUESTS_CA_BUNDLE'] = v

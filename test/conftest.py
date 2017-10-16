@@ -77,7 +77,7 @@ def _setup_fixture(request):
     cleanup()
     cmd = ['docker', 'run', '-d', '-p', '5000:5000', '--name', 'dxf_registry']
     # pylint: disable=redefined-outer-name
-    regver, auth, do_token = request.param
+    regver, auth, do_token, tlsverify = request.param
     if auth:
         cmd += ['-v', _registry_dir + ':/registry',
                 '-v', _auth_dir + ':/auth',
@@ -105,17 +105,18 @@ def _setup_fixture(request):
 
 _fixture_params = []
 for regver in [2, 2.2]:
-    _fixture_params.extend([(regver, None, False),
-                            (regver, _auth_up, False),
-                            (regver, _auth_up, True),
-                            (regver, _auth_authz, False),
-                            (regver, _auth_authz, True)])
+    _fixture_params.extend([(regver, None, False, True),
+                            (regver, _auth_up, False, True),
+                            (regver, _auth_up, True, True),
+                            (regver, _auth_authz, False, True),
+                            (regver, _auth_authz, True, True),
+                            (regver, _auth_authz, True, False)])
 
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_obj(request):
     # pylint: disable=redefined-outer-name
-    regver, auth, do_token = _setup_fixture(request)
-    r = dxf.DXF('localhost:5000', pytest.repo, auth, not auth)
+    regver, auth, do_token, tlsverify = _setup_fixture(request)
+    r = dxf.DXF('localhost:5000', pytest.repo, auth, not auth, None, tlsverify)
     r.test_do_token = do_token
     r.regver = regver
     for _ in range(5):
@@ -129,10 +130,11 @@ def dxf_obj(request):
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_main(request):
     # pylint: disable=redefined-outer-name
-    regver, auth, do_token = _setup_fixture(request)
+    regver, auth, do_token, tlsverify = _setup_fixture(request)
     environ = {
         'DXF_HOST': 'localhost:5000',
         'DXF_INSECURE': '0' if auth else '1',
+        'DXF_SKIPTLSVERIFY': '0' if tlsverify else '1',
         'TEST_DO_AUTHZ': '1' if auth is _auth_authz else _auth_up,
         'TEST_DO_TOKEN': do_token,
         'REGVER': regver

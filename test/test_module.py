@@ -1,3 +1,4 @@
+import os
 import hashlib
 import json
 import requests
@@ -175,3 +176,15 @@ def test_del_alias(dxf_obj):
 
 def test_hash_bytes():
     assert dxf.hash_bytes(b'abc') == 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+
+#@pytest.mark.onlytest
+def test_tlsverify(dxf_obj):
+    if not dxf_obj._insecure:
+        v = os.environ['REQUESTS_CA_BUNDLE']
+        del os.environ['REQUESTS_CA_BUNDLE']
+        if dxf_obj._tlsverify:
+            with pytest.raises(requests.exceptions.SSLError) as ex:
+                dxf_obj.list_repos()
+        else:
+            assert dxf_obj.list_repos() == [pytest.repo]
+        os.environ['REQUESTS_CA_BUNDLE'] = v
