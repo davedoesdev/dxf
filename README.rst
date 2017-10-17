@@ -68,6 +68,7 @@ The ``dxf`` command-line tool uses the following environment variables:
    separated by a space and followed by a newline).
 -  ``DXF_CHUNK_SIZE`` - Number of bytes ``pull-blob`` should download at
    a time. Defaults to 8192.
+-  ``DXF_SKIPTLSVERIFY`` - Skip TLS certificate verification
 
 You can use the following options with ``dxf``. Supply the name of the
 repository you wish to work with in each case as the second argument.

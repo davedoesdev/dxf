@@ -49,6 +49,12 @@ def doit(args, environ):
     else:
         progress = None
 
+    dxf_skiptlsverify = environ.get('DXF_SKIPTLSVERIFY')
+    if dxf_skiptlsverify == '1':
+        dxf_tlsverify = False
+    else:
+        dxf_tlsverify = True
+
     def auth(dxf_obj, response):
         # pylint: disable=redefined-outer-name
         username = environ.get('DXF_USERNAME')
@@ -64,12 +70,14 @@ def doit(args, environ):
                           args.repo,
                           auth,
                           environ.get('DXF_INSECURE') == '1',
-                          environ.get('DXF_AUTH_HOST'))
+                          environ.get('DXF_AUTH_HOST'),
+                          tlsverify=dxf_tlsverify)
     else:
         dxf_obj = dxf.DXFBase(environ['DXF_HOST'],
                               auth,
                               environ.get('DXF_INSECURE') == '1',
-                              environ.get('DXF_AUTH_HOST'))
+                              environ.get('DXF_AUTH_HOST'),
+                              tlsverify=dxf_tlsverify)
 
     def _doit():
         # pylint: disable=too-many-branches

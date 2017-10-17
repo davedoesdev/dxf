@@ -123,7 +123,8 @@ class DXFBase(object):
     returned by :meth:`DXF.pull_blob` then the underlying connection won't be
     closed until Python garbage collects the iterator.
     """
-    def __init__(self, host, auth=None, insecure=False, auth_host=None):
+    def __init__(self, host, auth=None, insecure=False, auth_host=None, tlsverify=True):
+        # pylint: disable=too-many-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
         :type host: str
@@ -136,6 +137,9 @@ class DXFBase(object):
 
         :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.
         :type auth_host: str
+
+        :param tlsverify: When set to False, do not verify TLS certificate.
+        :type tlsverify: bool
         """
         self._base_url = ('http' if insecure else 'https') + '://' + host + '/v2/'
         self._auth = auth
@@ -145,6 +149,14 @@ class DXFBase(object):
         self._headers = {}
         self._repo = None
         self._sessions = [requests]
+        self._tlsverify = tlsverify
+        if not tlsverify:
+            try:
+                from requests.packages import urllib3
+            except ImportError:
+                import urllib3
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
     @property
     def token(self):
@@ -164,7 +176,7 @@ class DXFBase(object):
 
     def _base_request(self, method, path, **kwargs):
         def make_kwargs():
-            r = {'allow_redirects': True}
+            r = {'allow_redirects': True, 'verify': self._tlsverify}
             r.update(kwargs)
             if 'headers' not in r:
                 r['headers'] = {}
@@ -211,7 +223,7 @@ class DXFBase(object):
         if self._insecure:
             raise exceptions.DXFAuthInsecureError()
         if response is None:
-            response = self._sessions[0].get(self._base_url)
+            response = self._sessions[0].get(self._base_url, verify=self._tlsverify)
         # pylint: disable=no-member
         if response.status_code != requests.codes.unauthorized:
             raise exceptions.DXFUnexpectedStatusCodeError(response.status_code,
@@ -244,7 +256,7 @@ class DXFBase(object):
             if self._auth_host:
                 url_parts[1] = self._auth_host
             auth_url = urlparse.urlunparse(url_parts)
-            r = self._sessions[0].get(auth_url, headers=headers)
+            r = self._sessions[0].get(auth_url, headers=headers, verify=self._tlsverify)
             _raise_for_status(r)
             self.token = r.json()['token']
             return self._token
@@ -276,8 +288,8 @@ class DXF(DXFBase):
     """
     Class for operating on a Docker v2 repositories.
     """
-    # pylint: disable=too-many-arguments
-    def __init__(self, host, repo, auth=None, insecure=False, auth_host=None):
+    def __init__(self, host, repo, auth=None, insecure=False, auth_host=None, tlsverify=True):
+        # pylint: disable=too-many-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
         :type host: str
@@ -293,8 +305,11 @@ class DXF(DXFBase):
 
         :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.
         :type auth_host: str
+
+        :param tlsverify: When set to False do not verify TLS certificate
+        :type tlsverify: bool
         """
-        super(DXF, self).__init__(host, auth, insecure, auth_host)
+        super(DXF, self).__init__(host, auth, insecure, auth_host, tlsverify)
         self._repo = repo
 
     def _request(self, method, path, **kwargs):
@@ -305,6 +320,7 @@ class DXF(DXFBase):
                   progress=None,
                   data=None, digest=None,
                   check_exists=True):
+        # pylint: disable=too-many-arguments
         """
         Upload a file to the registry and return its (SHA-256) hash.
 
@@ -628,11 +644,15 @@ def _sign_manifest(manifest_json):
     format_tail = manifest_json[format_length:]
     key = jwk.JWK.generate(kty='EC', crv='P-256')
     jwstoken = jws.JWS(manifest_json.encode('utf-8'))
+    jkey = json.loads(key.export_public())
+    # Docker expects 32 bytes for x and y
+    jkey['x'] = _urlsafe_b64encode(_urlsafe_b64decode(jkey['x']).rjust(32, b'\0'))
+    jkey['y'] = _urlsafe_b64encode(_urlsafe_b64decode(jkey['y']).rjust(32, b'\0'))
     jwstoken.add_signature(key, None, {
         'formatLength': format_length,
         'formatTail': _urlsafe_b64encode(format_tail)
     }, {
-        'jwk': json.loads(key.export_public()),
+        'jwk': jkey,
         'alg': 'ES256'
     })
     return manifest_json[:format_length] + \
