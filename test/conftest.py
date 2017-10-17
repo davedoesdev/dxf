@@ -77,7 +77,7 @@ def _setup_fixture(request):
     cleanup()
     cmd = ['docker', 'run', '-d', '-p', '5000:5000', '--name', 'dxf_registry']
     # pylint: disable=redefined-outer-name
-    regver, auth, do_token, tlsverify = request.param
+    regver, auth, do_token, _ = request.param
     if auth:
         cmd += ['-v', _registry_dir + ':/registry',
                 '-v', _auth_dir + ':/auth',

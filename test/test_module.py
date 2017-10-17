@@ -179,11 +179,12 @@ def test_hash_bytes():
 
 #@pytest.mark.onlytest
 def test_tlsverify(dxf_obj):
+    # pylint: disable=protected-access
     if not dxf_obj._insecure:
         v = os.environ['REQUESTS_CA_BUNDLE']
         del os.environ['REQUESTS_CA_BUNDLE']
         if dxf_obj._tlsverify:
-            with pytest.raises(requests.exceptions.SSLError) as ex:
+            with pytest.raises(requests.exceptions.SSLError):
                 dxf_obj.list_repos()
         else:
             assert dxf_obj.list_repos() == [pytest.repo]

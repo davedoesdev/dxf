@@ -314,7 +314,7 @@ def test_tlsverify(dxf_main):
         v = os.environ['REQUESTS_CA_BUNDLE']
         del os.environ['REQUESTS_CA_BUNDLE']
         if dxf_main['DXF_SKIPTLSVERIFY'] == '0':
-            with pytest.raises(requests.exceptions.SSLError) as ex:
+            with pytest.raises(requests.exceptions.SSLError):
                 dxf.main.doit(['list-repos'], dxf_main)
         else:
             assert dxf.main.doit(['list-repos'], dxf_main) == 0
