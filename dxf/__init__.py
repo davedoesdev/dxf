@@ -644,11 +644,15 @@ def _sign_manifest(manifest_json):
     format_tail = manifest_json[format_length:]
     key = jwk.JWK.generate(kty='EC', crv='P-256')
     jwstoken = jws.JWS(manifest_json.encode('utf-8'))
+    jkey = json.loads(key.export_public())
+    # Docker expects 32 bytes for x and y
+    jkey['x'] = _urlsafe_b64encode(_urlsafe_b64decode(jkey['x']).rjust(32, b'\0'))
+    jkey['y'] = _urlsafe_b64encode(_urlsafe_b64decode(jkey['y']).rjust(32, b'\0'))
     jwstoken.add_signature(key, None, {
         'formatLength': format_length,
         'formatTail': _urlsafe_b64encode(format_tail)
     }, {
-        'jwk': json.loads(key.export_public()),
+        'jwk': jkey,
         'alg': 'ES256'
     })
     return manifest_json[:format_length] + \
