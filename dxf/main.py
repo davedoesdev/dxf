@@ -26,7 +26,7 @@ for c in _choices:
     sp = _subparsers.add_parser(c)
     if c != 'list-repos':
         sp.add_argument("repo")
-        sp.add_argument('args', nargs='*')
+    sp.add_argument('args', nargs='*')
 
 def _flatten(l):
     return [item for sublist in l for item in sublist]
@@ -177,7 +177,15 @@ def doit(args, environ):
                 print(name)
 
         elif args.op == 'list-repos':
-            for name in dxf_obj.list_repos():
+            page_size = 0
+            last_repo = ''
+            if len(args.args) >= 1:
+                last_repo = args.args[0]
+            if len(args.args) == 2:
+                page_size = int(args.args[1])
+            elif len(args.args) > 2:
+                _parser.error('Too many arguments')
+            for name in dxf_obj.list_repos(last_repo=last_repo, page_size=page_size):
                 print(name)
 
     try:

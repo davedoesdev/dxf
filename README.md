@@ -107,10 +107,11 @@ you wish to work with in each case as the second argument.
 
     > Print all the aliases defined in the repository.
 
--   `dxf list-repos`
+-   `dxf list-repos [last_repo] [repos_per_request]`
 
     > Print the names of all the repositories in the registry. Not all versions
-    > of the registry support this.
+    > of the registry support this. For big repositories it is possible to use
+    > pagination.
 
 ## Certificates
 

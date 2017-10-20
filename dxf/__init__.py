@@ -263,14 +263,34 @@ class DXFBase(object):
         else:
             self._headers = headers
 
-    def list_repos(self):
+    def list_repos(self, last_repo='', page_size=0):
         """
         List all repositories in the registry.
+
+        :param last_repo: Last repo that was requested
+        :type last_repo: str
+
+        :param page_size: Number of repos per request
+        :type page_size: int
 
         :rtype: list
         :returns: List of repository names.
         """
-        return self._base_request('get', '_catalog').json()['repositories']
+        request = []
+
+        query = '_catalog?'
+        if page_size != 0:
+            query += '&n={}'.format(page_size)
+
+        query += '&last={}'
+
+        new_request = self._base_request('get', query.format(last_repo)).json()['repositories']
+
+        while new_request:
+            request += new_request
+            new_request = self._base_request('get', query.format(request[-1])).json()['repositories']
+
+        return request
 
     def __enter__(self):
         assert self._sessions
