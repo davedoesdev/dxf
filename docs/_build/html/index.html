@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dxf module &#8212; python-dxf 6.1.0 documentation</title>
+    <title>dxf module &#8212; python-dxf 6.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '6.1.0',
+        VERSION:     '6.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -37,7 +37,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -185,15 +185,23 @@
 
 <dl class="method">
 <dt id="dxf.DXF.list_aliases">
-<code class="descname">list_aliases</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.list_aliases" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_aliases</code><span class="sig-paren">(</span><em>batch_size=None</em>, <em>iterate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.list_aliases" title="Permalink to this definition">¶</a></dt>
 <dd><p>List all aliases defined in the repository.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>batch_size</strong> (<em>int</em>) &#8211; Number of alias names to ask the server for at a time.</li>
+<li><strong>iterate</strong> (<em>bool</em>) &#8211; Whether to return iterator over the names or a list of all the names.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of alias names (strings).</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list or iterator of strings</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Alias names.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -264,7 +272,7 @@ the hash of its content.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>alias</strong> (<em>str</em>) &#8211; Alias name</li>
-<li><strong>digests</strong> (<em>list</em>) &#8211; List of blob hashes (strings).</li>
+<li><strong>digests</strong> (<em>list of strings</em>) &#8211; List of blob hashes.</li>
 </ul>
 </td>
 </tr>
@@ -357,15 +365,23 @@ an authorization header or otherwise as the anonymous user.</p>
 
 <dl class="method">
 <dt id="dxf.DXFBase.list_repos">
-<code class="descname">list_repos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase.list_repos" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_repos</code><span class="sig-paren">(</span><em>batch_size=None</em>, <em>iterate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase.list_repos" title="Permalink to this definition">¶</a></dt>
 <dd><p>List all repositories in the registry.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>batch_size</strong> (<em>int</em>) &#8211; Number of repository names to ask the server for at a time.</li>
+<li><strong>iterate</strong> (<em>bool</em>) &#8211; Whether to return iterator over the names or a list of all the names.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of repository names.</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list or iterator of strings</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Repository names.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -389,7 +405,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buf</strong> (<em>str</em>) &#8211; Bytes to hash</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buf</strong> (<em>binary str</em>) &#8211; Bytes to hash</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
@@ -612,7 +628,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.1.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

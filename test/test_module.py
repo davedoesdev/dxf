@@ -104,6 +104,7 @@ def test_get_alias(dxf_obj):
 
 def test_list_aliases(dxf_obj):
     assert sorted(dxf_obj.list_aliases()) == ['hello', 'there', 'world']
+    assert sorted(list(dxf_obj.list_aliases(batch_size=2, iterate=True))) == ['hello', 'there', 'world']
 
 def test_context_manager(dxf_obj):
     with dxf_obj as odxf:
@@ -174,10 +175,11 @@ def test_del_alias(dxf_obj):
             dxf_obj.del_alias('world')
         assert ex.value.response.status_code == requests.codes.not_found
 
-def test_hash_bytes():
-    assert dxf.hash_bytes(b'abc') == 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+_abc_hash = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
 
-#@pytest.mark.onlytest
+def test_hash_bytes():
+    assert dxf.hash_bytes(b'abc') == _abc_hash
+
 def test_tlsverify(dxf_obj):
     # pylint: disable=protected-access
     if not dxf_obj._insecure:
@@ -189,3 +191,14 @@ def test_tlsverify(dxf_obj):
         else:
             assert dxf_obj.list_repos() == [pytest.repo]
         os.environ['REQUESTS_CA_BUNDLE'] = v
+
+#@pytest.mark.onlytest
+def test_pagination(dxf_obj):
+    # pylint: disable=protected-access
+    num = 11
+    for i in range(num):
+        name = 'test/{0}'.format(i)
+        dxf_obj2 = dxf.DXF('localhost:5000', name, dxf_obj._auth, dxf_obj._insecure, None, dxf_obj._tlsverify)
+        assert dxf_obj2.push_blob(data=b'abc', digest=_abc_hash) == _abc_hash
+    expected = [pytest.repo] + ['test/{0}'.format(i) for i in range(num)]
+    assert sorted(dxf_obj2.list_repos(batch_size=3)) == sorted(expected)

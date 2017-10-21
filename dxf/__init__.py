@@ -38,7 +38,7 @@ def hash_bytes(buf):
     Hash bytes using the same method the registry uses (currently SHA-256).
 
     :param buf: Bytes to hash
-    :type buf: str
+    :type buf: binary str
 
     :rtype: str
     :returns: Hex-encoded hash of file's content
@@ -106,6 +106,22 @@ class _ReportingChunks(object):
             if chunk:
                 self._cb(self._dgst, chunk)
             yield chunk
+
+class PaginatingResponse(object):
+    # pylint: disable=too-few-public-methods
+    def __init__(self, dxf_obj, req_meth, path, header, **kwargs):
+        self._meth = getattr(dxf_obj, req_meth)
+        self._path = path
+        self._header = header
+        self._kwargs = kwargs
+    def __iter__(self):
+        while self._path:
+            response = self._meth('get', self._path, **self._kwargs)
+            self._kwargs = {}
+            for v in response.json()[self._header]:
+                yield v
+            nxt = response.links.get('next')
+            self._path = nxt['url'] if nxt else None
 
 class DXFBase(object):
     # pylint: disable=too-many-instance-attributes
@@ -263,14 +279,23 @@ class DXFBase(object):
         else:
             self._headers = headers
 
-    def list_repos(self):
+    def list_repos(self, batch_size=None, iterate=False):
         """
         List all repositories in the registry.
 
-        :rtype: list
-        :returns: List of repository names.
+        :param batch_size: Number of repository names to ask the server for at a time.
+        :type batch_size: int
+
+        :param iterate: Whether to return iterator over the names or a list of all the names.
+        :type iterate: bool
+
+        :rtype: list or iterator of strings
+        :returns: Repository names.
         """
-        return self._base_request('get', '_catalog').json()['repositories']
+        it = PaginatingResponse(self, '_base_request',
+                                '_catalog', 'repositories',
+                                params={'n': batch_size})
+        return it if iterate else list(it)
 
     def __enter__(self):
         assert self._sessions
@@ -473,8 +498,8 @@ class DXF(DXFBase):
         :param alias: Alias name
         :type alias: str
 
-        :param digests: List of blob hashes (strings).
-        :type digests: list
+        :param digests: List of blob hashes.
+        :type digests: list of strings
 
         :rtype: str
         :returns: The registry manifest used to define the alias. You almost definitely won't need this.
@@ -601,14 +626,23 @@ class DXF(DXFBase):
         self._request('delete', 'manifests/{}'.format(dcd))
         return dgsts
 
-    def list_aliases(self):
+    def list_aliases(self, batch_size=None, iterate=False):
         """
         List all aliases defined in the repository.
 
-        :rtype: list
-        :returns: List of alias names (strings).
+        :param batch_size: Number of alias names to ask the server for at a time.
+        :type batch_size: int
+
+        :param iterate: Whether to return iterator over the names or a list of all the names.
+        :type iterate: bool
+
+        :rtype: list or iterator of strings
+        :returns: Alias names.
         """
-        return self._request('get', 'tags/list').json()['tags']
+        it = PaginatingResponse(self, '_request',
+                                'tags/list', 'tags',
+                                params={'n': batch_size})
+        return it if iterate else list(it)
 
 # v1 schema support functions below
 

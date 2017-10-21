@@ -444,11 +444,11 @@
 <p id="t173" class="stm run hide_run">        <span class="key">elif</span> <span class="nam">args</span><span class="op">.</span><span class="nam">op</span> <span class="op">==</span> <span class="str">'list-aliases'</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t174" class="stm run hide_run">            <span class="key">if</span> <span class="nam">args</span><span class="op">.</span><span class="nam">args</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t175" class="stm run hide_run">                <span class="nam">_parser</span><span class="op">.</span><span class="nam">error</span><span class="op">(</span><span class="str">'too many arguments'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t176" class="stm run hide_run">            <span class="key">for</span> <span class="nam">name</span> <span class="key">in</span> <span class="nam">dxf_obj</span><span class="op">.</span><span class="nam">list_aliases</span><span class="op">(</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t176" class="stm run hide_run">            <span class="key">for</span> <span class="nam">name</span> <span class="key">in</span> <span class="nam">dxf_obj</span><span class="op">.</span><span class="nam">list_aliases</span><span class="op">(</span><span class="nam">iterate</span><span class="op">=</span><span class="nam">True</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t177" class="stm run hide_run">                <span class="key">print</span><span class="op">(</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t178" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t179" class="stm par run hide_run"><span class="annotate short">179&#x202F;&#x219B;&#x202F;exit</span><span class="annotate long">line 179 didn't return from function '_doit', because the condition on line 179 was never false</span>        <span class="key">elif</span> <span class="nam">args</span><span class="op">.</span><span class="nam">op</span> <span class="op">==</span> <span class="str">'list-repos'</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t180" class="stm run hide_run">            <span class="key">for</span> <span class="nam">name</span> <span class="key">in</span> <span class="nam">dxf_obj</span><span class="op">.</span><span class="nam">list_repos</span><span class="op">(</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t180" class="stm run hide_run">            <span class="key">for</span> <span class="nam">name</span> <span class="key">in</span> <span class="nam">dxf_obj</span><span class="op">.</span><span class="nam">list_repos</span><span class="op">(</span><span class="nam">iterate</span><span class="op">=</span><span class="nam">True</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t181" class="stm run hide_run">                <span class="key">print</span><span class="op">(</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t182" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t183" class="stm run hide_run">    <span class="key">try</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -476,7 +476,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.4.1</a>,
-            created at 2017-10-16 23:29
+            created at 2017-10-21 07:33
         </p>
     </div>
 </div>

@@ -173,11 +173,11 @@ def doit(args, environ):
         elif args.op == 'list-aliases':
             if args.args:
                 _parser.error('too many arguments')
-            for name in dxf_obj.list_aliases():
+            for name in dxf_obj.list_aliases(iterate=True):
                 print(name)
 
         elif args.op == 'list-repos':
-            for name in dxf_obj.list_repos():
+            for name in dxf_obj.list_repos(iterate=True):
                 print(name)
 
     try:
