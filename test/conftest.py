@@ -90,7 +90,7 @@ def _get_registry_digest(regver):
                                  'inspect',
                                  'registry:{}'.format(regver),
                                  '--format={{.Id}}']).rstrip()
-    _, dgst = dxf.split_digest(s)
+    _, dgst = dxf.split_digest(s.decode('utf-8'))
     return dgst
 
 def _setup_fixture(request):
