@@ -102,6 +102,20 @@ def test_get_alias(dxf_obj):
     assert dxf_obj.get_alias('there') == [pytest.blob1_hash, pytest.blob2_hash]
     assert dxf_obj.get_alias('world') == [pytest.blob2_hash]
 
+#@pytest.mark.onlytest
+def test_get_digest(dxf_obj):
+    if dxf_obj.regver == 2.2:
+        with pytest.raises(dxf.exceptions.DXFDigestNotAvailableForSchema1):
+            dxf_obj.get_digest('hello')
+        return
+    assert dxf_obj.get_digest('hello') == pytest.blob1_hash
+    assert dxf_obj.get_digest('there') == pytest.blob1_hash
+    assert dxf_obj.get_digest('world') == pytest.blob2_hash
+    pytest.copy_registry_image(dxf_obj.regver)
+    # pylint: disable=protected-access
+    dxf_obj2 = dxf.DXF('localhost:5000', 'test/registry', dxf_obj._auth, dxf_obj._insecure, None, dxf_obj._tlsverify)
+    assert dxf_obj2.get_digest(str(dxf_obj.regver)) == dxf_obj.reg_digest
+
 def test_list_aliases(dxf_obj):
     assert sorted(dxf_obj.list_aliases()) == ['hello', 'there', 'world']
     assert sorted(list(dxf_obj.list_aliases(batch_size=2, iterate=True))) == ['hello', 'there', 'world']
@@ -185,14 +199,18 @@ def test_tlsverify(dxf_obj):
     if not dxf_obj._insecure:
         v = os.environ['REQUESTS_CA_BUNDLE']
         del os.environ['REQUESTS_CA_BUNDLE']
-        if dxf_obj._tlsverify:
-            with pytest.raises(requests.exceptions.SSLError):
-                dxf_obj.list_repos()
-        else:
-            assert dxf_obj.list_repos() == [pytest.repo]
-        os.environ['REQUESTS_CA_BUNDLE'] = v
+        try:
+            if dxf_obj._tlsverify:
+                with pytest.raises(requests.exceptions.SSLError):
+                    dxf_obj.list_repos()
+            else:
+                expected = [pytest.repo]
+                if dxf_obj.regver != 2.2:
+                    expected += ['test/registry']
+                assert sorted(dxf_obj.list_repos()) == sorted(expected)
+        finally:
+            os.environ['REQUESTS_CA_BUNDLE'] = v
 
-#@pytest.mark.onlytest
 def test_pagination(dxf_obj):
     # pylint: disable=protected-access
     num = 11
@@ -201,4 +219,6 @@ def test_pagination(dxf_obj):
         dxf_obj2 = dxf.DXF('localhost:5000', name, dxf_obj._auth, dxf_obj._insecure, None, dxf_obj._tlsverify)
         assert dxf_obj2.push_blob(data=b'abc', digest=_abc_hash) == _abc_hash
     expected = [pytest.repo] + ['test/{0}'.format(i) for i in range(num)]
+    if dxf_obj.regver != 2.2:
+        expected += ['test/registry']
     assert sorted(dxf_obj2.list_repos(batch_size=3)) == sorted(expected)

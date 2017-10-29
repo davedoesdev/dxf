@@ -17,6 +17,7 @@ _choices = ['auth',
             'set-alias',
             'get-alias',
             'del-alias',
+            'get-digest',
             'list-aliases',
             'list-repos']
 
@@ -169,6 +170,14 @@ def doit(args, environ):
             for name in args.args:
                 for dgst in dxf_obj.del_alias(name):
                     print(dgst)
+
+        elif args.op == 'get-digest':
+            if args.args:
+                dgsts = [dxf_obj.get_digest(name) for name in args.args]
+            else:
+                dgsts = [dxf_obj.get_digest(manifest=sys.stdin.read())]
+            for dgst in dgsts:
+                print(dgst)
 
         elif args.op == 'list-aliases':
             if args.args:

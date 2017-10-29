@@ -84,3 +84,12 @@ class DXFAuthInsecureError(DXFError):
     """
     def __str__(self):
         return 'Auth requires HTTPS'
+
+class DXFDigestNotAvailableForSchema1(DXFError):
+    """
+    https://github.com/docker/distribution/issues/1662#issuecomment-213101772
+    A schema1 manifest should always produce the same image id but defining the
+    steps to produce directly from the manifest is not straight forward."
+    """
+    def __str__(self):
+        return 'Schema 1 manifest has no configuration blob. See https://github.com/docker/distribution/issues/1662#issuecomment-213101772'

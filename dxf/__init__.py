@@ -69,6 +69,12 @@ def _raise_for_status(r):
         raise exceptions.DXFUnauthorizedError()
     r.raise_for_status()
 
+def split_digest(s):
+    method, digest = s.split(':')
+    if method != 'sha256':
+        raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+    return method, digest
+
 class _ReportingFile(object):
     def __init__(self, dgst, f, cb):
         self._dgst = dgst
@@ -336,9 +342,12 @@ class DXF(DXFBase):
         """
         super(DXF, self).__init__(host, auth, insecure, auth_host, tlsverify)
         self._repo = repo
+        self._repo_path = (repo + '/') if repo else ''
 
     def _request(self, method, path, **kwargs):
-        return super(DXF, self)._base_request(method, self._repo + '/' + path, **kwargs)
+        return super(DXF, self)._base_request(method,
+                                              self._repo_path + path,
+                                              **kwargs)
 
     def push_blob(self,
                   filename=None,
@@ -517,12 +526,22 @@ class DXF(DXFBase):
             self._request('put', 'manifests/' + alias, data=signed_json)
             return signed_json
 
-    def _get_manifest(self, alias):
+    def get_manifest_and_response(self, alias):
+        """
+        Request the manifest for an alias and return the manifest and the
+        response.
+
+        :param alias: Alias name.
+        :type alias: str
+
+        :rtype: tuple
+        :returns: Tuple containing the manifest as a string (JSON) and the `requests.Response <http://docs.python-requests.org/en/master/api/#requests.Response>`_
+        """
         r = self._request('get',
                           'manifests/' + alias,
                           headers={'Accept': _schema2_mimetype + ', ' +
                                              _schema1_mimetype})
-        return r, r.content.decode('utf-8')
+        return r.content.decode('utf-8'), r
 
     def get_manifest(self, alias):
         """
@@ -532,16 +551,59 @@ class DXF(DXFBase):
         :type alias: str
 
         :rtype: str
-        :returns: The manifest as string(JSON)
+        :returns: The manifest as string (JSON)
         """
-        _, manifest = self._get_manifest(alias)
+        manifest, _ = self.get_manifest_and_response(alias)
         return manifest
+
+    def _get_alias(self, alias, manifest, verify, sizes, dcd, get_digest):
+        # pylint: disable=too-many-arguments
+        if alias:
+            manifest, r = self.get_manifest_and_response(alias)
+            dcd = r.headers['docker-content-digest']
+
+        parsed_manifest = json.loads(manifest)
+
+        if parsed_manifest['schemaVersion'] == 1:
+            # https://github.com/docker/distribution/issues/1662#issuecomment-213101772
+            # "A schema1 manifest should always produce the same image id but
+            # defining the steps to produce directly from the manifest is not
+            # straight forward."
+            if get_digest:
+                raise exceptions.DXFDigestNotAvailableForSchema1()
+
+            r = _verify_manifest(manifest,
+                                 parsed_manifest,
+                                 dcd,
+                                 verify)
+
+            return [(dgst, self.blob_size(dgst)) for dgst in r] if sizes else r
+
+        if dcd:
+            method, expected_dgst = split_digest(dcd)
+            hasher = hashlib.new(method)
+            hasher.update(r.content)
+            dgst = hasher.hexdigest()
+            if dgst != expected_dgst:
+                raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
+
+        if get_digest:
+            _, dgst = split_digest(parsed_manifest['config']['digest'])
+            return dgst
+
+        r = []
+        for layer in parsed_manifest['layers']:
+            _, dgst = split_digest(layer['digest'])
+            r.append((dgst, layer['size']) if sizes else dgst)
+        return r
 
     def get_alias(self,
                   alias=None,
                   manifest=None,
                   verify=True,
-                  sizes=False):
+                  sizes=False,
+                  dcd=None):
+        # pylint: disable=too-many-arguments
         """
         Get the blob hashes assigned to an alias.
 
@@ -557,45 +619,55 @@ class DXF(DXFBase):
         :param sizes: Whether to return sizes of the blobs along with their hashes
         :type sizes: bool
 
+        :param dcd: (if ``manifest`` is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.
+        :type dcd: str
+
         :rtype: list
         :returns: If ``sizes`` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ``sizes`` is truthy, a list of (hash,size) tuples for each blob.
         """
-        if alias:
-            r, manifest = self._get_manifest(alias)
-            dcd = r.headers['docker-content-digest']
-        else:
-            dcd = None
-        parsed_manifest = json.loads(manifest)
-        if parsed_manifest['schemaVersion'] == 1:
-            dgsts = _verify_manifest(manifest, parsed_manifest, dcd, verify)
-            if not sizes:
-                return dgsts
-            return [(dgst, self.blob_size(dgst)) for dgst in dgsts]
-        else:
-            if dcd:
-                method, expected_dgst = dcd.split(':')
-                if method != 'sha256':
-                    raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
-                hasher = hashlib.new(method)
-                hasher.update(r.content)
-                dgst = hasher.hexdigest()
-                if dgst != expected_dgst:
-                    raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
+        return self._get_alias(alias, manifest, verify, sizes, dcd, False)
 
-            r = []
-            for layer in parsed_manifest['layers']:
-                method, dgst = layer['digest'].split(':')
-                if method != 'sha256':
-                    raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
-                r.append((dgst, layer['size']) if sizes else dgst)
-            return r
+    def get_digest(self,
+                   alias=None,
+                   manifest=None,
+                   verify=True,
+                   dcd=None):
+        """
+        (v2 schema only) Get the hash of an alias's configuration blob.
+
+        For an alias created using ``dxf``, this is the hash of the first blob
+        assigned to the alias.
+
+        For a Docker image tag, this is the same as
+        ``docker inspect alias --format='{{.Id}}'``.
+
+        :param alias: Alias name. You almost definitely will only need to pass this argument.
+        :type alias: str
+
+        :param manifest: If you previously obtained a manifest, specify it here instead of ``alias``. You almost definitely won't need to do this.
+        :type manifest: str
+
+        :param verify: (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won't need to change this from the default (``True``).
+        :type verify: bool
+
+        :param dcd: (if ``manifest`` is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.
+        :type dcd: str
+
+        :rtype: str
+        :returns: Hash of the alias's configuration blob.
+        """
+        return self._get_alias(alias, manifest, verify, False, dcd, True)
 
     def _get_dcd(self, alias):
-        '''get the Docker Content Digest ID
+        """
+        Get the Docker-Content-Digest header for an alias.
 
-        :param str alias: alias name
+        :param alias: Alias name.
+        :type alias: str
+
         :rtype: str
-        '''
+        :returns: DCD header for the alias.
+        """
         # https://docs.docker.com/registry/spec/api/#deleting-an-image
         # Note When deleting a manifest from a registry version 2.3 or later,
         # the following header must be used when HEAD or GET-ing the manifest
@@ -734,9 +806,7 @@ def _verify_manifest(content,
         payload = content
 
     if content_digest:
-        method, expected_dgst = content_digest.split(':')
-        if method != 'sha256':
-            raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+        method, expected_dgst = split_digest(content_digest)
         hasher = hashlib.new(method)
         hasher.update(payload.encode('utf-8'))
         dgst = hasher.hexdigest()
@@ -754,8 +824,6 @@ def _verify_manifest(content,
 
     dgsts = []
     for layer in manifest['fsLayers']:
-        method, dgst = layer['blobSum'].split(':')
-        if method != 'sha256':
-            raise exceptions.DXFUnexpectedDigestMethodError(method, 'sha256')
+        _, dgst = split_digest(layer['blobSum'])
         dgsts.append(dgst)
     return dgsts

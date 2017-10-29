@@ -141,7 +141,7 @@
 
 <dl class="method">
 <dt id="dxf.DXF.get_alias">
-<code class="descname">get_alias</code><span class="sig-paren">(</span><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em>, <em>sizes=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_alias</code><span class="sig-paren">(</span><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em>, <em>sizes=False</em>, <em>dcd=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the blob hashes assigned to an alias.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -152,6 +152,7 @@
 <li><strong>manifest</strong> (<em>str</em>) &#8211; If you previously obtained a manifest, specify it here instead of <code class="docutils literal"><span class="pre">alias</span></code>. You almost definitely won&#8217;t need to do this.</li>
 <li><strong>verify</strong> (<em>bool</em>) &#8211; (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won&#8217;t need to change this from the default (<code class="docutils literal"><span class="pre">True</span></code>).</li>
 <li><strong>sizes</strong> (<em>bool</em>) &#8211; Whether to return sizes of the blobs along with their hashes</li>
+<li><strong>dcd</strong> (<em>str</em>) &#8211; (if <code class="docutils literal"><span class="pre">manifest</span></code> is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.</li>
 </ul>
 </td>
 </tr>
@@ -159,6 +160,36 @@
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <code class="docutils literal"><span class="pre">sizes</span></code> is falsey, a list of blob hashes (strings) which are assigned to the alias. If <code class="docutils literal"><span class="pre">sizes</span></code> is truthy, a list of (hash,size) tuples for each blob.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.get_digest">
+<code class="descname">get_digest</code><span class="sig-paren">(</span><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em>, <em>dcd=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.get_digest" title="Permalink to this definition">¶</a></dt>
+<dd><p>(v2 schema only) Get the hash of an alias&#8217;s configuration blob.</p>
+<p>For an alias created using <code class="docutils literal"><span class="pre">dxf</span></code>, this is the hash of the first blob
+assigned to the alias.</p>
+<p>For a Docker image tag, this is the same as
+<code class="docutils literal"><span class="pre">docker</span> <span class="pre">inspect</span> <span class="pre">alias</span> <span class="pre">--format='{{.Id}}'</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>alias</strong> (<em>str</em>) &#8211; Alias name. You almost definitely will only need to pass this argument.</li>
+<li><strong>manifest</strong> (<em>str</em>) &#8211; If you previously obtained a manifest, specify it here instead of <code class="docutils literal"><span class="pre">alias</span></code>. You almost definitely won&#8217;t need to do this.</li>
+<li><strong>verify</strong> (<em>bool</em>) &#8211; (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won&#8217;t need to change this from the default (<code class="docutils literal"><span class="pre">True</span></code>).</li>
+<li><strong>dcd</strong> (<em>str</em>) &#8211; (if <code class="docutils literal"><span class="pre">manifest</span></code> is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Hash of the alias&#8217;s configuration blob.</p>
 </td>
 </tr>
 </tbody>
@@ -177,7 +208,26 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The manifest as string(JSON)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The manifest as string (JSON)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dxf.DXF.get_manifest_and_response">
+<code class="descname">get_manifest_and_response</code><span class="sig-paren">(</span><em>alias</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.get_manifest_and_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request the manifest for an alias and return the manifest and the
+response.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) &#8211; Alias name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Tuple containing the manifest as a string (JSON) and the <a class="reference external" href="http://docs.python-requests.org/en/master/api/#requests.Response">requests.Response</a></td>
 </tr>
 </tbody>
 </table>
@@ -461,6 +511,15 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dxf.exceptions.DXFDigestNotAvailableForSchema1">
+<em class="property">exception </em><code class="descclassname">dxf.exceptions.</code><code class="descname">DXFDigestNotAvailableForSchema1</code><a class="headerlink" href="#dxf.exceptions.DXFDigestNotAvailableForSchema1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<p><a class="reference external" href="https://github.com/docker/distribution/issues/1662#issuecomment-213101772">https://github.com/docker/distribution/issues/1662#issuecomment-213101772</a>
+A schema1 manifest should always produce the same image id but defining the
+steps to produce directly from the manifest is not straight forward.&#8221;</p>
 </dd></dl>
 
 <dl class="exception">

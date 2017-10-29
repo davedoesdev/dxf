@@ -112,6 +112,13 @@ you wish to work with in each case as the second argument.
     > Print the names of all the repositories in the registry. Not all versions
     > of the registry support this.
 
+-   `dxf get-digest <repo> <alias>...`
+
+    > For each alias you specify, print the hash of its configuration blob.
+    > For an alias created using `dxf`, this is the hash of the first blob it
+    > points to. For a Docker image tag, this is the same as
+    > `docker inspect alias --format='{{.Id}}'`.
+
 ## Certificates
 
 If your registry uses SSL with a self-issued certificate, you'll need to supply

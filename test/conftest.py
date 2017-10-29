@@ -30,6 +30,23 @@ DEVNULL = open(os.devnull, 'wb')
 def gc():
     subprocess.check_call(['docker', 'exec', 'dxf_registry', 'bin/registry', 'garbage-collect', '/etc/docker/registry/config.yml'])
 
+def copy_registry_image(regver):
+    # pylint: disable=redefined-outer-name
+    tag = 'localhost:5000/test/registry:{}'.format(regver)
+    subprocess.check_call(['docker',
+                           'tag',
+                           'registry:{}'.format(regver),
+                           tag])
+    subprocess.check_call(['docker',
+                           'login',
+                           '-u',
+                           pytest.username,
+                           '-p',
+                           pytest.password,
+                           'localhost:5000'])
+    subprocess.check_call(['docker', 'push', tag])
+    subprocess.check_call(['docker', 'rmi', tag])
+
 def pytest_namespace():
     return {
         'blob1_file': os.path.join(_fixture_dir, 'blob1'),
@@ -54,7 +71,9 @@ def pytest_namespace():
 
         'repo': 'foo/bar',
 
-        'gc': gc
+        'gc': gc,
+
+        'copy_registry_image': copy_registry_image
     }
 
 def _auth_up(dxf_obj, response):
@@ -64,6 +83,15 @@ def _auth_up(dxf_obj, response):
 def _auth_authz(dxf_obj, response):
     # pylint: disable=redefined-outer-name
     dxf_obj.authenticate(authorization=pytest.authorization, response=response)
+
+def _get_registry_digest(regver):
+    # pylint: disable=redefined-outer-name
+    s = subprocess.check_output(['docker',
+                                 'inspect',
+                                 'registry:{}'.format(regver),
+                                 '--format={{.Id}}']).rstrip()
+    _, dgst = dxf.split_digest(s)
+    return dgst
 
 def _setup_fixture(request):
     setattr(request.node, 'rep_failed', False)
@@ -119,6 +147,7 @@ def dxf_obj(request):
     r = dxf.DXF('localhost:5000', pytest.repo, auth, not auth, None, tlsverify)
     r.test_do_token = do_token
     r.regver = regver
+    r.reg_digest = _get_registry_digest(regver)
     for _ in range(5):
         try:
             assert r.list_repos() == []
@@ -137,8 +166,10 @@ def dxf_main(request):
         'DXF_SKIPTLSVERIFY': '0' if tlsverify else '1',
         'TEST_DO_AUTHZ': '1' if auth is _auth_authz else _auth_up,
         'TEST_DO_TOKEN': do_token,
-        'REGVER': regver
+        'REGVER': regver,
+        'REG_DIGEST': _get_registry_digest(regver)
     }
+
     if auth is _auth_up:
         environ['DXF_USERNAME'] = pytest.username
         environ['DXF_PASSWORD'] = pytest.password

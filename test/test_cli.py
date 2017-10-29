@@ -162,6 +162,33 @@ def test_get_alias(dxf_main, capsys):
     assert out == pytest.blob2_hash + os.linesep
     assert err == ""
 
+#@pytest.mark.onlytest
+def test_get_digest(dxf_main, capsys):
+    if dxf_main['REGVER'] == 2.2:
+        with pytest.raises(dxf.exceptions.DXFDigestNotAvailableForSchema1):
+            dxf.main.doit(['get-digest', pytest.repo, 'hello'], dxf_main)
+        return
+    assert dxf.main.doit(['get-digest', pytest.repo, 'hello'], dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == pytest.blob1_hash + os.linesep
+    assert err == ""
+    assert dxf.main.doit(['get-digest', pytest.repo, 'there'], dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == pytest.blob1_hash + os.linesep
+    assert err == ""
+    assert dxf.main.doit(['get-digest', pytest.repo, 'world'], dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == pytest.blob2_hash + os.linesep
+    assert err == ""
+    pytest.copy_registry_image(dxf_main['REGVER'])
+    assert dxf.main.doit(['get-digest',
+                          'test/registry',
+                          str(dxf_main['REGVER'])],
+                         dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == dxf_main['REG_DIGEST'] + os.linesep
+    assert err == ""
+
 def test_blob_size(dxf_main, capsys):
     assert dxf.main.doit(['blob-size', pytest.repo, pytest.blob1_hash, pytest.blob2_hash, '@hello', '@there', '@world'], dxf_main) == 0
     out, err = capsys.readouterr()
@@ -234,7 +261,10 @@ def test_auth(dxf_main, capsys):
         environ.pop('DXF_AUTHORIZATION', None)
         assert dxf.main.doit(['list-repos'], environ) == 0
         out, err = capsys.readouterr()
-        assert out == pytest.repo + os.linesep
+        expected = [pytest.repo]
+        if dxf_main['REGVER'] != 2.2:
+            expected += ['test/registry']
+        assert sorted(out.rstrip().split(os.linesep)) == sorted(expected)
         assert err == ""
         assert dxf.main.doit(['list-aliases', pytest.repo], environ) == errno.EACCES
         out, err = capsys.readouterr()
@@ -308,14 +338,15 @@ def test_auth_host(dxf_main):
         with pytest.raises(requests.exceptions.ConnectionError):
             dxf.main.doit(['list-repos'], environ)
 
-#@pytest.mark.onlytest
 def test_tlsverify(dxf_main):
     if dxf_main['DXF_INSECURE'] == '0':
         v = os.environ['REQUESTS_CA_BUNDLE']
         del os.environ['REQUESTS_CA_BUNDLE']
-        if dxf_main['DXF_SKIPTLSVERIFY'] == '0':
-            with pytest.raises(requests.exceptions.SSLError):
-                dxf.main.doit(['list-repos'], dxf_main)
-        else:
-            assert dxf.main.doit(['list-repos'], dxf_main) == 0
-        os.environ['REQUESTS_CA_BUNDLE'] = v
+        try:
+            if dxf_main['DXF_SKIPTLSVERIFY'] == '0':
+                with pytest.raises(requests.exceptions.SSLError):
+                    dxf.main.doit(['list-repos'], dxf_main)
+            else:
+                assert dxf.main.doit(['list-repos'], dxf_main) == 0
+        finally:
+            os.environ['REQUESTS_CA_BUNDLE'] = v
