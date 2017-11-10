@@ -52,7 +52,7 @@ def _pull_blob(dxf_obj, dgst, expected_size, chunk_size):
         else:
             assert len(chunk) == chunk_size
         sha256.update(chunk)
-    assert sha256.hexdigest() == dgst
+    assert 'sha256:' + sha256.hexdigest() == dgst
 
 def test_pull_blob(dxf_obj):
     _pull_blob(dxf_obj, pytest.blob1_hash, None, None)
@@ -72,7 +72,7 @@ def test_pull_blob(dxf_obj):
                 pass
         finally:
             hashlib.sha256 = orig_sha256
-    assert ex.value.got == hashlib.sha256().hexdigest()
+    assert ex.value.got == 'sha256:' + hashlib.sha256().hexdigest()
     assert ex.value.expected == pytest.blob1_hash
 
 def test_pull_and_push_blob(dxf_obj):
@@ -89,7 +89,7 @@ def test_pull_and_push_blob(dxf_obj):
                              check_exists=False) == \
            pytest.blob1_hash
     assert state['total'] == pytest.blob1_size
-    assert sha256.hexdigest() == pytest.blob1_hash
+    assert 'sha256:' + sha256.hexdigest() == pytest.blob1_hash
     _pull_blob(dxf_obj, pytest.blob1_hash, pytest.blob1_size, None)
 
 def test_set_alias(dxf_obj):
@@ -189,7 +189,7 @@ def test_del_alias(dxf_obj):
             dxf_obj.del_alias('world')
         assert ex.value.response.status_code == requests.codes.not_found
 
-_abc_hash = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+_abc_hash = 'sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
 
 def test_hash_bytes():
     assert dxf.hash_bytes(b'abc') == _abc_hash

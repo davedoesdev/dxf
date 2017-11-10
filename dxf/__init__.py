@@ -41,11 +41,11 @@ def hash_bytes(buf):
     :type buf: binary str
 
     :rtype: str
-    :returns: Hex-encoded hash of file's content
+    :returns: Hex-encoded hash of file's content (prefixed by ``sha256:``)
     """
     sha256 = hashlib.sha256()
     sha256.update(buf)
-    return sha256.hexdigest()
+    return 'sha256:' + sha256.hexdigest()
 
 def hash_file(filename):
     """
@@ -55,13 +55,13 @@ def hash_file(filename):
     :type filename: str
 
     :rtype: str
-    :returns: Hex-encoded hash of file's content
+    :returns: Hex-encoded hash of file's content (prefixed by ``sha256:``)
     """
     sha256 = hashlib.sha256()
     with open(filename, 'rb') as f:
         for chunk in iter(lambda: f.read(8192), b''):
             sha256.update(chunk)
-    return sha256.hexdigest()
+    return 'sha256:' + sha256.hexdigest()
 
 def _raise_for_status(r):
     # pylint: disable=no-member
@@ -368,7 +368,7 @@ class DXF(DXFBase):
         :type data: Generator or iterator
 
         :param digest: Hash of the data to be uploaded in ``data``, if specified.
-        :type digest: str (hex-encoded SHA-256)
+        :type digest: str (hex-encoded SHA-256, prefixed by ``sha256:``)
 
         :param progress: Optional function to call as the upload progresses. The function will be called with the hash of the file's content (or ``digest``), the blob just read from the file (or chunk from ``data``) and if ``filename`` is specified the total size of the file.
         :type progress: function(dgst, chunk, size)
@@ -385,7 +385,7 @@ class DXF(DXFBase):
             dgst = hash_file(filename)
         if check_exists:
             try:
-                self._request('head', 'blobs/sha256:' + dgst)
+                self._request('head', 'blobs/' + dgst)
                 return dgst
             except requests.exceptions.HTTPError as ex:
                 # pylint: disable=no-member
@@ -395,7 +395,7 @@ class DXF(DXFBase):
         upload_url = r.headers['Location']
         url_parts = list(urlparse.urlparse(upload_url))
         query = urlparse.parse_qs(url_parts[4])
-        query.update({'digest': 'sha256:' + dgst})
+        query.update({'digest': dgst})
         url_parts[4] = urlencode(query, True)
         url_parts[0] = 'http' if self._insecure else 'https'
         upload_url = urlparse.urlunparse(url_parts)
@@ -413,7 +413,7 @@ class DXF(DXFBase):
         """
         Download a blob from the registry given the hash of its content.
 
-        :param digest: Hash of the blob's content.
+        :param digest: Hash of the blob's content (prefixed by ``sha256:``).
         :type digest: str
 
         :param size: Whether to return the size of the blob too.
@@ -427,7 +427,7 @@ class DXF(DXFBase):
         """
         if chunk_size is None:
             chunk_size = 8192
-        r = self._request('get', 'blobs/sha256:' + digest, stream=True)
+        r = self._request('get', 'blobs/' + digest, stream=True)
         class Chunks(object):
             # pylint: disable=too-few-public-methods
             def __iter__(self):
@@ -435,7 +435,7 @@ class DXF(DXFBase):
                 for chunk in r.iter_content(chunk_size):
                     sha256.update(chunk)
                     yield chunk
-                dgst = sha256.hexdigest()
+                dgst = 'sha256:' + sha256.hexdigest()
                 if dgst != digest:
                     raise exceptions.DXFDigestMismatchError(dgst, digest)
         return (Chunks(), long(r.headers['content-length'])) if size else Chunks()
@@ -444,30 +444,30 @@ class DXF(DXFBase):
         """
         Return the size of a blob in the registry given the hash of its content.
 
-        :param digest: Hash of the blob's content.
+        :param digest: Hash of the blob's content (prefixed by ``sha256:``).
         :type digest: str
 
         :rtype: long
         :returns: Whether the blob exists.
         """
-        r = self._request('head', 'blobs/sha256:' + digest)
+        r = self._request('head', 'blobs/' + digest)
         return long(r.headers['content-length'])
 
     def del_blob(self, digest):
         """
         Delete a blob from the registry given the hash of its content.
 
-        :param digest: Hash of the blob's content.
+        :param digest: Hash of the blob's content (prefixed by ``sha256:``).
         :type digest: str
         """
-        self._request('delete', 'blobs/sha256:' + digest)
+        self._request('delete', 'blobs/' + digest)
 
     # For dtuf; highly unlikely anyone else will want this
     def make_manifest(self, *digests):
         layers = [{
             'mediaType': 'application/octet-stream',
             'size': self.blob_size(dgst),
-            'digest': 'sha256:' + dgst
+            'digest': dgst
         } for dgst in digests]
         return json.dumps({
             'schemaVersion': 2,
@@ -507,7 +507,7 @@ class DXF(DXFBase):
         :param alias: Alias name
         :type alias: str
 
-        :param digests: List of blob hashes.
+        :param digests: List of blob hashes (prefixed by ``sha256:``).
         :type digests: list of strings
 
         :rtype: str
@@ -585,15 +585,19 @@ class DXF(DXFBase):
             hasher.update(r.content)
             dgst = hasher.hexdigest()
             if dgst != expected_dgst:
-                raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
+                raise exceptions.DXFDigestMismatchError(
+                    method + ':' + dgst,
+                    method + ':' + expected_dgst)
 
         if get_digest:
-            _, dgst = split_digest(parsed_manifest['config']['digest'])
+            dgst = parsed_manifest['config']['digest']
+            split_digest(dgst)
             return dgst
 
         r = []
         for layer in parsed_manifest['layers']:
-            _, dgst = split_digest(layer['digest'])
+            dgst = layer['digest']
+            split_digest(dgst)
             r.append((dgst, layer['size']) if sizes else dgst)
         return r
 
@@ -723,7 +727,7 @@ class DXF(DXFBase):
             'schemaVersion': 1,
             'name': self._repo,
             'tag': alias,
-            'fsLayers': [{'blobSum': 'sha256:' + dgst} for dgst in digests],
+            'fsLayers': [{'blobSum': dgst} for dgst in digests],
             'history': [{'v1Compatibility': '{}'} for dgst in digests]
         }, sort_keys=True)
 
@@ -811,7 +815,9 @@ def _verify_manifest(content,
         hasher.update(payload.encode('utf-8'))
         dgst = hasher.hexdigest()
         if dgst != expected_dgst:
-            raise exceptions.DXFDigestMismatchError(dgst, expected_dgst)
+            raise exceptions.DXFDigestMismatchError(
+                method + ':' + dgst,
+                method + ':' + expected_dgst)
 
     if verify:
         for sig in signatures:
@@ -824,6 +830,7 @@ def _verify_manifest(content,
 
     dgsts = []
     for layer in manifest['fsLayers']:
-        _, dgst = split_digest(layer['blobSum'])
+        dgst = layer['blobSum']
+        split_digest(dgst)
         dgsts.append(dgst)
     return dgsts

@@ -84,9 +84,9 @@ repository you wish to work with in each case as the second argument.
 -  ``dxf pull-blob <repo> <hash>|<@alias>...``
 
        Download blobs from the registry to standard output. For each
-       blob you can specify its hash (remember the registry is
-       content-addressable) or an alias you've given it (using
-       ``push-blob`` or ``set-alias``).
+       blob you can specify its hash, prefixed by ``sha256:`` (remember
+       the registry is content-addressable) or an alias you've given it
+       (using ``push-blob`` or ``set-alias``).
 
 -  ``dxf blob-size <repo> <hash>|<@alias>...``
 

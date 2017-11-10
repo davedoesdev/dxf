@@ -57,7 +57,7 @@ def _pull_blob(dxf_main, name, dgst, capfd):
     out, err = capfd.readouterr()
     sha256 = hashlib.sha256()
     sha256.update(out)
-    assert sha256.hexdigest() == dgst
+    assert 'sha256:' + sha256.hexdigest() == dgst
     assert err == ""
 
 def test_pull_blob(dxf_main, capfd):
@@ -230,7 +230,7 @@ def test_manifest(dxf_main, capfd, monkeypatch):
     out, err = capfd.readouterr()
     sha256 = hashlib.sha256()
     sha256.update(out)
-    assert sha256.hexdigest() == pytest.blob1_hash
+    assert 'sha256:' + sha256.hexdigest() == pytest.blob1_hash
     assert err == ""
     assert dxf.main.doit(['del-blob', pytest.repo], dxf_main) == 0
     assert dxf.main.doit(['pull-blob', pytest.repo], dxf_main) == errno.ENOENT

@@ -92,7 +92,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">long</td>
 </tr>
@@ -133,7 +133,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</td>
 </tr>
 </tbody>
 </table>
@@ -266,7 +266,7 @@ response.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content.</li>
+<li><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</li>
 <li><strong>size</strong> (<em>bool</em>) &#8211; Whether to return the size of the blob too.</li>
 <li><strong>chunk_size</strong> (<em>int</em>) &#8211; Number of bytes to download at a time. Defaults to 8192.</li>
 </ul>
@@ -295,7 +295,7 @@ can be retrieved later by passing the hash to <a class="reference internal" href
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>filename</strong> (<em>str</em>) &#8211; File to upload.</li>
 <li><strong>data</strong> (<em>Generator</em><em> or </em><em>iterator</em>) &#8211; Data to upload if <code class="docutils literal"><span class="pre">filename</span></code> isn&#8217;t given. The data is uploaded in chunks and you must also pass <code class="docutils literal"><span class="pre">digest</span></code>.</li>
-<li><strong>digest</strong> (<em>str</em><em> (</em><em>hex-encoded SHA-256</em><em>)</em><em></em>) &#8211; Hash of the data to be uploaded in <code class="docutils literal"><span class="pre">data</span></code>, if specified.</li>
+<li><strong>digest</strong> (str (hex-encoded SHA-256, prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)) &#8211; Hash of the data to be uploaded in <code class="docutils literal"><span class="pre">data</span></code>, if specified.</li>
 <li><strong>progress</strong> (<em>function</em><em>(</em><em>dgst</em><em>, </em><em>chunk</em><em>, </em><em>size</em><em>)</em><em></em>) &#8211; Optional function to call as the upload progresses. The function will be called with the hash of the file&#8217;s content (or <code class="docutils literal"><span class="pre">digest</span></code>), the blob just read from the file (or chunk from <code class="docutils literal"><span class="pre">data</span></code>) and if <code class="docutils literal"><span class="pre">filename</span></code> is specified the total size of the file.</li>
 <li><strong>check_exists</strong> (<em>bool</em>) &#8211; Whether to check if a blob with the same hash already exists in the registry. If so, it won&#8217;t be uploaded again.</li>
 </ul>
@@ -322,7 +322,7 @@ the hash of its content.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>alias</strong> (<em>str</em>) &#8211; Alias name</li>
-<li><strong>digests</strong> (<em>list of strings</em>) &#8211; List of blob hashes.</li>
+<li><strong>digests</strong> (<em>list of strings</em>) &#8211; List of blob hashes (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</li>
 </ul>
 </td>
 </tr>
@@ -459,7 +459,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file&#8217;s content</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)</td>
 </tr>
 </tbody>
 </table>
@@ -477,7 +477,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file&#8217;s content</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)</td>
 </tr>
 </tbody>
 </table>

@@ -89,9 +89,9 @@ def _get_registry_digest(regver):
     s = subprocess.check_output(['docker',
                                  'inspect',
                                  'registry:{}'.format(regver),
-                                 '--format={{.Id}}']).rstrip()
-    _, dgst = dxf.split_digest(s.decode('utf-8'))
-    return dgst
+                                 '--format={{.Id}}']).rstrip().decode('utf-8')
+    dxf.split_digest(s.decode('utf-8'))
+    return s
 
 def _setup_fixture(request):
     setattr(request.node, 'rep_failed', False)
