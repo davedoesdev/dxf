@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dxf module &#8212; python-dxf 6.3.0 documentation</title>
+    <title>dxf module &#8212; python-dxf 7.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '6.3.0',
+        VERSION:     '7.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -37,7 +37,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -75,7 +75,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <code class="docutils literal"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal"><span class="pre">localhost:5000</span></code>.</li>
 <li><strong>repo</strong> (<em>str</em>) &#8211; Name of the repository to access on the registry. Typically this is of the form <code class="docutils literal"><span class="pre">username/reponame</span></code> but for your own registries you don&#8217;t actually have to stick to that.</li>
-<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em><em></em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">DXFBase.authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
+<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">DXFBase.authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
 <li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
 <li><strong>tlsverify</strong> (<em>bool</em>) &#8211; When set to False do not verify TLS certificate</li>
@@ -296,7 +296,7 @@ can be retrieved later by passing the hash to <a class="reference internal" href
 <li><strong>filename</strong> (<em>str</em>) &#8211; File to upload.</li>
 <li><strong>data</strong> (<em>Generator</em><em> or </em><em>iterator</em>) &#8211; Data to upload if <code class="docutils literal"><span class="pre">filename</span></code> isn&#8217;t given. The data is uploaded in chunks and you must also pass <code class="docutils literal"><span class="pre">digest</span></code>.</li>
 <li><strong>digest</strong> (str (hex-encoded SHA-256, prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)) &#8211; Hash of the data to be uploaded in <code class="docutils literal"><span class="pre">data</span></code>, if specified.</li>
-<li><strong>progress</strong> (<em>function</em><em>(</em><em>dgst</em><em>, </em><em>chunk</em><em>, </em><em>size</em><em>)</em><em></em>) &#8211; Optional function to call as the upload progresses. The function will be called with the hash of the file&#8217;s content (or <code class="docutils literal"><span class="pre">digest</span></code>), the blob just read from the file (or chunk from <code class="docutils literal"><span class="pre">data</span></code>) and if <code class="docutils literal"><span class="pre">filename</span></code> is specified the total size of the file.</li>
+<li><strong>progress</strong> (<em>function</em><em>(</em><em>dgst</em><em>, </em><em>chunk</em><em>, </em><em>size</em><em>)</em>) &#8211; Optional function to call as the upload progresses. The function will be called with the hash of the file&#8217;s content (or <code class="docutils literal"><span class="pre">digest</span></code>), the blob just read from the file (or chunk from <code class="docutils literal"><span class="pre">data</span></code>) and if <code class="docutils literal"><span class="pre">filename</span></code> is specified the total size of the file.</li>
 <li><strong>check_exists</strong> (<em>bool</em>) &#8211; Whether to check if a blob with the same hash already exists in the registry. If so, it won&#8217;t be uploaded again.</li>
 </ul>
 </td>
@@ -376,7 +376,7 @@ closed until Python garbage collects the iterator.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <code class="docutils literal"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal"><span class="pre">localhost:5000</span></code>.</li>
-<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em><em></em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
+<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
 <li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
 <li><strong>tlsverify</strong> (<em>bool</em>) &#8211; When set to False, do not verify TLS certificate.</li>
@@ -687,12 +687,12 @@ steps to produce directly from the manifest is not straight forward.&#8221;</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 6.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, David Halls.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.
     </div>
   </body>
 </html>
