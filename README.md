@@ -5,8 +5,12 @@ Python module and command-line tool for storing and retrieving data in a Docker 
 - Store arbitrary data (blob-store)
 - Content addressable
 - Set up named aliases to blobs
-- Supports Docker registry schema v1 and v2
-- Works on Python 2.7 and 3.4
+- Supports Docker registry schemas v1 and v2
+- Works on Python 2.7 and 3.6
+
+Please note that `dxf` does _not_ generate Docker container configuration,
+so you won't be able to `docker pull` data you store using `dxf`.
+See [this issue](https://github.com/davedoesdev/dxf/issues/3) for more details.
 
 Command-line example:
 
