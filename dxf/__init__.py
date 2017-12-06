@@ -6,6 +6,7 @@ import base64
 import hashlib
 import json
 import sys
+import warnings
 
 try:
     import urllib.parse as urlparse
@@ -15,8 +16,14 @@ except ImportError:
     from urllib import urlencode
     import urlparse
 
-from jwcrypto import jwk, jws
 import requests
+try:
+    from requests.packages import urllib3
+except ImportError:
+    import urllib3
+from urllib3.exceptions import InsecureRequestWarning
+
+from jwcrypto import jwk, jws
 import www_authenticate
 # pylint: disable=wildcard-import
 from dxf import exceptions
@@ -129,6 +136,11 @@ class PaginatingResponse(object):
             nxt = response.links.get('next')
             self._path = nxt['url'] if nxt else None
 
+def _ignore_warnings(obj):
+    # pylint: disable=protected-access
+    if not obj._tlsverify:
+        warnings.filterwarnings('ignore', category=InsecureRequestWarning)
+
 class DXFBase(object):
     # pylint: disable=too-many-instance-attributes
     """
@@ -172,13 +184,6 @@ class DXFBase(object):
         self._repo = None
         self._sessions = [requests]
         self._tlsverify = tlsverify
-        if not tlsverify:
-            try:
-                from requests.packages import urllib3
-            except ImportError:
-                import urllib3
-            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 
     @property
     def token(self):
@@ -205,13 +210,17 @@ class DXFBase(object):
             r['headers'].update(self._headers)
             return r
         url = urlparse.urljoin(self._base_url, path)
-        r = getattr(self._sessions[0], method)(url, **make_kwargs())
+        with warnings.catch_warnings():
+            _ignore_warnings(self)
+            r = getattr(self._sessions[0], method)(url, **make_kwargs())
         # pylint: disable=no-member
         if r.status_code == requests.codes.unauthorized and self._auth:
             headers = self._headers
             self._auth(self, r)
             if self._headers != headers:
-                r = getattr(self._sessions[0], method)(url, **make_kwargs())
+                with warnings.catch_warnings():
+                    _ignore_warnings(self)
+                    r = getattr(self._sessions[0], method)(url, **make_kwargs())
         _raise_for_status(r)
         return r
 
@@ -243,7 +252,9 @@ class DXFBase(object):
         :returns: Authentication token, if the registry supports bearer tokens. Otherwise ``None``, and HTTP Basic auth is used (if the registry requires authentication).
         """
         if response is None:
-            response = self._sessions[0].get(self._base_url, verify=self._tlsverify)
+            with warnings.catch_warnings():
+                _ignore_warnings(self)
+                response = self._sessions[0].get(self._base_url, verify=self._tlsverify)
 
         if response.ok:
             return None
@@ -286,7 +297,9 @@ class DXFBase(object):
             if self._auth_host:
                 url_parts[1] = self._auth_host
             auth_url = urlparse.urlunparse(url_parts)
-            r = self._sessions[0].get(auth_url, headers=headers, verify=self._tlsverify)
+            with warnings.catch_warnings():
+                _ignore_warnings(self)
+                r = self._sessions[0].get(auth_url, headers=headers, verify=self._tlsverify)
             _raise_for_status(r)
             self.token = r.json()['token']
             return self._token

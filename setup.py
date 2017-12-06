@@ -17,7 +17,7 @@ setup(
     packages=['dxf'],
     entry_points={'console_scripts': ['dxf=dxf.main:main']},
     install_requires=['www-authenticate>=0.9.2',
-                      'requests>=2.9.0',
+                      'requests>=2.18.4',
                       'jwcrypto>=0.4.2',
-                      'tqdm>=4.10.0']
+                      'tqdm>=4.19.4']
 )
