@@ -240,17 +240,24 @@ class DXFBase(object):
         :type authorization: str
 
         :rtype: str
-        :returns: Authentication token, if the registry supports bearer tokens. Otherwise ``None``, and HTTP Basic auth is used.
+        :returns: Authentication token, if the registry supports bearer tokens. Otherwise ``None``, and HTTP Basic auth is used (if the registry requires authentication).
         """
-        if self._insecure:
-            raise exceptions.DXFAuthInsecureError()
         if response is None:
             response = self._sessions[0].get(self._base_url, verify=self._tlsverify)
+
+        if response.ok:
+            return None
+
         # pylint: disable=no-member
         if response.status_code != requests.codes.unauthorized:
             raise exceptions.DXFUnexpectedStatusCodeError(response.status_code,
                                                           requests.codes.unauthorized)
+
+        if self._insecure:
+            raise exceptions.DXFAuthInsecureError()
+
         parsed = www_authenticate.parse(response.headers['www-authenticate'])
+
         if username is not None and password is not None:
             headers = {
                 'Authorization': 'Basic ' + base64.b64encode(_to_bytes_2and3(username + ':' + password)).decode('utf-8')
@@ -261,6 +268,7 @@ class DXFBase(object):
             }
         else:
             headers = {}
+
         if 'bearer' in parsed:
             info = parsed['bearer']
             if actions and self._repo:
@@ -282,8 +290,8 @@ class DXFBase(object):
             _raise_for_status(r)
             self.token = r.json()['token']
             return self._token
-        else:
-            self._headers = headers
+
+        self._headers = headers
 
     def list_repos(self, batch_size=None, iterate=False):
         """

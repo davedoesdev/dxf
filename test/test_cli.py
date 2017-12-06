@@ -162,7 +162,6 @@ def test_get_alias(dxf_main, capsys):
     assert out == pytest.blob2_hash + os.linesep
     assert err == ""
 
-#@pytest.mark.onlytest
 def test_get_digest(dxf_main, capsys):
     if dxf_main['REGVER'] == 2.2:
         with pytest.raises(dxf.exceptions.DXFDigestNotAvailableForSchema1):
@@ -235,21 +234,14 @@ def test_manifest(dxf_main, capfd, monkeypatch):
     assert dxf.main.doit(['del-blob', pytest.repo], dxf_main) == 0
     assert dxf.main.doit(['pull-blob', pytest.repo], dxf_main) == errno.ENOENT
 
+#@pytest.mark.onlytest
 def test_auth(dxf_main, capsys):
-    if dxf_main['DXF_INSECURE'] == '1':
-        if dxf_main['TEST_DO_AUTHZ'] == '1':
-            environ = {
-                'DXF_AUTHORIZATION': pytest.authorization
-            }
-        else:
-            environ = {
-                'DXF_USERNAME': pytest.username,
-                'DXF_PASSWORD': pytest.password
-            }
-        environ.update(dxf_main)
-        with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
-            dxf.main.doit(['auth', pytest.repo], environ)
-    elif dxf_main['TEST_DO_TOKEN']:
+    if (not dxf_main['TEST_DO_AUTH']) or (not dxf_main['TEST_DO_TOKEN']):
+        assert dxf.main.doit(['auth', pytest.repo], dxf_main) == 0
+        out, err = capsys.readouterr()
+        assert out == ""
+        assert err == ""
+    else:
         assert dxf.main.doit(['auth', pytest.repo, '*'], dxf_main) == 0
         token, err = capsys.readouterr()
         assert token
@@ -273,11 +265,6 @@ def test_auth(dxf_main, capsys):
         assert dxf.main.doit(['list-aliases', pytest.repo], environ) == 0
         out, err = capsys.readouterr()
         assert sorted(out.split(os.linesep)) == ['', 'fooey', 'hello', 'mani_test', 'there', 'world']
-        assert err == ""
-    else:
-        assert dxf.main.doit(['auth', pytest.repo], dxf_main) == 0
-        out, err = capsys.readouterr()
-        assert out == ""
         assert err == ""
 
 def test_del_blob(dxf_main, capfd):

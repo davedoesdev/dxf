@@ -102,7 +102,6 @@ def test_get_alias(dxf_obj):
     assert dxf_obj.get_alias('there') == [pytest.blob1_hash, pytest.blob2_hash]
     assert dxf_obj.get_alias('world') == [pytest.blob2_hash]
 
-#@pytest.mark.onlytest
 def test_get_digest(dxf_obj):
     if dxf_obj.regver == 2.2:
         with pytest.raises(dxf.exceptions.DXFDigestNotAvailableForSchema1):
@@ -152,16 +151,16 @@ def test_unsigned_manifest_v2(dxf_obj):
     assert manifest
     assert dxf_obj.get_alias(manifest=manifest) == [pytest.blob2_hash]
 
+#@pytest.mark.onlytest
 def test_auth(dxf_obj):
     # pylint: disable=protected-access
-    if dxf_obj._insecure:
-        with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
-            dxf_obj.authenticate(pytest.username, pytest.password)
-    elif dxf_obj.test_do_token:
+    if not dxf_obj.test_do_auth:
+        assert dxf_obj.authenticate() is None
+    elif not dxf_obj.test_do_token:
+        assert dxf_obj.authenticate(pytest.username, pytest.password) is None
+    else:
         assert dxf_obj.authenticate(pytest.username, pytest.password, '*') == dxf_obj.token
         assert dxf_obj.token
-    else:
-        assert dxf_obj.authenticate(pytest.username, pytest.password) is None
 
 def test_del_blob(dxf_obj):
     _pull_blob(dxf_obj, pytest.blob2_hash, None, None)

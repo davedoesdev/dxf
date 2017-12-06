@@ -108,9 +108,10 @@ def _setup_fixture(request):
     regver, auth, do_token, _ = request.param
     if auth:
         cmd += ['-v', _registry_dir + ':/registry',
-                '-v', _auth_dir + ':/auth',
-                '-e', 'REGISTRY_HTTP_TLS_CERTIFICATE=/registry/registry.pem',
-                '-e', 'REGISTRY_HTTP_TLS_KEY=/registry/registry.key']
+                '-v', _auth_dir + ':/auth']
+        if do_token is not None:
+            cmd += ['-e', 'REGISTRY_HTTP_TLS_CERTIFICATE=/registry/registry.pem',
+                    '-e', 'REGISTRY_HTTP_TLS_KEY=/registry/registry.key']
         if do_token:
             # Thanks to https://the.binbashtheory.com/creating-private-docker-registry-2-0-with-token-authentication-service/
             cmd += ['-e', 'REGISTRY_AUTH=token',
@@ -134,6 +135,7 @@ def _setup_fixture(request):
 _fixture_params = []
 for regver in [2, 2.2]:
     _fixture_params.extend([(regver, None, False, True),
+                            (regver, _auth_up, None, True),
                             (regver, _auth_up, False, True),
                             (regver, _auth_up, True, True),
                             (regver, _auth_authz, False, True),
@@ -144,7 +146,12 @@ for regver in [2, 2.2]:
 def dxf_obj(request):
     # pylint: disable=redefined-outer-name
     regver, auth, do_token, tlsverify = _setup_fixture(request)
-    r = dxf.DXF('localhost:5000', pytest.repo, auth, not auth, None, tlsverify)
+    r = dxf.DXF('localhost:5000', pytest.repo, auth, (auth is None) or (do_token is None), None, tlsverify)
+    if do_token is None:
+        with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
+            r.authenticate(pytest.username, pytest.password)
+        return pytest.skip()
+    r.test_do_auth = auth
     r.test_do_token = do_token
     r.regver = regver
     r.reg_digest = _get_registry_digest(regver)
@@ -162,9 +169,9 @@ def dxf_main(request):
     regver, auth, do_token, tlsverify = _setup_fixture(request)
     environ = {
         'DXF_HOST': 'localhost:5000',
-        'DXF_INSECURE': '0' if auth else '1',
+        'DXF_INSECURE': '1' if ((auth is None) or (do_token is None)) else '0',
         'DXF_SKIPTLSVERIFY': '0' if tlsverify else '1',
-        'TEST_DO_AUTHZ': '1' if auth is _auth_authz else _auth_up,
+        'TEST_DO_AUTH': auth,
         'TEST_DO_TOKEN': do_token,
         'REGVER': regver,
         'REG_DIGEST': _get_registry_digest(regver)
@@ -175,6 +182,12 @@ def dxf_main(request):
         environ['DXF_PASSWORD'] = pytest.password
     elif auth is _auth_authz:
         environ['DXF_AUTHORIZATION'] = pytest.authorization
+
+    if do_token is None:
+        with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
+            dxf.main.doit(['auth', pytest.repo], environ)
+        return pytest.skip()
+
     for _ in range(5):
         try:
             assert dxf.main.doit(['list-repos'], environ) == 0
