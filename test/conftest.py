@@ -147,17 +147,21 @@ def dxf_obj(request):
     # pylint: disable=redefined-outer-name
     regver, auth, do_token, tlsverify = _setup_fixture(request)
     r = dxf.DXF('localhost:5000', pytest.repo, auth, (auth is None) or (do_token is None), None, tlsverify)
-    if do_token is None:
-        with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
-            r.authenticate(pytest.username, pytest.password)
-        return pytest.skip()
+
     r.test_do_auth = auth
     r.test_do_token = do_token
     r.regver = regver
     r.reg_digest = _get_registry_digest(regver)
+
     for _ in range(5):
         try:
+            if do_token is None:
+                with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
+                    r.authenticate(pytest.username, pytest.password)
+                return pytest.skip()
+
             assert r.list_repos() == []
+
             return r
         except requests.exceptions.ConnectionError as ex:
             time.sleep(1)
@@ -183,14 +187,15 @@ def dxf_main(request):
     elif auth is _auth_authz:
         environ['DXF_AUTHORIZATION'] = pytest.authorization
 
-    if do_token is None:
-        with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
-            dxf.main.doit(['auth', pytest.repo], environ)
-        return pytest.skip()
-
     for _ in range(5):
         try:
+            if do_token is None:
+                with pytest.raises(dxf.exceptions.DXFAuthInsecureError):
+                    dxf.main.doit(['auth', pytest.repo], environ)
+                return pytest.skip()
+
             assert dxf.main.doit(['list-repos'], environ) == 0
+
             return environ
         except requests.exceptions.ConnectionError as ex:
             time.sleep(1)
