@@ -305,6 +305,7 @@ class DXFBase(object):
             return self._token
 
         self._headers = headers
+        return None
 
     def list_repos(self, batch_size=None, iterate=False):
         """
