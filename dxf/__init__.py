@@ -131,7 +131,7 @@ class PaginatingResponse(object):
         while self._path:
             response = self._meth('get', self._path, **self._kwargs)
             self._kwargs = {}
-            for v in response.json()[self._header]:
+            for v in response.json()[self._header] or []:
                 yield v
             nxt = response.links.get('next')
             self._path = nxt['url'] if nxt else None

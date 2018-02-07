@@ -1062,7 +1062,7 @@
 <p id="t131" class="stm run hide_run">        <span class="key">while</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_path</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t132" class="stm run hide_run">            <span class="nam">response</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_meth</span><span class="op">(</span><span class="str">'get'</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_path</span><span class="op">,</span> <span class="op">**</span><span class="nam">self</span><span class="op">.</span><span class="nam">_kwargs</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t133" class="stm run hide_run">            <span class="nam">self</span><span class="op">.</span><span class="nam">_kwargs</span> <span class="op">=</span> <span class="op">{</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
-<p id="t134" class="stm run hide_run">            <span class="key">for</span> <span class="nam">v</span> <span class="key">in</span> <span class="nam">response</span><span class="op">.</span><span class="nam">json</span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="nam">self</span><span class="op">.</span><span class="nam">_header</span><span class="op">]</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t134" class="stm run hide_run">            <span class="key">for</span> <span class="nam">v</span> <span class="key">in</span> <span class="nam">response</span><span class="op">.</span><span class="nam">json</span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="nam">self</span><span class="op">.</span><span class="nam">_header</span><span class="op">]</span> <span class="key">or</span> <span class="op">[</span><span class="op">]</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t135" class="stm run hide_run">                <span class="key">yield</span> <span class="nam">v</span><span class="strut">&nbsp;</span></p>
 <p id="t136" class="stm run hide_run">            <span class="nam">nxt</span> <span class="op">=</span> <span class="nam">response</span><span class="op">.</span><span class="nam">links</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'next'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t137" class="stm run hide_run">            <span class="nam">self</span><span class="op">.</span><span class="nam">_path</span> <span class="op">=</span> <span class="nam">nxt</span><span class="op">[</span><span class="str">'url'</span><span class="op">]</span> <span class="key">if</span> <span class="nam">nxt</span> <span class="key">else</span> <span class="nam">None</span><span class="strut">&nbsp;</span></p>
@@ -1796,7 +1796,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.4.2</a>,
-            created at 2017-12-06 21:30
+            created at 2018-02-06 23:59
         </p>
     </div>
 </div>

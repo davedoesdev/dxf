@@ -140,6 +140,22 @@ def test_set_alias(dxf_main, capsys):
     assert dxf.main.doit(['set-alias', pytest.repo, 'hello', pytest.blob1_hash], dxf_main) == 0
     _, err = capsys.readouterr()
     assert err == ""
+    if dxf_main['REGVER'] != 2.2:
+        assert dxf.main.doit(['del-alias', pytest.repo, 'hello'], dxf_main) == 0
+        out, err = capsys.readouterr()
+        assert out == pytest.blob1_hash + os.linesep
+        assert err == ""
+        # Deleting tag actually deletes by DCD:
+        # https://github.com/docker/distribution/issues/1566
+        # So fooey gets deleted too
+        assert dxf.main.doit(['list-aliases', pytest.repo], dxf_main) == 0
+        out, err = capsys.readouterr()
+        assert out == ""
+        assert err == ""
+        assert dxf.main.doit(['set-alias', pytest.repo, 'hello', pytest.blob1_hash], dxf_main) == 0
+        assert dxf.main.doit(['set-alias', pytest.repo, 'fooey', pytest.blob1_hash], dxf_main) == 0
+        _, err = capsys.readouterr()
+        assert err == ""
     assert dxf.main.doit(['set-alias', pytest.repo, 'there', pytest.blob1_hash, pytest.blob2_hash], dxf_main) == 0
     _, err = capsys.readouterr()
     assert err == ""

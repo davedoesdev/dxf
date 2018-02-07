@@ -94,6 +94,10 @@ def test_pull_and_push_blob(dxf_obj):
 
 def test_set_alias(dxf_obj):
     dxf_obj.set_alias('hello', pytest.blob1_hash)
+    if dxf_obj.regver != 2.2:
+        assert dxf_obj.del_alias('hello') == [pytest.blob1_hash]
+        assert dxf_obj.list_aliases() == []
+        dxf_obj.set_alias('hello', pytest.blob1_hash)
     dxf_obj.set_alias('there', pytest.blob1_hash, pytest.blob2_hash)
     dxf_obj.set_alias('world', pytest.blob2_hash)
 
