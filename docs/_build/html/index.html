@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>dxf module &#8212; python-dxf 7.1.1 documentation</title>
-    
+    <title>dxf module &#8212; python-dxf 7.2.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.1.1',
+        VERSION:     '7.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,7 +24,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -37,7 +34,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -54,10 +51,10 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-obj docutils literal"><span class="pre">dxf.DXFBase</span></code></a>(host[,&nbsp;auth,&nbsp;insecure,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-obj docutils literal"><span class="pre">dxf.DXFBase</span></code></a>(host[,&nbsp;auth,&nbsp;insecure,&nbsp;…])</td>
 <td>Class for communicating with a Docker v2 registry.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-obj docutils literal"><span class="pre">dxf.DXF</span></code></a>(host,&nbsp;repo[,&nbsp;auth,&nbsp;insecure,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-obj docutils literal"><span class="pre">dxf.DXF</span></code></a>(host,&nbsp;repo[,&nbsp;auth,&nbsp;insecure,&nbsp;…])</td>
 <td>Class for operating on a Docker v2 repositories.</td>
 </tr>
 </tbody>
@@ -73,12 +70,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <code class="docutils literal"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal"><span class="pre">localhost:5000</span></code>.</li>
-<li><strong>repo</strong> (<em>str</em>) &#8211; Name of the repository to access on the registry. Typically this is of the form <code class="docutils literal"><span class="pre">username/reponame</span></code> but for your own registries you don&#8217;t actually have to stick to that.</li>
-<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">DXFBase.authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
-<li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
-<li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
-<li><strong>tlsverify</strong> (<em>bool</em>) &#8211; When set to False do not verify TLS certificate</li>
+<li><strong>host</strong> (<em>str</em>) – Host name of registry. Can contain port numbers. e.g. <code class="docutils literal"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal"><span class="pre">localhost:5000</span></code>.</li>
+<li><strong>repo</strong> (<em>str</em>) – Name of the repository to access on the registry. Typically this is of the form <code class="docutils literal"><span class="pre">username/reponame</span></code> but for your own registries you don’t actually have to stick to that.</li>
+<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em>) – Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">DXFBase.authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
+<li><strong>insecure</strong> (<em>bool</em>) – Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
+<li><strong>auth_host</strong> (<em>str</em>) – Host to use for token authentication. If set, overrides host returned by then registry.</li>
+<li><strong>tlsverify</strong> (<em>bool</em>) – When set to False do not verify TLS certificate</li>
 </ul>
 </td>
 </tr>
@@ -92,7 +89,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) – Hash of the blob’s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">long</td>
 </tr>
@@ -105,7 +102,7 @@
 <dl class="method">
 <dt id="dxf.DXF.del_alias">
 <code class="descname">del_alias</code><span class="sig-paren">(</span><em>alias</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.del_alias" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete an alias from the registry. The blobs it points to won&#8217;t be deleted. Use <a class="reference internal" href="#dxf.DXF.del_blob" title="dxf.DXF.del_blob"><code class="xref py py-meth docutils literal"><span class="pre">del_blob()</span></code></a> for that.</p>
+<dd><p>Delete an alias from the registry. The blobs it points to won’t be deleted. Use <a class="reference internal" href="#dxf.DXF.del_blob" title="dxf.DXF.del_blob"><code class="xref py py-meth docutils literal"><span class="pre">del_blob()</span></code></a> for that.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">On private registry, garbage collection might need to be run manually; see:
@@ -115,7 +112,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) &#8211; Alias name.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) – Alias name.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
 </tr>
@@ -133,7 +130,32 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>digest</strong> (<em>str</em>) – Hash of the blob’s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="dxf.DXF.from_base">
+<em class="property">classmethod </em><code class="descname">from_base</code><span class="sig-paren">(</span><em>base</em>, <em>repo</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.from_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object which uses the same host, settings and
+session as an existing <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> (<a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a>) – Existing <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object.</li>
+<li><strong>repo</strong> (<em>str</em>) – Name of the repository to access on the registry. Typically this is of the form <code class="docutils literal"><span class="pre">username/reponame</span></code> but for your own registries you don’t actually have to stick to that.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object which shares configuration and session with <code class="docutils literal"><span class="pre">base</span></code> but which can also be used to operate on the <code class="docutils literal"><span class="pre">repo</span></code> repository.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -148,11 +170,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>alias</strong> (<em>str</em>) &#8211; Alias name. You almost definitely will only need to pass this argument.</li>
-<li><strong>manifest</strong> (<em>str</em>) &#8211; If you previously obtained a manifest, specify it here instead of <code class="docutils literal"><span class="pre">alias</span></code>. You almost definitely won&#8217;t need to do this.</li>
-<li><strong>verify</strong> (<em>bool</em>) &#8211; (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won&#8217;t need to change this from the default (<code class="docutils literal"><span class="pre">True</span></code>).</li>
-<li><strong>sizes</strong> (<em>bool</em>) &#8211; Whether to return sizes of the blobs along with their hashes</li>
-<li><strong>dcd</strong> (<em>str</em>) &#8211; (if <code class="docutils literal"><span class="pre">manifest</span></code> is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.</li>
+<li><strong>alias</strong> (<em>str</em>) – Alias name. You almost definitely will only need to pass this argument.</li>
+<li><strong>manifest</strong> (<em>str</em>) – If you previously obtained a manifest, specify it here instead of <code class="docutils literal"><span class="pre">alias</span></code>. You almost definitely won’t need to do this.</li>
+<li><strong>verify</strong> (<em>bool</em>) – (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won’t need to change this from the default (<code class="docutils literal"><span class="pre">True</span></code>).</li>
+<li><strong>sizes</strong> (<em>bool</em>) – Whether to return sizes of the blobs along with their hashes</li>
+<li><strong>dcd</strong> (<em>str</em>) – (if <code class="docutils literal"><span class="pre">manifest</span></code> is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.</li>
 </ul>
 </td>
 </tr>
@@ -169,7 +191,7 @@
 <dl class="method">
 <dt id="dxf.DXF.get_digest">
 <code class="descname">get_digest</code><span class="sig-paren">(</span><em>alias=None</em>, <em>manifest=None</em>, <em>verify=True</em>, <em>dcd=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.get_digest" title="Permalink to this definition">¶</a></dt>
-<dd><p>(v2 schema only) Get the hash of an alias&#8217;s configuration blob.</p>
+<dd><p>(v2 schema only) Get the hash of an alias’s configuration blob.</p>
 <p>For an alias created using <code class="docutils literal"><span class="pre">dxf</span></code>, this is the hash of the first blob
 assigned to the alias.</p>
 <p>For a Docker image tag, this is the same as
@@ -179,17 +201,17 @@ assigned to the alias.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>alias</strong> (<em>str</em>) &#8211; Alias name. You almost definitely will only need to pass this argument.</li>
-<li><strong>manifest</strong> (<em>str</em>) &#8211; If you previously obtained a manifest, specify it here instead of <code class="docutils literal"><span class="pre">alias</span></code>. You almost definitely won&#8217;t need to do this.</li>
-<li><strong>verify</strong> (<em>bool</em>) &#8211; (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won&#8217;t need to change this from the default (<code class="docutils literal"><span class="pre">True</span></code>).</li>
-<li><strong>dcd</strong> (<em>str</em>) &#8211; (if <code class="docutils literal"><span class="pre">manifest</span></code> is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.</li>
+<li><strong>alias</strong> (<em>str</em>) – Alias name. You almost definitely will only need to pass this argument.</li>
+<li><strong>manifest</strong> (<em>str</em>) – If you previously obtained a manifest, specify it here instead of <code class="docutils literal"><span class="pre">alias</span></code>. You almost definitely won’t need to do this.</li>
+<li><strong>verify</strong> (<em>bool</em>) – (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won’t need to change this from the default (<code class="docutils literal"><span class="pre">True</span></code>).</li>
+<li><strong>dcd</strong> (<em>str</em>) – (if <code class="docutils literal"><span class="pre">manifest</span></code> is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Hash of the alias&#8217;s configuration blob.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Hash of the alias’s configuration blob.</p>
 </td>
 </tr>
 </tbody>
@@ -204,7 +226,7 @@ assigned to the alias.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) &#8211; Alias name.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) – Alias name.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
@@ -223,7 +245,7 @@ response.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) &#8211; Alias name.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alias</strong> (<em>str</em>) – Alias name.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
 </tr>
@@ -242,8 +264,8 @@ response.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>batch_size</strong> (<em>int</em>) &#8211; Number of alias names to ask the server for at a time.</li>
-<li><strong>iterate</strong> (<em>bool</em>) &#8211; Whether to return iterator over the names or a list of all the names.</li>
+<li><strong>batch_size</strong> (<em>int</em>) – Number of alias names to ask the server for at a time.</li>
+<li><strong>iterate</strong> (<em>bool</em>) – Whether to return iterator over the names or a list of all the names.</li>
 </ul>
 </td>
 </tr>
@@ -266,16 +288,16 @@ response.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>digest</strong> (<em>str</em>) &#8211; Hash of the blob&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</li>
-<li><strong>size</strong> (<em>bool</em>) &#8211; Whether to return the size of the blob too.</li>
-<li><strong>chunk_size</strong> (<em>int</em>) &#8211; Number of bytes to download at a time. Defaults to 8192.</li>
+<li><strong>digest</strong> (<em>str</em>) – Hash of the blob’s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</li>
+<li><strong>size</strong> (<em>bool</em>) – Whether to return the size of the blob too.</li>
+<li><strong>chunk_size</strong> (<em>int</em>) – Number of bytes to download at a time. Defaults to 8192.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">iterator</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <code class="docutils literal"><span class="pre">size</span></code> is falsey, a byte string iterator over the blob&#8217;s content. If <code class="docutils literal"><span class="pre">size</span></code> is truthy, a tuple containing the iterator and the blob&#8217;s size.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <code class="docutils literal"><span class="pre">size</span></code> is falsey, a byte string iterator over the blob’s content. If <code class="docutils literal"><span class="pre">size</span></code> is truthy, a tuple containing the iterator and the blob’s size.</p>
 </td>
 </tr>
 </tbody>
@@ -286,25 +308,25 @@ response.</p>
 <dt id="dxf.DXF.push_blob">
 <code class="descname">push_blob</code><span class="sig-paren">(</span><em>filename=None</em>, <em>progress=None</em>, <em>data=None</em>, <em>digest=None</em>, <em>check_exists=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.push_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload a file to the registry and return its (SHA-256) hash.</p>
-<p>The registry is content-addressable so the file&#8217;s content (aka blob)
+<p>The registry is content-addressable so the file’s content (aka blob)
 can be retrieved later by passing the hash to <a class="reference internal" href="#dxf.DXF.pull_blob" title="dxf.DXF.pull_blob"><code class="xref py py-meth docutils literal"><span class="pre">pull_blob()</span></code></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> (<em>str</em>) &#8211; File to upload.</li>
-<li><strong>data</strong> (<em>Generator</em><em> or </em><em>iterator</em>) &#8211; Data to upload if <code class="docutils literal"><span class="pre">filename</span></code> isn&#8217;t given. The data is uploaded in chunks and you must also pass <code class="docutils literal"><span class="pre">digest</span></code>.</li>
-<li><strong>digest</strong> (str (hex-encoded SHA-256, prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)) &#8211; Hash of the data to be uploaded in <code class="docutils literal"><span class="pre">data</span></code>, if specified.</li>
-<li><strong>progress</strong> (<em>function</em><em>(</em><em>dgst</em><em>, </em><em>chunk</em><em>, </em><em>size</em><em>)</em>) &#8211; Optional function to call as the upload progresses. The function will be called with the hash of the file&#8217;s content (or <code class="docutils literal"><span class="pre">digest</span></code>), the blob just read from the file (or chunk from <code class="docutils literal"><span class="pre">data</span></code>) and if <code class="docutils literal"><span class="pre">filename</span></code> is specified the total size of the file.</li>
-<li><strong>check_exists</strong> (<em>bool</em>) &#8211; Whether to check if a blob with the same hash already exists in the registry. If so, it won&#8217;t be uploaded again.</li>
+<li><strong>filename</strong> (<em>str</em>) – File to upload.</li>
+<li><strong>data</strong> (<em>Generator</em><em> or </em><em>iterator</em>) – Data to upload if <code class="docutils literal"><span class="pre">filename</span></code> isn’t given. The data is uploaded in chunks and you must also pass <code class="docutils literal"><span class="pre">digest</span></code>.</li>
+<li><strong>digest</strong> (str (hex-encoded SHA-256, prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)) – Hash of the data to be uploaded in <code class="docutils literal"><span class="pre">data</span></code>, if specified.</li>
+<li><strong>progress</strong> (<em>function</em><em>(</em><em>dgst</em><em>, </em><em>chunk</em><em>, </em><em>size</em><em>)</em>) – Optional function to call as the upload progresses. The function will be called with the hash of the file’s content (or <code class="docutils literal"><span class="pre">digest</span></code>), the blob just read from the file (or chunk from <code class="docutils literal"><span class="pre">data</span></code>) and if <code class="docutils literal"><span class="pre">filename</span></code> is specified the total size of the file.</li>
+<li><strong>check_exists</strong> (<em>bool</em>) – Whether to check if a blob with the same hash already exists in the registry. If so, it won’t be uploaded again.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Hash of file&#8217;s content.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Hash of file’s content.</p>
 </td>
 </tr>
 </tbody>
@@ -321,15 +343,15 @@ the hash of its content.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>alias</strong> (<em>str</em>) &#8211; Alias name</li>
-<li><strong>digests</strong> (<em>list of strings</em>) &#8211; List of blob hashes (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</li>
+<li><strong>alias</strong> (<em>str</em>) – Alias name</li>
+<li><strong>digests</strong> (<em>list of strings</em>) – List of blob hashes (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>).</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The registry manifest used to define the alias. You almost definitely won&#8217;t need this.</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The registry manifest used to define the alias. You almost definitely won’t need this.</p>
 </td>
 </tr>
 </tbody>
@@ -345,8 +367,8 @@ the hash of its content.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>alias</strong> (<em>str</em>) &#8211; Alias name</li>
-<li><strong>manifest_json</strong> &#8211; A V2 Schema 2 manifest JSON string</li>
+<li><strong>alias</strong> (<em>str</em>) – Alias name</li>
+<li><strong>manifest_json</strong> – A V2 Schema 2 manifest JSON string</li>
 </ul>
 </td>
 </tr>
@@ -361,25 +383,25 @@ the hash of its content.</p>
 <em class="property">class </em><code class="descclassname">dxf.</code><code class="descname">DXFBase</code><span class="sig-paren">(</span><em>host</em>, <em>auth=None</em>, <em>insecure=False</em>, <em>auth_host=None</em>, <em>tlsverify=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class for communicating with a Docker v2 registry.
-Contains only operations which aren&#8217;t related to repositories.</p>
+Contains only operations which aren’t related to repositories.</p>
 <p>Can act as a context manager. For each context entered, a new
 <a class="reference external" href="http://docs.python-requests.org/en/latest/user/advanced/#session-objects">requests.Session</a>
 is obtained. Connections to the same host are shared by the session.
-When the context exits, all the session&#8217;s connections are closed.</p>
-<p>If you don&#8217;t use <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> as a context manager, each request
-uses an ephemeral session. If you don&#8217;t read all the data from an iterator
-returned by <a class="reference internal" href="#dxf.DXF.pull_blob" title="dxf.DXF.pull_blob"><code class="xref py py-meth docutils literal"><span class="pre">DXF.pull_blob()</span></code></a> then the underlying connection won&#8217;t be
+When the context exits, all the session’s connections are closed.</p>
+<p>If you don’t use <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> as a context manager, each request
+uses an ephemeral session. If you don’t read all the data from an iterator
+returned by <a class="reference internal" href="#dxf.DXF.pull_blob" title="dxf.DXF.pull_blob"><code class="xref py py-meth docutils literal"><span class="pre">DXF.pull_blob()</span></code></a> then the underlying connection won’t be
 closed until Python garbage collects the iterator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>host</strong> (<em>str</em>) &#8211; Host name of registry. Can contain port numbers. e.g. <code class="docutils literal"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal"><span class="pre">localhost:5000</span></code>.</li>
-<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em>) &#8211; Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
-<li><strong>insecure</strong> (<em>bool</em>) &#8211; Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
-<li><strong>auth_host</strong> (<em>str</em>) &#8211; Host to use for token authentication. If set, overrides host returned by then registry.</li>
-<li><strong>tlsverify</strong> (<em>bool</em>) &#8211; When set to False, do not verify TLS certificate.</li>
+<li><strong>host</strong> (<em>str</em>) – Host name of registry. Can contain port numbers. e.g. <code class="docutils literal"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal"><span class="pre">localhost:5000</span></code>.</li>
+<li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em>) – Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
+<li><strong>insecure</strong> (<em>bool</em>) – Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
+<li><strong>auth_host</strong> (<em>str</em>) – Host to use for token authentication. If set, overrides host returned by then registry.</li>
+<li><strong>tlsverify</strong> (<em>bool</em>) – When set to False, do not verify TLS certificate.</li>
 </ul>
 </td>
 </tr>
@@ -395,11 +417,11 @@ an authorization header or otherwise as the anonymous user.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>username</strong> (<em>str</em>) &#8211; User name to authenticate as.</li>
-<li><strong>password</strong> (<em>str</em>) &#8211; User&#8217;s password.</li>
-<li><strong>actions</strong> (<em>list</em>) &#8211; If you know which types of operation you need to make on the registry, specify them here. Valid actions are <code class="docutils literal"><span class="pre">pull</span></code>, <code class="docutils literal"><span class="pre">push</span></code> and <code class="docutils literal"><span class="pre">*</span></code>.</li>
-<li><strong>response</strong> (<em>requests.Response</em>) &#8211; When the <code class="docutils literal"><span class="pre">auth</span></code> function you passed to <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a>&#8216;s constructor is called, it is passed a HTTP response object. Pass it back to <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> to have it automatically detect which actions are required.</li>
-<li><strong>authorization</strong> (<em>str</em>) &#8211; <code class="docutils literal"><span class="pre">Authorization</span></code> header value.</li>
+<li><strong>username</strong> (<em>str</em>) – User name to authenticate as.</li>
+<li><strong>password</strong> (<em>str</em>) – User’s password.</li>
+<li><strong>actions</strong> (<em>list</em>) – If you know which types of operation you need to make on the registry, specify them here. Valid actions are <code class="docutils literal"><span class="pre">pull</span></code>, <code class="docutils literal"><span class="pre">push</span></code> and <code class="docutils literal"><span class="pre">*</span></code>.</li>
+<li><strong>response</strong> (<em>requests.Response</em>) – When the <code class="docutils literal"><span class="pre">auth</span></code> function you passed to <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a>’s constructor is called, it is passed a HTTP response object. Pass it back to <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> to have it automatically detect which actions are required.</li>
+<li><strong>authorization</strong> (<em>str</em>) – <code class="docutils literal"><span class="pre">Authorization</span></code> header value.</li>
 </ul>
 </td>
 </tr>
@@ -422,8 +444,8 @@ an authorization header or otherwise as the anonymous user.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>batch_size</strong> (<em>int</em>) &#8211; Number of repository names to ask the server for at a time.</li>
-<li><strong>iterate</strong> (<em>bool</em>) &#8211; Whether to return iterator over the names or a list of all the names.</li>
+<li><strong>batch_size</strong> (<em>int</em>) – Number of repository names to ask the server for at a time.</li>
+<li><strong>iterate</strong> (<em>bool</em>) – Whether to return iterator over the names or a list of all the names.</li>
 </ul>
 </td>
 </tr>
@@ -441,7 +463,7 @@ an authorization header or otherwise as the anonymous user.</p>
 <dt id="dxf.DXFBase.token">
 <code class="descname">token</code><a class="headerlink" href="#dxf.DXFBase.token" title="Permalink to this definition">¶</a></dt>
 <dd><p>str: Authentication token. This will be obtained automatically when
-you call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a>. If you&#8217;ve obtained a token
+you call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a>. If you’ve obtained a token
 previously, you can also set it but be aware tokens expire quickly.</p>
 </dd></dl>
 
@@ -455,11 +477,11 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buf</strong> (<em>binary str</em>) &#8211; Bytes to hash</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buf</strong> (<em>binary str</em>) – Bytes to hash</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file’s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)</td>
 </tr>
 </tbody>
 </table>
@@ -473,11 +495,11 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str</em>) &#8211; Name of file to hash</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str</em>) – Name of file to hash</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file&#8217;s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Hex-encoded hash of file’s content (prefixed by <code class="docutils literal"><span class="pre">sha256:</span></code>)</td>
 </tr>
 </tbody>
 </table>
@@ -491,21 +513,21 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <dt id="dxf.exceptions.DXFAuthInsecureError">
 <em class="property">exception </em><code class="descclassname">dxf.exceptions.</code><code class="descname">DXFAuthInsecureError</code><a class="headerlink" href="#dxf.exceptions.DXFAuthInsecureError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
-<p>Can&#8217;t authenticate over insecure (non-HTTPS) connection</p>
+<p>Can’t authenticate over insecure (non-HTTPS) connection</p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="dxf.exceptions.DXFDigestMismatchError">
 <em class="property">exception </em><code class="descclassname">dxf.exceptions.</code><code class="descname">DXFDigestMismatchError</code><span class="sig-paren">(</span><em>got</em>, <em>expected</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.exceptions.DXFDigestMismatchError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></code></a></p>
-<p>Digest didn&#8217;t match expected value</p>
+<p>Digest didn’t match expected value</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>got</strong> &#8211; Actual value received</li>
-<li><strong>expected</strong> &#8211; Value that was expected</li>
+<li><strong>got</strong> – Actual value received</li>
+<li><strong>expected</strong> – Value that was expected</li>
 </ul>
 </td>
 </tr>
@@ -519,7 +541,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
 <p><a class="reference external" href="https://github.com/docker/distribution/issues/1662#issuecomment-213101772">https://github.com/docker/distribution/issues/1662#issuecomment-213101772</a>
 A schema1 manifest should always produce the same image id but defining the
-steps to produce directly from the manifest is not straight forward.&#8221;</p>
+steps to produce directly from the manifest is not straight forward.”</p>
 </dd></dl>
 
 <dl class="exception">
@@ -531,7 +553,7 @@ steps to produce directly from the manifest is not straight forward.&#8221;</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alg</strong> (<em>str</em>) &#8211; Forbidden signature algorithm</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alg</strong> (<em>str</em>) – Forbidden signature algorithm</td>
 </tr>
 </tbody>
 </table>
@@ -568,8 +590,8 @@ steps to produce directly from the manifest is not straight forward.&#8221;</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>got</strong> &#8211; Actual value received</li>
-<li><strong>expected</strong> &#8211; Value that was expected</li>
+<li><strong>got</strong> – Actual value received</li>
+<li><strong>expected</strong> – Value that was expected</li>
 </ul>
 </td>
 </tr>
@@ -587,8 +609,8 @@ steps to produce directly from the manifest is not straight forward.&#8221;</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>got</strong> &#8211; Actual value received</li>
-<li><strong>expected</strong> &#8211; Value that was expected</li>
+<li><strong>got</strong> – Actual value received</li>
+<li><strong>expected</strong> – Value that was expected</li>
 </ul>
 </td>
 </tr>
@@ -606,8 +628,8 @@ steps to produce directly from the manifest is not straight forward.&#8221;</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>got</strong> &#8211; Actual value received</li>
-<li><strong>expected</strong> &#8211; Value that was expected</li>
+<li><strong>got</strong> – Actual value received</li>
+<li><strong>expected</strong> – Value that was expected</li>
 </ul>
 </td>
 </tr>
@@ -625,8 +647,8 @@ steps to produce directly from the manifest is not straight forward.&#8221;</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>got</strong> &#8211; Actual value received</li>
-<li><strong>expected</strong> &#8211; Value that was expected</li>
+<li><strong>got</strong> – Actual value received</li>
+<li><strong>expected</strong> – Value that was expected</li>
 </ul>
 </td>
 </tr>
@@ -687,12 +709,12 @@ steps to produce directly from the manifest is not straight forward.&#8221;</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, David Halls.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
     </div>
   </body>
 </html>

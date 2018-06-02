@@ -105,7 +105,7 @@ def _setup_fixture(request):
     cleanup()
     cmd = ['docker', 'run', '-d', '-p', '5000:5000', '--name', 'dxf_registry']
     # pylint: disable=redefined-outer-name
-    regver, auth, do_token, _ = request.param
+    regver, _, auth, do_token, _ = request.param
     if auth:
         cmd += ['-v', _registry_dir + ':/registry',
                 '-v', _auth_dir + ':/auth']
@@ -134,19 +134,25 @@ def _setup_fixture(request):
 
 _fixture_params = []
 for regver in [2, 2.2]:
-    _fixture_params.extend([(regver, None, False, True),
-                            (regver, _auth_up, None, True),
-                            (regver, _auth_up, False, True),
-                            (regver, _auth_up, True, True),
-                            (regver, _auth_authz, False, True),
-                            (regver, _auth_authz, True, True),
-                            (regver, _auth_authz, True, False)])
+    for from_base in [False, True]:
+        _fixture_params.extend([(regver, from_base, None, False, True),
+                                (regver, from_base, _auth_up, None, True),
+                                (regver, from_base, _auth_up, False, True),
+                                (regver, from_base, _auth_up, True, True),
+                                (regver, from_base, _auth_authz, False, True),
+                                (regver, from_base, _auth_authz, True, True),
+                                (regver, from_base, _auth_authz, True, False)])
 
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_obj(request):
     # pylint: disable=redefined-outer-name
-    regver, auth, do_token, tlsverify = _setup_fixture(request)
-    r = dxf.DXF('localhost:5000', pytest.repo, auth, (auth is None) or (do_token is None), None, tlsverify)
+    regver, from_base, auth, do_token, tlsverify = _setup_fixture(request)
+
+    if from_base:
+        base = dxf.DXFBase('localhost:5000', auth, (auth is None) or (do_token is None), None, tlsverify)
+        r = dxf.DXF.from_base(base, pytest.repo)
+    else:
+        r = dxf.DXF('localhost:5000', pytest.repo, auth, (auth is None) or (do_token is None), None, tlsverify)
 
     r.test_do_auth = auth
     r.test_do_token = do_token
@@ -170,7 +176,9 @@ def dxf_obj(request):
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_main(request):
     # pylint: disable=redefined-outer-name
-    regver, auth, do_token, tlsverify = _setup_fixture(request)
+    regver, from_base, auth, do_token, tlsverify = _setup_fixture(request)
+    if from_base:
+        return pytest.skip()
     environ = {
         'DXF_HOST': 'localhost:5000',
         'DXF_INSECURE': '1' if ((auth is None) or (do_token is None)) else '0',

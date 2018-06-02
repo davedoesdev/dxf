@@ -176,6 +176,7 @@ class DXFBase(object):
         :type tlsverify: bool
         """
         self._base_url = ('http' if insecure else 'https') + '://' + host + '/v2/'
+        self._host = host
         self._auth = auth
         self._insecure = insecure
         self._auth_host = auth_host
@@ -741,6 +742,28 @@ class DXF(DXFBase):
                                 'tags/list', 'tags',
                                 params={'n': batch_size})
         return it if iterate else list(it)
+
+    @classmethod
+    def from_base(cls, base, repo):
+        """
+        Create a :class:`DXF` object which uses the same host, settings and
+        session as an existing :class:`DXFBase` object.
+
+        :param base: Existing :class:`DXFBase` object.
+        :type base: :class:`DXFBase`
+
+        :param repo: Name of the repository to access on the registry. Typically this is of the form ``username/reponame`` but for your own registries you don't actually have to stick to that.
+        :type repo: str
+
+        :returns: :class:`DXF` object which shares configuration and session with ``base`` but which can also be used to operate on the ``repo`` repository.
+        :rtype: :class:`DXF`
+        """
+        # pylint: disable=protected-access
+        r = cls(base._host, repo, base._auth, base._insecure, base._auth_host, base._tlsverify)
+        r._token = base._token
+        r._headers = base._headers
+        r._sessions = [base._sessions[0]]
+        return r
 
 # v1 schema support functions below
 
