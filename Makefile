@@ -65,6 +65,10 @@ $(auth_certs): $(ca_certs)
 .PHONY: travis_test
 travis_test: lint coverage
 
+.PHONY: delete_certs
+delete_certs:
+	rm $(registry_certs) $(auth_certs) $(ca_certs)
+
 dist: make_dist
 
 .PHONY: make_dist
