@@ -214,6 +214,22 @@ def test_tlsverify(dxf_obj):
         finally:
             os.environ['REQUESTS_CA_BUNDLE'] = v
 
+def test_tlsverify_str(dxf_obj):
+    # pylint: disable=protected-access
+    if not dxf_obj._insecure:
+        v = os.environ['REQUESTS_CA_BUNDLE']
+        del os.environ['REQUESTS_CA_BUNDLE']
+        tlsv = dxf_obj._tlsverify
+        dxf_obj._tlsverify = v
+        try:
+            expected = [pytest.repo]
+            if dxf_obj.regver != 2.2:
+                expected += ['test/registry']
+            assert sorted(dxf_obj.list_repos()) == sorted(expected)
+        finally:
+            os.environ['REQUESTS_CA_BUNDLE'] = v
+            dxf_obj._tlsverify = tlsv
+
 def test_pagination(dxf_obj):
     # pylint: disable=protected-access
     num = 11

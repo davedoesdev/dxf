@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>dxf module &#8212; python-dxf 7.3.0 documentation</title>
+    <title>dxf module &#8212; python-dxf 7.4.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.0',
+        VERSION:     '7.4.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -75,7 +75,7 @@
 <li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em>) – Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal"><span class="pre">DXF</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">DXFBase.authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) – Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
 <li><strong>auth_host</strong> (<em>str</em>) – Host to use for token authentication. If set, overrides host returned by then registry.</li>
-<li><strong>tlsverify</strong> (<em>bool</em>) – When set to False do not verify TLS certificate</li>
+<li><strong>tlsverify</strong> (<em>bool</em><em> or </em><em>str</em>) – When set to False, do not verify TLS certificate. When pointed to a <cite>&lt;ca bundle&gt;.crt</cite> file use this for TLS verification. See <a class="reference external" href="http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification">requests.verify</a> for more details.</li>
 </ul>
 </td>
 </tr>
@@ -401,7 +401,8 @@ closed until Python garbage collects the iterator.</p>
 <li><strong>auth</strong> (<em>function</em><em>(</em><em>dxf_obj</em><em>, </em><em>response</em><em>)</em>) – Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal"><span class="pre">response</span></code> before it returns.</li>
 <li><strong>insecure</strong> (<em>bool</em>) – Use HTTP instead of HTTPS (which is the default) when connecting to the registry.</li>
 <li><strong>auth_host</strong> (<em>str</em>) – Host to use for token authentication. If set, overrides host returned by then registry.</li>
-<li><strong>tlsverify</strong> (<em>bool</em>) – When set to False, do not verify TLS certificate.</li>
+<li><strong>tlsverify</strong> (<em>bool</em><em> or </em><em>str</em>) – <p>When set to False, do not verify TLS certificate. When pointed to a <cite>&lt;ca bundle&gt;.crt</cite> file use this for TLS verification. See <a class="reference external" href="http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification">requests.verify</a> for more details.</p>
+</li>
 </ul>
 </td>
 </tr>
@@ -709,7 +710,7 @@ steps to produce directly from the manifest is not straight forward.”</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.4.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

@@ -61,7 +61,8 @@ The `dxf` command-line tool uses the following environment variables:
 - `DXF_PROGRESS` - If this is set to `1`, a progress bar is displayed (on standard error) during `push-blob` and `pull-blob`. If this is set to `0`, a progress bar is not displayed. If this is set to any other value, a progress bar is only displayed if standard error is a terminal.
 - `DXF_BLOB_INFO` - Set this to `1` if you want `pull-blob` to prepend each blob with its digest and size (printed in plain text, separated by a space and followed by a newline).
 - `DXF_CHUNK_SIZE` - Number of bytes `pull-blob` should download at a time. Defaults to 8192.
-- `DXF_SKIPTLSVERIFY` - Skip TLS certificate verification
+- `DXF_SKIPTLSVERIFY` - Set this to `1` to skip TLS certificate verification.
+- `DXF_TLSVERIFY` - Optional path to custom CA bundle to use for TLS verification.
 
 You can use the following options with `dxf`. Supply the name of the repository
 you wish to work with in each case as the second argument.
@@ -133,6 +134,9 @@ Set the `REQUESTS_CA_BUNDLE` environment variable to the path of a PEM file
 containing the trusted certificate authority certificates.
 
 Both the module and command-line tool support `REQUESTS_CA_BUNDLE`.
+
+Alternatively, you can set the `DXF_TLSVERIFY` environment variable for the
+command-line tool or pass the `tlsverify` option to the module.
 
 ## Authentication tokens
 

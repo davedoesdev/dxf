@@ -1093,7 +1093,7 @@
 <p id="t138" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t139" class="stm run hide_run"><span class="key">def</span> <span class="nam">_ignore_warnings</span><span class="op">(</span><span class="nam">obj</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t140" class="pln">    <span class="com"># pylint: disable=protected-access</span><span class="strut">&nbsp;</span></p>
-<p id="t141" class="stm run hide_run">    <span class="key">if</span> <span class="key">not</span> <span class="nam">obj</span><span class="op">.</span><span class="nam">_tlsverify</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t141" class="stm run hide_run">    <span class="key">if</span> <span class="nam">obj</span><span class="op">.</span><span class="nam">_tlsverify</span> <span class="key">is</span> <span class="nam">False</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t142" class="stm run hide_run">        <span class="nam">warnings</span><span class="op">.</span><span class="nam">filterwarnings</span><span class="op">(</span><span class="str">'ignore'</span><span class="op">,</span> <span class="nam">category</span><span class="op">=</span><span class="nam">InsecureRequestWarning</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t143" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t144" class="stm run hide_run"><span class="key">class</span> <span class="nam">DXFBase</span><span class="op">(</span><span class="nam">object</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -1127,8 +1127,8 @@
 <p id="t172" class="pln"><span class="str">        :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.</span><span class="strut">&nbsp;</span></p>
 <p id="t173" class="pln"><span class="str">        :type auth_host: str</span><span class="strut">&nbsp;</span></p>
 <p id="t174" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t175" class="pln"><span class="str">        :param tlsverify: When set to False, do not verify TLS certificate.</span><span class="strut">&nbsp;</span></p>
-<p id="t176" class="pln"><span class="str">        :type tlsverify: bool</span><span class="strut">&nbsp;</span></p>
+<p id="t175" class="pln"><span class="str">        :param tlsverify: When set to False, do not verify TLS certificate. When pointed to a `&lt;ca bundle>.crt` file use this for TLS verification. See `requests.verify &lt;http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_ for more details.</span><span class="strut">&nbsp;</span></p>
+<p id="t176" class="pln"><span class="str">        :type tlsverify: bool or str</span><span class="strut">&nbsp;</span></p>
 <p id="t177" class="pln"><span class="str">        """</span><span class="strut">&nbsp;</span></p>
 <p id="t178" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_base_url</span> <span class="op">=</span> <span class="op">(</span><span class="str">'http'</span> <span class="key">if</span> <span class="nam">insecure</span> <span class="key">else</span> <span class="str">'https'</span><span class="op">)</span> <span class="op">+</span> <span class="str">'://'</span> <span class="op">+</span> <span class="nam">host</span> <span class="op">+</span> <span class="str">'/v2/'</span><span class="strut">&nbsp;</span></p>
 <p id="t179" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_host</span> <span class="op">=</span> <span class="nam">host</span><span class="strut">&nbsp;</span></p>
@@ -1315,8 +1315,8 @@
 <p id="t360" class="pln"><span class="str">        :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.</span><span class="strut">&nbsp;</span></p>
 <p id="t361" class="pln"><span class="str">        :type auth_host: str</span><span class="strut">&nbsp;</span></p>
 <p id="t362" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t363" class="pln"><span class="str">        :param tlsverify: When set to False do not verify TLS certificate</span><span class="strut">&nbsp;</span></p>
-<p id="t364" class="pln"><span class="str">        :type tlsverify: bool</span><span class="strut">&nbsp;</span></p>
+<p id="t363" class="pln"><span class="str">        :param tlsverify: When set to False, do not verify TLS certificate. When pointed to a `&lt;ca bundle>.crt` file use this for TLS verification. See `requests.verify &lt;http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_ for more details.</span><span class="strut">&nbsp;</span></p>
+<p id="t364" class="pln"><span class="str">        :type tlsverify: bool or str</span><span class="strut">&nbsp;</span></p>
 <p id="t365" class="pln"><span class="str">        """</span><span class="strut">&nbsp;</span></p>
 <p id="t366" class="stm run hide_run">        <span class="nam">super</span><span class="op">(</span><span class="nam">DXF</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">.</span><span class="nam">__init__</span><span class="op">(</span><span class="nam">host</span><span class="op">,</span> <span class="nam">auth</span><span class="op">,</span> <span class="nam">insecure</span><span class="op">,</span> <span class="nam">auth_host</span><span class="op">,</span> <span class="nam">tlsverify</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t367" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_repo</span> <span class="op">=</span> <span class="nam">repo</span><span class="strut">&nbsp;</span></p>
@@ -1844,7 +1844,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.4.2</a>,
-            created at 2018-06-02 22:41
+            created at 2018-07-30 21:53
         </p>
     </div>
 </div>

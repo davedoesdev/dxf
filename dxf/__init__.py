@@ -138,7 +138,7 @@ class PaginatingResponse(object):
 
 def _ignore_warnings(obj):
     # pylint: disable=protected-access
-    if not obj._tlsverify:
+    if obj._tlsverify is False:
         warnings.filterwarnings('ignore', category=InsecureRequestWarning)
 
 class DXFBase(object):
@@ -172,7 +172,7 @@ class DXFBase(object):
         :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.
         :type auth_host: str
 
-        :param tlsverify: When set to False, do not verify TLS certificate. When pointed to a `<ca bundle>.crt` file use this for TLS verification. See `requests.verify <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>` for more details.
+        :param tlsverify: When set to False, do not verify TLS certificate. When pointed to a `<ca bundle>.crt` file use this for TLS verification. See `requests.verify <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_ for more details.
         :type tlsverify: bool or str
         """
         self._base_url = ('http' if insecure else 'https') + '://' + host + '/v2/'
@@ -360,7 +360,7 @@ class DXF(DXFBase):
         :param auth_host: Host to use for token authentication. If set, overrides host returned by then registry.
         :type auth_host: str
 
-        :param tlsverify: When set to False, do not verify TLS certificate. When pointed to a `<ca bundle>.crt` file use this for TLS verification. See `requests.verify <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>` for more details.
+        :param tlsverify: When set to False, do not verify TLS certificate. When pointed to a `<ca bundle>.crt` file use this for TLS verification. See `requests.verify <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_ for more details.
         :type tlsverify: bool or str
         """
         super(DXF, self).__init__(host, auth, insecure, auth_host, tlsverify)

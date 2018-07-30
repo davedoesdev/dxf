@@ -353,3 +353,17 @@ def test_tlsverify(dxf_main):
                 assert dxf.main.doit(['list-repos'], dxf_main) == 0
         finally:
             os.environ['REQUESTS_CA_BUNDLE'] = v
+
+def test_tlsverify_str(dxf_main):
+    if dxf_main['DXF_INSECURE'] == '0':
+        v = os.environ['REQUESTS_CA_BUNDLE']
+        del os.environ['REQUESTS_CA_BUNDLE']
+        skip = dxf_main['DXF_SKIPTLSVERIFY']
+        dxf_main['DXF_SKIPTLSVERIFY'] = '0'
+        dxf_main['DXF_TLSVERIFY'] = v
+        try:
+            assert dxf.main.doit(['list-repos'], dxf_main) == 0
+        finally:
+            os.environ['REQUESTS_CA_BUNDLE'] = v
+            dxf_main['DXF_SKIPTLSVERIFY'] = skip
+            del dxf_main['DXF_TLSVERIFY']

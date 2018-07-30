@@ -54,7 +54,7 @@ def doit(args, environ):
     if dxf_skiptlsverify == '1':
         dxf_tlsverify = False
     else:
-        dxf_tlsverify = True
+        dxf_tlsverify = environ.get('DXF_TLSVERIFY', True)
 
     def auth(dxf_obj, response):
         # pylint: disable=redefined-outer-name
