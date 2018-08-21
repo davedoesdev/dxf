@@ -302,7 +302,8 @@ class DXFBase(object):
                 _ignore_warnings(self)
                 r = self._sessions[0].get(auth_url, headers=headers, verify=self._tlsverify)
             _raise_for_status(r)
-            self.token = r.json()['token']
+            rjson = r.json()
+            self.token = rjson['access_token'] if 'access_token' in rjson else rjson['token']
             return self._token
 
         self._headers = headers
