@@ -229,7 +229,7 @@ class DXFBase(object):
                      username=None, password=None,
                      actions=None, response=None,
                      authorization=None):
-        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-arguments,too-many-locals
         """
         Authenticate to the registry using a username and password,
         an authorization header or otherwise as the anonymous user.
