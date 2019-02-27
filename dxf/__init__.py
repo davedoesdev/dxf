@@ -753,7 +753,7 @@ class DXF(DXFBase):
         :rtype: tuple
         :returns: verson check response as a string (JSON) and requests.Response
         """
-        r = self._request('get', '')
+        r = self._base_request('get', '')
         return r.content.decode('utf-8'), r
 
     @classmethod

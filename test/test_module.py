@@ -17,6 +17,9 @@ def test_not_found(dxf_obj):
     _not_found(dxf_obj, pytest.blob1_hash)
     _not_found(dxf_obj, pytest.blob2_hash)
 
+def test_api_version_check(dxf_obj):
+    print(dxf_obj.api_version_check())
+
 def test_push_blob(dxf_obj):
     assert dxf_obj.push_blob(pytest.blob1_file) == pytest.blob1_hash
     state = {
