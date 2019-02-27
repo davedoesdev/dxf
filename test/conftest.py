@@ -47,34 +47,32 @@ def copy_registry_image(regver):
     subprocess.check_call(['docker', 'push', tag])
     subprocess.check_call(['docker', 'rmi', tag])
 
-def pytest_namespace():
-    return {
-        'blob1_file': os.path.join(_fixture_dir, 'blob1'),
-        'blob2_file': os.path.join(_fixture_dir, 'blob2'),
-        'blob3_file': os.path.join(_fixture_dir, 'blob3'),
-        'blob4_file': os.path.join(_fixture_dir, 'blob4'),
+def pytest_configure(config):
+    setattr(pytest, 'blob1_file', os.path.join(_fixture_dir, 'blob1'))
+    setattr(pytest, 'blob2_file', os.path.join(_fixture_dir, 'blob2'))
+    setattr(pytest, 'blob3_file', os.path.join(_fixture_dir, 'blob3'))
+    setattr(pytest, 'blob4_file', os.path.join(_fixture_dir, 'blob4'))
 
-        'blob1_hash': os.environ['HASH1'],
-        'blob2_hash': os.environ['HASH2'],
-        'blob3_hash': os.environ['HASH3'],
-        'blob4_hash': os.environ['HASH4'],
+    setattr(pytest, 'blob1_hash', os.environ['HASH1'])
+    setattr(pytest, 'blob2_hash', os.environ['HASH2'])
+    setattr(pytest, 'blob3_hash', os.environ['HASH3'])
+    setattr(pytest, 'blob4_hash', os.environ['HASH4'])
 
-        'blob1_size': 1 * 1024 * 1024,
-        'blob2_size': 2 * 1024 * 1024,
-        'blob3_size': 2 * 1024 * 1024,
-        'blob4_size': 2 * 1024 * 1024,
+    setattr(pytest, 'blob1_size', 1 * 1024 * 1024)
+    setattr(pytest, 'blob2_size', 2 * 1024 * 1024)
+    setattr(pytest, 'blob3_size', 2 * 1024 * 1024)
+    setattr(pytest, 'blob4_size', 2 * 1024 * 1024)
 
-        'username': _username,
-        'password': _password,
-        # pylint: disable=protected-access
-        'authorization': 'Basic ' + base64.b64encode(dxf._to_bytes_2and3(_username + ':' + _password)).decode('utf-8'),
+    setattr(pytest, 'username', _username)
+    setattr(pytest, 'password', _password)
+    # pylint: disable=protected-access
+    setattr(pytest, 'authorization', 'Basic ' + base64.b64encode(dxf._to_bytes_2and3(_username + ':' + _password)).decode('utf-8'))
 
-        'repo': 'foo/bar',
+    setattr(pytest, 'repo', 'foo/bar')
 
-        'gc': gc,
+    setattr(pytest, 'gc', gc)
 
-        'copy_registry_image': copy_registry_image
-    }
+    setattr(pytest, 'copy_registry_image', copy_registry_image)
 
 def _auth_up(dxf_obj, response):
     # pylint: disable=redefined-outer-name
