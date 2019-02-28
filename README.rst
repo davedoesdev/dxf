@@ -1,4 +1,4 @@
-\ |Build Status| |Coverage Status| |PyPI version|
+\ `Build Status <https://travis-ci.org/davedoesdev/dxf>`__ `Coverage Status <https://coveralls.io/r/davedoesdev/dxf?branch=master>`__ `PyPI version <http://badge.fury.io/py/python-dxf>`__
 
 Python module and command-line tool for storing and retrieving data in a
 Docker registry.
@@ -10,7 +10,7 @@ Docker registry.
 -  Works on Python 2.7 and 3.6
 
 Please note that ``dxf`` does *not* generate Docker container
-configuration, so you won't be able to ``docker pull`` data you store
+configuration, so you won’t be able to ``docker pull`` data you store
 using ``dxf``. See `this
 issue <https://github.com/davedoesdev/dxf/issues/3>`__ for more details.
 
@@ -18,34 +18,34 @@ Command-line example:
 
 .. code:: shell
 
-    dxf push-blob fred/datalogger logger.dat @may15-readings
-    dxf pull-blob fred/datalogger @may15-readings
+   dxf push-blob fred/datalogger logger.dat @may15-readings
+   dxf pull-blob fred/datalogger @may15-readings
 
 which is the same as:
 
 .. code:: shell
 
-    dxf set-alias fred/datalogger may15-readings $(dxf push-blob fred/datalogger logger.dat)
-    dxf pull-blob fred/datalogger $(dxf get-alias fred/datalogger may15-readings)
+   dxf set-alias fred/datalogger may15-readings $(dxf push-blob fred/datalogger logger.dat)
+   dxf pull-blob fred/datalogger $(dxf get-alias fred/datalogger may15-readings)
 
 Module example:
 
 .. code:: python
 
-    from dxf import DXF
+   from dxf import DXF
 
-    def auth(dxf, response):
-        dxf.authenticate('fred', 'somepassword', response=response)
+   def auth(dxf, response):
+       dxf.authenticate('fred', 'somepassword', response=response)
 
-    dxf = DXF('registry-1.docker.io', 'fred/datalogger', auth)
+   dxf = DXF('registry-1.docker.io', 'fred/datalogger', auth)
 
-    dgst = dxf.push_blob('logger.dat')
-    dxf.set_alias('may15-readings', dgst)
+   dgst = dxf.push_blob('logger.dat')
+   dxf.set_alias('may15-readings', dgst)
 
-    assert dxf.get_alias('may15-readings') == [dgst]
+   assert dxf.get_alias('may15-readings') == [dgst]
 
-    for chunk in dxf.pull_blob(dgst):
-        sys.stdout.write(chunk)
+   for chunk in dxf.pull_blob(dgst):
+       sys.stdout.write(chunk)
 
 Usage
 -----
@@ -59,7 +59,7 @@ The ``dxf`` command-line tool uses the following environment variables:
 -  ``DXF_INSECURE`` - Set this to ``1`` if you want to connect to the
    registry using ``http`` rather than ``https`` (which is the default).
 -  ``DXF_USERNAME`` - Name of user to authenticate as.
--  ``DXF_PASSWORD`` - User's password.
+-  ``DXF_PASSWORD`` - User’s password.
 -  ``DXF_AUTHORIZATION`` - HTTP ``Authorization`` header value.
 -  ``DXF_AUTH_HOST`` - If set, always perform token authentication to
    this host, overriding the value returned by the registry.
@@ -83,68 +83,70 @@ repository you wish to work with in each case as the second argument.
 
 -  ``dxf push-blob <repo> <file> [@alias]``
 
-       Upload a file to the registry and optionally give it a name
-       (alias). The blob's hash is printed to standard output.
+      Upload a file to the registry and optionally give it a name
+      (alias). The blob’s hash is printed to standard output.
 
-       The hash or the alias can be used to fetch the blob later using
-       ``pull-blob``.
+   ..
+
+      The hash or the alias can be used to fetch the blob later using
+      ``pull-blob``.
 
 -  ``dxf pull-blob <repo> <hash>|<@alias>...``
 
-       Download blobs from the registry to standard output. For each
-       blob you can specify its hash, prefixed by ``sha256:`` (remember
-       the registry is content-addressable) or an alias you've given it
-       (using ``push-blob`` or ``set-alias``).
+      Download blobs from the registry to standard output. For each blob
+      you can specify its hash, prefixed by ``sha256:`` (remember the
+      registry is content-addressable) or an alias you’ve given it
+      (using ``push-blob`` or ``set-alias``).
 
 -  ``dxf blob-size <repo> <hash>|<@alias>...``
 
-       Print the size of blobs in the registry. If you specify an alias,
-       the sum of all the blobs it points to will be printed.
+      Print the size of blobs in the registry. If you specify an alias,
+      the sum of all the blobs it points to will be printed.
 
 -  ``dxf del-blob <repo> <hash>|<@alias>...``
 
-       Delete blobs from the registry. If you specify an alias the blobs
-       it points to will be deleted, not the alias itself. Use
-       ``del-alias`` for that.
+      Delete blobs from the registry. If you specify an alias the blobs
+      it points to will be deleted, not the alias itself. Use
+      ``del-alias`` for that.
 
 -  ``dxf set-alias <repo> <alias> <hash>|<file>...``
 
-       Give a name (alias) to a set of blobs. For each blob you can
-       either specify its hash (as printed by ``get-blob``) or, if you
-       have the blob's contents on disk, its filename (including a path
-       separator to distinguish it from a hash).
+      Give a name (alias) to a set of blobs. For each blob you can
+      either specify its hash (as printed by ``get-blob``) or, if you
+      have the blob’s contents on disk, its filename (including a path
+      separator to distinguish it from a hash).
 
 -  ``dxf get-alias <repo> <alias>...``
 
-       For each alias you specify, print the hashes of all the blobs it
-       points to.
+      For each alias you specify, print the hashes of all the blobs it
+      points to.
 
 -  ``dxf del-alias <repo> <alias>...``
 
-       Delete each specified alias. The blobs they point to won't be
-       deleted (use ``del-blob`` for that), but their hashes will be
-       printed.
+      Delete each specified alias. The blobs they point to won’t be
+      deleted (use ``del-blob`` for that), but their hashes will be
+      printed.
 
 -  ``dxf list-aliases <repo>``
 
-       Print all the aliases defined in the repository.
+      Print all the aliases defined in the repository.
 
 -  ``dxf list-repos``
 
-       Print the names of all the repositories in the registry. Not all
-       versions of the registry support this.
+      Print the names of all the repositories in the registry. Not all
+      versions of the registry support this.
 
 -  ``dxf get-digest <repo> <alias>...``
 
-       For each alias you specify, print the hash of its configuration
-       blob. For an alias created using ``dxf``, this is the hash of the
-       first blob it points to. For a Docker image tag, this is the same
-       as ``docker inspect alias --format='{{.Id}}'``.
+      For each alias you specify, print the hash of its configuration
+      blob. For an alias created using ``dxf``, this is the hash of the
+      first blob it points to. For a Docker image tag, this is the same
+      as ``docker inspect alias --format='{{.Id}}'``.
 
 Certificates
 ------------
 
-If your registry uses SSL with a self-issued certificate, you'll need to
+If your registry uses SSL with a self-issued certificate, you’ll need to
 supply ``dxf`` with a set of trusted certificate authorities.
 
 Set the ``REQUESTS_CA_BUNDLE`` environment variable to the path of a PEM
@@ -168,11 +170,13 @@ command:
 
 -  ``dxf auth <repo> <action>...``
 
-       Authenticate to the registry using ``DXF_USERNAME`` and
-       ``DXF_PASSWORD``, or ``DXF_AUTHORIZATION``, and print the
-       resulting token.
+      Authenticate to the registry using ``DXF_USERNAME`` and
+      ``DXF_PASSWORD``, or ``DXF_AUTHORIZATION``, and print the
+      resulting token.
 
-       ``action`` can be ``pull``, ``push`` or ``*``.
+   ..
+
+      ``action`` can be ``pull``, ``push`` or ``*``.
 
 If you assign the token to the ``DXF_TOKEN`` environment variable, for
 example:
@@ -196,10 +200,10 @@ configuration file and pass it to ``dxf``:
 
 .. code:: python
 
-    auth = 'Basic ' + dockercloud.api.auth.load_from_file()
-    dxf_obj = dxf.DXF('index.docker.io', repo='myorganization/myimage')
-    dxf_obj.authenticate(authorization=auth, actions=['pull'])
-    dxf_obj.list_aliases()
+   auth = 'Basic ' + dockercloud.api.auth.load_from_file()
+   dxf_obj = dxf.DXF('index.docker.io', repo='myorganization/myimage')
+   dxf_obj.authenticate(authorization=auth, actions=['pull'])
+   dxf_obj.list_aliases()
 
 Thanks to `cyrilleverrier <https://github.com/cyrilleverrier>`__ for
 this tip.
@@ -209,7 +213,7 @@ Installation
 
 .. code:: shell
 
-    pip install python-dxf
+   pip install python-dxf
 
 Licence
 -------
@@ -221,31 +225,24 @@ Tests
 
 .. code:: shell
 
-    make test
+   make test
 
 Lint
 ----
 
 .. code:: shell
 
-    make lint
+   make lint
 
 Code Coverage
 -------------
 
 .. code:: shell
 
-    make coverage
+   make coverage
 
 `coverage.py <http://nedbatchelder.com/code/coverage/>`__ results are
 available
 `here <http://rawgit.davedoesdev.com/davedoesdev/dxf/master/htmlcov/index.html>`__.
 
 Coveralls page is `here <https://coveralls.io/r/davedoesdev/dxf>`__.
-
-.. |Build Status| image:: https://travis-ci.org/davedoesdev/dxf.png
-   :target: https://travis-ci.org/davedoesdev/dxf
-.. |Coverage Status| image:: https://coveralls.io/repos/davedoesdev/dxf/badge.png?branch=master
-   :target: https://coveralls.io/r/davedoesdev/dxf?branch=master
-.. |PyPI version| image:: https://badge.fury.io/py/python-dxf.png
-   :target: http://badge.fury.io/py/python-dxf

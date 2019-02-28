@@ -285,8 +285,10 @@ class DXFBase(object):
             info = parsed['bearer']
             if actions and self._repo:
                 scope = 'repository:' + self._repo + ':' + ','.join(actions)
-            else:
+            elif 'scope' in info:
                 scope = info['scope']
+            else:
+                scope = ''
             url_parts = list(urlparse.urlparse(info['realm']))
             query = urlparse.parse_qs(url_parts[4])
             query.update({
@@ -743,6 +745,16 @@ class DXF(DXFBase):
                                 'tags/list', 'tags',
                                 params={'n': batch_size})
         return it if iterate else list(it)
+
+    def api_version_check(self):
+        """
+        Performs API version check
+
+        :rtype: tuple
+        :returns: verson check response as a string (JSON) and requests.Response
+        """
+        r = self._base_request('get', '')
+        return r.content.decode('utf-8'), r
 
     @classmethod
     def from_base(cls, base, repo):

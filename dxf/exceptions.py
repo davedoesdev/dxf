@@ -6,7 +6,6 @@ class DXFError(Exception):
     """
     Base exception class for all dxf errors
     """
-    pass
 
 class DXFUnexpectedError(DXFError):
     """
