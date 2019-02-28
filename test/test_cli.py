@@ -50,23 +50,19 @@ def test_push_blob(dxf_main, capsys):
     assert out == pytest.repo + os.linesep
     assert err == ""
 
-def _pull_blob(dxf_main, name, dgst, capfd):
+def _pull_blob(dxf_main, name, dgst, capfdbinary):
     assert dxf.main.doit(['pull-blob', pytest.repo, name], dxf_main) == 0
-    # pylint: disable=protected-access
-    capfd._capture.out.tmpfile.encoding = None
-    out, err = capfd.readouterr()
+    out, err = capfdbinary.readouterr()
     sha256 = hashlib.sha256()
     sha256.update(out)
     assert 'sha256:' + sha256.hexdigest() == dgst
-    assert err == ""
+    assert err == b""
 
-def test_pull_blob(dxf_main, capfd):
+def test_pull_blob(dxf_main, capfdbinary):
     environ = {'DXF_BLOB_INFO': '1'}
     environ.update(dxf_main)
     assert dxf.main.doit(['pull-blob', pytest.repo, pytest.blob1_hash, pytest.blob2_hash], environ) == 0
-    # pylint: disable=protected-access
-    capfd._capture.out.tmpfile.encoding = None
-    out, err = capfd.readouterr()
+    out, err = capfdbinary.readouterr()
     out_sha256 = hashlib.sha256()
     out_sha256.update(out)
     expected_sha256 = hashlib.sha256()
@@ -85,10 +81,10 @@ def test_pull_blob(dxf_main, capfd):
         for chunk in iter(lambda: f.read(8192), b''):
             expected_sha256.update(chunk)
     assert out_sha256.digest() == expected_sha256.digest()
-    assert err == ""
-    _pull_blob(dxf_main, pytest.blob1_hash, pytest.blob1_hash, capfd)
-    _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfd)
-    _pull_blob(dxf_main, '@fooey', pytest.blob1_hash, capfd)
+    assert err == b""
+    _pull_blob(dxf_main, pytest.blob1_hash, pytest.blob1_hash, capfdbinary)
+    _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfdbinary)
+    _pull_blob(dxf_main, '@fooey', pytest.blob1_hash, capfdbinary)
 
 def test_progress(dxf_main, capfd):
     environ = {'DXF_PROGRESS': '1'}
@@ -220,33 +216,31 @@ def test_list_aliases(dxf_main, capsys):
     assert sorted(out.split(os.linesep)) == ['', 'fooey', 'hello', 'there', 'world']
     assert err == ""
 
-def test_manifest(dxf_main, capfd, monkeypatch):
+def test_manifest(dxf_main, capfdbinary, monkeypatch):
     assert dxf.main.doit(['set-alias', pytest.repo, 'mani_test', pytest.blob1_hash], dxf_main) == 0
-    manifest, err = capfd.readouterr()
+    manifest, err = capfdbinary.readouterr()
     assert manifest
-    assert err == ""
+    assert err == b""
     # pylint: disable=too-few-public-methods
     class FakeStdin(object):
         # pylint: disable=no-self-use
         def read(self):
-            return manifest
+            return manifest.decode()
     monkeypatch.setattr(sys, 'stdin', FakeStdin())
     assert dxf.main.doit(['get-alias', pytest.repo], dxf_main) == 0
-    out, err = capfd.readouterr()
-    assert out == pytest.blob1_hash + os.linesep
-    assert err == ""
+    out, err = capfdbinary.readouterr()
+    assert out.decode() == pytest.blob1_hash + os.linesep
+    assert err == b""
     assert dxf.main.doit(['blob-size', pytest.repo], dxf_main) == 0
-    out, err = capfd.readouterr()
-    assert out == str(pytest.blob1_size) + os.linesep
-    assert err == ""
+    out, err = capfdbinary.readouterr()
+    assert out.decode() == str(pytest.blob1_size) + os.linesep
+    assert err == b""
     assert dxf.main.doit(['pull-blob', pytest.repo], dxf_main) == 0
-    # pylint: disable=protected-access
-    capfd._capture.out.tmpfile.encoding = None
-    out, err = capfd.readouterr()
+    out, err = capfdbinary.readouterr()
     sha256 = hashlib.sha256()
     sha256.update(out)
     assert 'sha256:' + sha256.hexdigest() == pytest.blob1_hash
-    assert err == ""
+    assert err == b""
     assert dxf.main.doit(['del-blob', pytest.repo], dxf_main) == 0
     assert dxf.main.doit(['pull-blob', pytest.repo], dxf_main) == errno.ENOENT
 
@@ -283,8 +277,8 @@ def test_auth(dxf_main, capsys):
         assert sorted(out.split(os.linesep)) == ['', 'fooey', 'hello', 'mani_test', 'there', 'world']
         assert err == ""
 
-def test_del_blob(dxf_main, capfd):
-    _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfd)
+def test_del_blob(dxf_main, capfdbinary):
+    _pull_blob(dxf_main, pytest.blob2_hash, pytest.blob2_hash, capfdbinary)
     assert dxf.main.doit(['del-blob', pytest.repo, pytest.blob2_hash], dxf_main) == 0
     _not_found(dxf_main, pytest.blob2_hash)
     assert dxf.main.doit(['del-blob', pytest.repo, pytest.blob2_hash], dxf_main) == errno.ENOENT
