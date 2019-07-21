@@ -1,12 +1,14 @@
+import io
 import os
 from setuptools import setup
 
 def read(name):
-    return open(os.path.join(os.path.dirname(__file__), name)).read()
+    file_path = os.path.join(os.path.dirname(__file__), name)
+    return io.open(file_path, encoding='utf8').read()
 
 setup(
     name='python-dxf',
-    version='7.5.0',
+    version='7.5.1',
     description="Package for accessing a Docker v2 registry",
     long_description=read('README.rst'),
     keywords='docker registry',
