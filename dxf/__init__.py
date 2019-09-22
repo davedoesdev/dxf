@@ -474,7 +474,7 @@ class DXF(DXFBase):
         :type digest: str
 
         :rtype: long
-        :returns: Whether the blob exists.
+        :returns: Size of the blob in bytes.
         """
         r = self._request('head', 'blobs/' + digest)
         return long(r.headers['content-length'])
@@ -502,7 +502,7 @@ class DXF(DXFBase):
             # registry as a blob store so to save us uploading extra blobs,
             # use the first layer.
             'config': {
-                'mediaType': 'application/octet-stream',
+                'mediaType': 'application/vnd.docker.container.image.v1+json',
                 'size': layers[0]['size'],
                 'digest': layers[0]['digest']
             },
