@@ -91,6 +91,7 @@ class _ReportingFile(object):
         cb(dgst, b'', self._size)
     # define __iter__ so requests thinks we're a stream
     # (models.py, PreparedRequest.prepare_body)
+    # pylint: disable=non-iterator-returned
     def __iter__(self):
         assert not "called"
     # define fileno, tell and mode so requests can find length
