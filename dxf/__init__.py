@@ -305,7 +305,8 @@ class DXFBase(object):
                 r = self._sessions[0].get(auth_url, headers=headers, verify=self._tlsverify)
             _raise_for_status(r)
             rjson = r.json()
-            self.token = rjson['access_token'] if 'access_token' in rjson else rjson['token']
+            # Use 'access_token' value if present and not empty, else 'token' value.
+            self.token = rjson.get('access_token') or rjson['token']
             return self._token
 
         self._headers = headers

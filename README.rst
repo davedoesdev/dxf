@@ -1,4 +1,4 @@
-\ `Build Status <https://travis-ci.org/davedoesdev/dxf>`__ `Coverage Status <https://coveralls.io/r/davedoesdev/dxf?branch=master>`__ `PyPI version <http://badge.fury.io/py/python-dxf>`__
+\ |Build Status| |Coverage Status| |PyPI version|
 
 Python module and command-line tool for storing and retrieving data in a
 Docker registry.
@@ -246,3 +246,10 @@ available
 `here <http://rawgit.davedoesdev.com/davedoesdev/dxf/master/htmlcov/index.html>`__.
 
 Coveralls page is `here <https://coveralls.io/r/davedoesdev/dxf>`__.
+
+.. |Build Status| image:: https://travis-ci.org/davedoesdev/dxf.png
+   :target: https://travis-ci.org/davedoesdev/dxf
+.. |Coverage Status| image:: https://coveralls.io/repos/davedoesdev/dxf/badge.png?branch=master
+   :target: https://coveralls.io/r/davedoesdev/dxf?branch=master
+.. |PyPI version| image:: https://badge.fury.io/py/python-dxf.png
+   :target: http://badge.fury.io/py/python-dxf
