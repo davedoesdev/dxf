@@ -230,7 +230,7 @@ class DXFBase(object):
                      username=None, password=None,
                      actions=None, response=None,
                      authorization=None):
-        # pylint: disable=too-many-arguments,too-many-locals
+        # pylint: disable=too-many-arguments,too-many-locals,too-many-branches
         """
         Authenticate to the registry using a username and password,
         an authorization header or otherwise as the anonymous user.
@@ -288,6 +288,9 @@ class DXFBase(object):
                 scope = 'repository:' + self._repo + ':' + ','.join(actions)
             elif 'scope' in info:
                 scope = info['scope']
+            elif not self._repo:
+                # Issue #28: gcr.io doesn't return scope for non-repo requests
+                scope = 'registry:catalog:*'
             else:
                 scope = ''
             url_parts = list(urlparse.urlparse(info['realm']))
