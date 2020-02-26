@@ -376,7 +376,7 @@ class DXF(DXFBase):
         self._repo_path = (repo + '/') if repo else ''
 
     def _request(self, method, path, **kwargs):
-        return super(DXF, self)._base_request(
+        return self._base_request(
             method,
             urlparse.urljoin(self._repo_path, path),
             **kwargs)
