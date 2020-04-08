@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>dxf module &#8212; python-dxf 7.6.0 documentation</title>
+    <title>dxf module &#8212; python-dxf 7.7.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.6.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.7.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -418,7 +418,7 @@ closed until Python garbage collects the iterator.</p>
 </table>
 <dl class="method">
 <dt id="dxf.DXFBase.authenticate">
-<code class="descname">authenticate</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>actions=None</em>, <em>response=None</em>, <em>authorization=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase.authenticate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">authenticate</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em>, <em>actions=None</em>, <em>response=None</em>, <em>authorization=None</em>, <em>user_agent='Docker-Client/19.03.2 (linux)'</em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase.authenticate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Authenticate to the registry using a username and password,
 an authorization header or otherwise as the anonymous user.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -431,6 +431,7 @@ an authorization header or otherwise as the anonymous user.</p>
 <li><strong>actions</strong> (<em>list</em>) – If you know which types of operation you need to make on the registry, specify them here. Valid actions are <code class="docutils literal notranslate"><span class="pre">pull</span></code>, <code class="docutils literal notranslate"><span class="pre">push</span></code> and <code class="docutils literal notranslate"><span class="pre">*</span></code>.</li>
 <li><strong>response</strong> (<em>requests.Response</em>) – When the <code class="docutils literal notranslate"><span class="pre">auth</span></code> function you passed to <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFBase</span></code></a>’s constructor is called, it is passed a HTTP response object. Pass it back to <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">authenticate()</span></code></a> to have it automatically detect which actions are required.</li>
 <li><strong>authorization</strong> (<em>str</em>) – <code class="docutils literal notranslate"><span class="pre">Authorization</span></code> header value.</li>
+<li><strong>user_agent</strong> (<em>str</em>) – <code class="docutils literal notranslate"><span class="pre">User-Agent</span></code> header value.</li>
 </ul>
 </td>
 </tr>
@@ -720,7 +721,7 @@ steps to produce directly from the manifest is not straight forward.”</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.6.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.7.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

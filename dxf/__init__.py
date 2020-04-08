@@ -229,7 +229,8 @@ class DXFBase(object):
     def authenticate(self,
                      username=None, password=None,
                      actions=None, response=None,
-                     authorization=None):
+                     authorization=None,
+                     user_agent='Docker-Client/19.03.2 (linux)'):
         # pylint: disable=too-many-arguments,too-many-locals,too-many-branches
         """
         Authenticate to the registry using a username and password,
@@ -249,6 +250,9 @@ class DXFBase(object):
 
         :param authorization: ``Authorization`` header value.
         :type authorization: str
+
+        :param user_agent: ``User-Agent`` header value.
+        :type user_agent: str
 
         :rtype: str
         :returns: Authentication token, if the registry supports bearer tokens. Otherwise ``None``, and HTTP Basic auth is used (if the registry requires authentication).
@@ -281,7 +285,7 @@ class DXFBase(object):
             }
         else:
             headers = {}
-        headers["User-Agent"] = "Docker-Client/19.03.2 (linux)"
+        headers["User-Agent"] = user_agent
 
         if 'bearer' in parsed:
             info = parsed['bearer']
