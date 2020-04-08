@@ -281,6 +281,7 @@ class DXFBase(object):
             }
         else:
             headers = {}
+        headers["User-Agent"] = "Docker-Client/19.03.2 (linux)"
 
         if 'bearer' in parsed:
             info = parsed['bearer']
