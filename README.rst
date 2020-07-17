@@ -112,9 +112,10 @@ repository you wish to work with in each case as the second argument.
 -  ``dxf set-alias <repo> <alias> <hash>|<file>...``
 
       Give a name (alias) to a set of blobs. For each blob you can
-      either specify its hash (as printed by ``get-blob``) or, if you
-      have the blob’s contents on disk, its filename (including a path
-      separator to distinguish it from a hash).
+      either specify its hash (as printed by ``push-blob`` or
+      ``get-alias``) or, if you have the blob’s contents on disk, its
+      filename (including a path separator to distinguish it from a
+      hash).
 
 -  ``dxf get-alias <repo> <alias>...``
 
