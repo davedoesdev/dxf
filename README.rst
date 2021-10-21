@@ -1,4 +1,4 @@
-\ |Build Status| |Coverage Status| |PyPI version|
+|Build Status| |Coverage Status| |PyPI version|
 
 Python module and command-line tool for storing and retrieving data in a
 Docker registry.

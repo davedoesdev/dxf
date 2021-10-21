@@ -25,7 +25,7 @@ _remove_container = os.path.join(_here, 'remove_container.sh')
 _username = 'fred'
 _password = '!WordPass0$'
 
-DEVNULL = open(os.devnull, 'wb')
+DEVNULL = open(os.devnull, 'wb') # pylint: disable=consider-using-with
 
 def gc():
     subprocess.check_call(['docker', 'exec', 'dxf_registry', 'bin/registry', 'garbage-collect', '/etc/docker/registry/config.yml'])
@@ -157,6 +157,7 @@ def dxf_obj(request):
     r.regver = regver
     r.reg_digest = _get_registry_digest(regver)
 
+    lex = Exception('should never be thrown')
     for _ in range(5):
         try:
             if do_token is None:
@@ -168,8 +169,9 @@ def dxf_obj(request):
 
             return r
         except requests.exceptions.ConnectionError as ex:
+            lex = ex
             time.sleep(1)
-    raise ex
+    raise lex
 
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_main(request):
@@ -193,6 +195,7 @@ def dxf_main(request):
     elif auth is _auth_authz:
         environ['DXF_AUTHORIZATION'] = pytest.authorization
 
+    lex = Exception('should never be thrown')
     for _ in range(5):
         try:
             if do_token is None:
@@ -204,5 +207,6 @@ def dxf_main(request):
 
             return environ
         except requests.exceptions.ConnectionError as ex:
+            lex = ex
             time.sleep(1)
-    raise ex
+    raise lex

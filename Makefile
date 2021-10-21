@@ -20,7 +20,7 @@ docs: build_docs
 .PHONY: build_docs
 build_docs:
 	cd docs && make html
-	pandoc -t rst README.md | sed -e '1,1s/^[^\\]*//' -e '2d' > README.rst
+	pandoc -t rst README.md | sed -e '1,1s/^[^|]*//' -e '2d' > README.rst
 
 .PHONY: lint
 lint:
@@ -61,9 +61,6 @@ $(registry_certs): $(ca_certs)
 
 $(auth_certs): $(ca_certs)
 	openssl req -new -nodes -newkey rsa:4096 -sha256 -keyout test/auth/auth.key -subj "/CN=localhost/" | openssl x509 -req -extfile <(echo subjectAltName=DNS:localhost) -days 365 -CA test/ca.pem -CAkey test/ca.key -CAcreateserial -out test/auth/auth.pem
-
-.PHONY: travis_test
-travis_test: lint coverage
 
 .PHONY: delete_certs
 delete_certs:

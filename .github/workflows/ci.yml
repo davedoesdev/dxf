@@ -1,0 +1,32 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [2.7, 3.6, 3.7, 3.8, 3.9, 3.10]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Lint
+        run: make lint
+
+      - name: Coverage
+        run: make coverage
+
+      - name: CLI test
+        run: ./test/cli_example.sh
+
+      - name: Coveralls
+        run: coveralls

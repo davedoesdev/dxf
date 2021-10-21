@@ -110,6 +110,8 @@ def test_see_progress(dxf_main, monkeypatch):
         # pylint: disable=no-self-use
         def write(self, _):
             time.sleep(0.05)
+        def flush(self):
+            pass
     monkeypatch.setattr(sys, 'stdout', FakeStdout())
     assert dxf.main.doit(['pull-blob', pytest.repo, pytest.blob1_hash], environ) == 0
     orig_tqdm = tqdm.tqdm
