@@ -32,6 +32,7 @@ jobs:
         run: ./test/cli_example.sh
 
       - name: Coveralls
+        if: ${{ matrix.python-version }} == '3.10' 
         run: coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
