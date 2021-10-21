@@ -248,8 +248,8 @@ available
 
 Coveralls page is `here <https://coveralls.io/r/davedoesdev/dxf>`__.
 
-.. |Build Status| image:: https://travis-ci.org/davedoesdev/dxf.png
-   :target: https://travis-ci.org/davedoesdev/dxf
+.. |Build Status| image:: https://github.com/davedoesdev/dxf/workflows/ci/badge.svg
+   :target: https://github.com/davedoesdev/dxf/actions
 .. |Coverage Status| image:: https://coveralls.io/repos/davedoesdev/dxf/badge.png?branch=master
    :target: https://coveralls.io/r/davedoesdev/dxf?branch=master
 .. |PyPI version| image:: https://badge.fury.io/py/python-dxf.png
