@@ -221,6 +221,21 @@ Licence
 
 `MIT <https://raw.github.com/davedoesdev/dxf/master/LICENCE>`__
 
+Other projects that use DXF
+---------------------------
+
+Docker-charon
+~~~~~~~~~~~~~
+
+https://github.com/gabrieldemarmiesse/docker-charon
+
+This package allows you to transfer Docker images from one registry to
+another. The second one being disconnected from the internet.
+
+Unlike ``docker save`` and ``docker load``, it creates the payload
+directly from the registry (it’s faster) and is able to compute diffs to
+only take the layers needed, hence reducing the size.
+
 Tests
 -----
 
