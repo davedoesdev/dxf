@@ -378,7 +378,11 @@ class DXF(DXFBase):
         """
         super(DXF, self).__init__(host, auth, insecure, auth_host, tlsverify)
         self._repo = repo
-        self._repo_path = (repo + '/') if repo else ''
+        self._repo_path = ''
+        if repo:
+            if host.endswith('docker.io') and len(repo.split('/')) == 1:
+                self._repo_path = 'library/'
+            self._repo_path += repo + '/'
 
     def _request(self, method, path, **kwargs):
         return self._base_request(
