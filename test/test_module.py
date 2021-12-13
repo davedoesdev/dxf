@@ -42,6 +42,20 @@ def test_blob_size(dxf_obj):
     assert dxf_obj.blob_size(pytest.blob1_hash) == pytest.blob1_size
     assert dxf_obj.blob_size(pytest.blob2_hash) == pytest.blob2_size
 
+def test_mount_blob(dxf_obj):
+    # pylint: disable=protected-access
+    dxf_obj2 = dxf.DXF(dxf_obj._host, 'some/other', dxf_obj._auth, dxf_obj._insecure, None, dxf_obj._tlsverify)
+    if dxf_obj.regver == 2.2:
+        with pytest.raises(dxf.exceptions.DXFMountFailed):
+            dxf_obj2.mount_blob(dxf_obj._repo, pytest.blob1_hash)
+    else:
+        assert dxf_obj2.mount_blob(dxf_obj._repo, pytest.blob1_hash) == pytest.blob1_hash
+        _pull_blob(dxf_obj2, pytest.blob1_hash, pytest.blob1_size, None)
+    with pytest.raises(dxf.exceptions.DXFMountFailed):
+        dxf_obj2.mount_blob(dxf_obj._repo, _def_hash)
+    with pytest.raises(dxf.exceptions.DXFMountFailed):
+        dxf_obj2.mount_blob('another/repo', pytest.blob1_hash)
+
 def _pull_blob(dxf_obj, dgst, expected_size, chunk_size):
     if expected_size is None:
         it = dxf_obj.pull_blob(dgst, chunk_size=chunk_size)
@@ -119,7 +133,7 @@ def test_get_digest(dxf_obj):
     assert dxf_obj.get_digest('world') == pytest.blob2_hash
     pytest.copy_registry_image(dxf_obj.regver)
     # pylint: disable=protected-access
-    dxf_obj2 = dxf.DXF('localhost:5000', 'test/registry', dxf_obj._auth, dxf_obj._insecure, None, dxf_obj._tlsverify)
+    dxf_obj2 = dxf.DXF(dxf_obj._host, 'test/registry', dxf_obj._auth, dxf_obj._insecure, None, dxf_obj._tlsverify)
     assert dxf_obj2.get_digest(str(dxf_obj.regver)) == dxf_obj.reg_digest
 
 def test_list_aliases(dxf_obj):
@@ -196,6 +210,7 @@ def test_del_alias(dxf_obj):
         assert ex.value.response.status_code == requests.codes.not_found
 
 _abc_hash = 'sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+_def_hash = 'sha256:cb8379ac2098aa165029e3938a51da0bcecfc008fd6795f401178647f96c5b34'
 
 def test_hash_bytes():
     assert dxf.hash_bytes(b'abc') == _abc_hash
@@ -212,7 +227,7 @@ def test_tlsverify(dxf_obj):
             else:
                 expected = [pytest.repo]
                 if dxf_obj.regver != 2.2:
-                    expected += ['test/registry']
+                    expected += ['test/registry', 'some/other']
                 assert sorted(dxf_obj.list_repos()) == sorted(expected)
         finally:
             os.environ['REQUESTS_CA_BUNDLE'] = v
@@ -227,7 +242,7 @@ def test_tlsverify_str(dxf_obj):
         try:
             expected = [pytest.repo]
             if dxf_obj.regver != 2.2:
-                expected += ['test/registry']
+                expected += ['test/registry', 'some/other']
             assert sorted(dxf_obj.list_repos()) == sorted(expected)
         finally:
             os.environ['REQUESTS_CA_BUNDLE'] = v
@@ -238,9 +253,9 @@ def test_pagination(dxf_obj):
     num = 11
     for i in range(num):
         name = 'test/{0}'.format(i)
-        dxf_obj2 = dxf.DXF('localhost:5000', name, dxf_obj._auth, dxf_obj._insecure, None, dxf_obj._tlsverify)
+        dxf_obj2 = dxf.DXF(dxf_obj._host, name, dxf_obj._auth, dxf_obj._insecure, None, dxf_obj._tlsverify)
         assert dxf_obj2.push_blob(data=b'abc', digest=_abc_hash) == _abc_hash
     expected = [pytest.repo] + ['test/{0}'.format(i) for i in range(num)]
     if dxf_obj.regver != 2.2:
-        expected += ['test/registry']
+        expected += ['test/registry', 'some/other']
     assert sorted(dxf_obj2.list_repos(batch_size=3)) == sorted(expected)

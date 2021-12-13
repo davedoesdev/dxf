@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dxf module &#8212; python-dxf 7.7.4 documentation</title>
+    <title>dxf module &#8212; python-dxf 7.8.0 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -24,7 +24,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.7.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.8.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dxf module</a></li> 
       </ul>
     </div>  
@@ -253,6 +253,26 @@ response.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Alias names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dxf.DXF.mount_blob">
+<code class="sig-name descname"><span class="pre">mount_blob</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digest</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.mount_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mount a blob from another repository in the registry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>repo</strong> (<em>str</em>) – Repository containing the existing blob.</p></li>
+<li><p><strong>digest</strong> (<em>str</em>) – Hash of the existing blob’s content (prefixed by <code class="docutils literal notranslate"><span class="pre">sha256:</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Hash of blob’s content.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -510,6 +530,13 @@ steps to produce directly from the manifest is not straight forward.”</p>
 </dd></dl>
 
 <dl class="py exception">
+<dt id="dxf.exceptions.DXFMountFailed">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></code><code class="sig-name descname"><span class="pre">DXFMountFailed</span></code><a class="headerlink" href="#dxf.exceptions.DXFMountFailed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<p>Failed to mount blob from another repository.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt id="dxf.exceptions.DXFSignatureChainNotImplementedError">
 <em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></code><code class="sig-name descname"><span class="pre">DXFSignatureChainNotImplementedError</span></code><a class="headerlink" href="#dxf.exceptions.DXFSignatureChainNotImplementedError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
@@ -637,7 +664,7 @@ steps to produce directly from the manifest is not straight forward.”</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.7.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 7.8.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dxf module</a></li> 
       </ul>
     </div>

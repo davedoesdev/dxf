@@ -13,6 +13,7 @@ _choices = ['auth',
             'push-blob',
             'pull-blob',
             'blob-size',
+            'mount-blob',
             'del-blob',
             'set-alias',
             'get-alias',
@@ -140,6 +141,18 @@ def doit(args, environ):
                                            sizes=True)]
             for tuples in sizes:
                 print(sum([size for _, size in tuples]))
+
+        elif args.op == 'mount-blob':
+            if len(args.args) < 2:
+                _parser.error('too few arguments')
+            if len(args.args) > 3:
+                _parser.error('too many arguments')
+            if len(args.args) == 3 and not args.args[2].startswith('@'):
+                _parser.error('invalid alias')
+            dgst = dxf_obj.mount_blob(args.args[0], args.args[1])
+            if len(args.args) == 3:
+                dxf_obj.set_alias(args.args[2][1:], dgst)
+            print(dgst)
 
         elif args.op == 'del-blob':
             if args.args:

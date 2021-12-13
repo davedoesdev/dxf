@@ -87,6 +87,14 @@ you wish to work with in each case as the second argument.
     > Print the size of blobs in the registry. If you specify an alias, the
     > sum of all the blobs it points to will be printed.
 
+-   `dxf mount-blob <repo> <from-repo> <hash> [@alias]`
+
+    > Cross mount a blob from another repository and optionally give it an
+    > alias. Specify the blob by its hash, prefixed by `sha256:`.
+
+    > This is useful to avoid having to upload a blob to your repository if
+    > you know it already exists in the registry.
+
 -   `dxf del-blob <repo> <hash>|<@alias>...`
 
     > Delete blobs from the registry. If you specify an alias the blobs it

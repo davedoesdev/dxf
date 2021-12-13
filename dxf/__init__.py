@@ -378,11 +378,15 @@ class DXF(DXFBase):
         """
         super(DXF, self).__init__(host, auth, insecure, auth_host, tlsverify)
         self._repo = repo
-        self._repo_path = ''
+        self._repo_path = self._get_repo_path(repo)
+
+    def _get_repo_path(self, repo, suffix='/'):
+        repo_path = ''
         if repo:
-            if host.endswith('docker.io') and len(repo.split('/')) == 1:
-                self._repo_path = 'library/'
-            self._repo_path += repo + '/'
+            if self._host.endswith('docker.io') and len(repo.split('/')) == 1:
+                repo_path = 'library/'
+            repo_path += repo + suffix
+        return repo_path
 
     def _request(self, method, path, **kwargs):
         return self._base_request(
@@ -493,6 +497,28 @@ class DXF(DXFBase):
         """
         r = self._request('head', 'blobs/' + digest)
         return long(r.headers['content-length'])
+
+    def mount_blob(self, repo, digest):
+        """
+        Mount a blob from another repository in the registry.
+
+        :param repo: Repository containing the existing blob.
+        :type repo: str
+
+        :param digest: Hash of the existing blob's content (prefixed by ``sha256:``).
+        :type digest: str
+
+        :rtype: str
+        :returns: Hash of blob's content.
+        """
+        r = self._request('post', 'blobs/uploads/?' + urlencode({
+            'mount': digest,
+            'from': self._get_repo_path(repo, suffix='')
+        }))
+        # pylint: disable=no-member
+        if r.status_code != requests.codes.created:
+            raise exceptions.DXFMountFailed()
+        return r.headers.get('Docker-Content-Digest')
 
     def del_blob(self, digest):
         """
