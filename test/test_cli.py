@@ -355,7 +355,7 @@ def test_bad_args(dxf_main, capsys):
     assert out == ""
     assert "invalid alias" in err
     with pytest.raises(SystemExit):
-        dxf.main.doit(['mount-blob', 'some/other', pytest.repo, pytest.blob2_hash, 'blob2-mounted'], dxf_main) == 0
+        dxf.main.doit(['mount-blob', 'some/other', pytest.repo, pytest.blob2_hash, 'blob2-mounted'], dxf_main)
     out, err = capsys.readouterr()
     assert out == ""
     assert "invalid alias" in err

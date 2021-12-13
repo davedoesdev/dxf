@@ -165,7 +165,7 @@ def dxf_obj(request):
                     r.authenticate(pytest.username, pytest.password)
                 return pytest.skip()
 
-            assert r.list_repos() == []
+            assert not r.list_repos()
 
             return r
         except requests.exceptions.ConnectionError as ex:
