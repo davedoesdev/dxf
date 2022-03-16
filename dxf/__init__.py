@@ -609,9 +609,9 @@ class DXF(DXFBase):
         r = self._request('get',
                           'manifests/' + alias,
                           headers={'Accept': ', '.join((
-                                    _schema2_mimetype,
-                                    _schema1_mimetype,
-                                    _schema2_list_mimetype))})
+                              _schema2_mimetype,
+                              _schema1_mimetype,
+                              _schema2_list_mimetype))})
         return r.content.decode('utf-8'), r
 
     def get_manifest(self, alias):
