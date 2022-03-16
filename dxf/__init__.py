@@ -29,6 +29,7 @@ import www_authenticate
 from dxf import exceptions
 
 _schema2_mimetype = 'application/vnd.docker.distribution.manifest.v2+json'
+_schema2_list_mimetype = 'application/vnd.docker.distribution.manifest.list.v2+json'
 
 if sys.version_info < (3, 0):
     _binary_type = str
@@ -560,10 +561,11 @@ class DXF(DXFBase):
         :param manifest_json: A V2 Schema 2 manifest JSON string
         :type digests: list
         """
+        media_type = json.loads(manifest_json)['mediaType']
         self._request('put',
                       'manifests/' + alias,
                       data=manifest_json,
-                      headers={'Content-Type': _schema2_mimetype})
+                      headers={'Content-Type': media_type})
 
     def set_alias(self, alias, *digests):
         # pylint: disable=too-many-locals
@@ -606,8 +608,10 @@ class DXF(DXFBase):
         """
         r = self._request('get',
                           'manifests/' + alias,
-                          headers={'Accept': _schema2_mimetype + ', ' +
-                                             _schema1_mimetype})
+                          headers={'Accept': ', '.join((
+                              _schema2_mimetype,
+                              _schema1_mimetype,
+                              _schema2_list_mimetype))})
         return r.content.decode('utf-8'), r
 
     def get_manifest(self, alias):
