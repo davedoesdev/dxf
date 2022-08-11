@@ -99,3 +99,10 @@ class DXFMountFailed(DXFError):
     """
     def __str__(self):
         return 'Cross repository blob mount failed'
+
+class DXFUnsupportedSchemaType(DXFError):
+    """
+    Schema type (mediaType) is not recognized/supported
+    """
+    def __str__(self):
+        return 'The mediaType "%s" is not supported' % self.args[0]

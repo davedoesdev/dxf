@@ -665,8 +665,15 @@ class DXF(DXFBase):
             split_digest(dgst)
             return dgst
 
+        if parsed_manifest['mediaType'] == _schema2_mimetype:
+            blobs_key = 'layers'
+        elif parsed_manifest['mediaType'] == _schema2_list_mimetype:
+            blobs_key = 'manifests'
+        else:
+            raise exceptions.DXFUnsupportedSchemaType(parsed_manifest['mediaType'])
+
         r = []
-        for layer in parsed_manifest['layers']:
+        for layer in parsed_manifest[blobs_key]:
             dgst = layer['digest']
             split_digest(dgst)
             r.append((dgst, layer['size']) if sizes else dgst)
