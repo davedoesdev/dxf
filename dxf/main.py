@@ -140,7 +140,7 @@ def doit(args, environ):
                 sizes = [dxf_obj.get_alias(manifest=sys.stdin.read(),
                                            sizes=True)]
             for tuples in sizes:
-                print(sum([size for _, size in tuples]))
+                print(sum(size for _, size in tuples))
 
         elif args.op == 'mount-blob':
             if len(args.args) < 2:

@@ -159,7 +159,8 @@ class DXFBase(object):
     returned by :meth:`DXF.pull_blob` then the underlying connection won't be
     closed until Python garbage collects the iterator.
     """
-    def __init__(self, host, auth=None, insecure=False, auth_host=None, tlsverify=True):
+    def __init__(self, host,
+                 auth=None, insecure=False, auth_host=None, tlsverify=True, timeout=None):
         # pylint: disable=too-many-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
@@ -176,6 +177,9 @@ class DXFBase(object):
 
         :param tlsverify: When set to False, do not verify TLS certificate. When pointed to a `<ca bundle>.crt` file use this for TLS verification. See `requests.verify <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_ for more details.
         :type tlsverify: bool or str
+
+        :param timeout: Optional timeout for requests. See `requests.timeout <https://requests.readthedocs.io/en/latest/user/quickstart/#timeouts>`_ for more details.
+        :type timeout: float
         """
         self._base_url = ('http' if insecure else 'https') + '://' + host + '/v2/'
         self._host = host
@@ -187,6 +191,7 @@ class DXFBase(object):
         self._repo = None
         self._sessions = [requests]
         self._tlsverify = tlsverify
+        self._timeout = timeout
 
     @property
     def token(self):
@@ -206,7 +211,7 @@ class DXFBase(object):
 
     def _base_request(self, method, path, **kwargs):
         def make_kwargs():
-            r = {'allow_redirects': True, 'verify': self._tlsverify}
+            r = {'allow_redirects': True, 'verify': self._tlsverify, 'timeout': self._timeout}
             r.update(kwargs)
             if 'headers' not in r:
                 r['headers'] = {}
@@ -261,7 +266,9 @@ class DXFBase(object):
         if response is None:
             with warnings.catch_warnings():
                 _ignore_warnings(self)
-                response = self._sessions[0].get(self._base_url, verify=self._tlsverify)
+                response = self._sessions[0].get(self._base_url,
+                                                 verify=self._tlsverify,
+                                                 timeout=self._timeout)
 
         if response.ok:
             return None
@@ -312,7 +319,10 @@ class DXFBase(object):
             auth_url = urlparse.urlunparse(url_parts)
             with warnings.catch_warnings():
                 _ignore_warnings(self)
-                r = self._sessions[0].get(auth_url, headers=headers, verify=self._tlsverify)
+                r = self._sessions[0].get(auth_url,
+                                          headers=headers,
+                                          verify=self._tlsverify,
+                                          timeout=self._timeout)
             _raise_for_status(r)
             rjson = r.json()
             # Use 'access_token' value if present and not empty, else 'token' value.
@@ -356,7 +366,9 @@ class DXF(DXFBase):
     """
     Class for operating on a Docker v2 repositories.
     """
-    def __init__(self, host, repo, auth=None, insecure=False, auth_host=None, tlsverify=True):
+    # pylint: disable=too-many-instance-attributes
+
+    def __init__(self, host, repo, auth=None, insecure=False, auth_host=None, tlsverify=True, timeout=None):
         # pylint: disable=too-many-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
@@ -376,8 +388,11 @@ class DXF(DXFBase):
 
         :param tlsverify: When set to False, do not verify TLS certificate. When pointed to a `<ca bundle>.crt` file use this for TLS verification. See `requests.verify <http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification>`_ for more details.
         :type tlsverify: bool or str
+
+        :param timeout: Optional timeout for requests. See `requests.timeout <https://requests.readthedocs.io/en/latest/user/quickstart/#timeouts>`_ for more details.
+        :type timeout: float
         """
-        super(DXF, self).__init__(host, auth, insecure, auth_host, tlsverify)
+        super(DXF, self).__init__(host, auth, insecure, auth_host, tlsverify, timeout)
         self._repo = repo
         self._repo_path = self._get_repo_path(repo)
 
@@ -824,7 +839,7 @@ class DXF(DXFBase):
         :rtype: :class:`DXF`
         """
         # pylint: disable=protected-access
-        r = cls(base._host, repo, base._auth, base._insecure, base._auth_host, base._tlsverify)
+        r = cls(base._host, repo, base._auth, base._insecure, base._auth_host, base._tlsverify, base._timeout)
         r._token = base._token
         r._headers = base._headers
         r._sessions = [base._sessions[0]]
