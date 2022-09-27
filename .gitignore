@@ -8,7 +8,6 @@
 /test/auth/auth.pem
 /test/auth/auth.key
 /test/ca.*
-/python
 /dist
 /python_dxf.egg-info
 /build
