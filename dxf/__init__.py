@@ -3,7 +3,6 @@ Module for accessing a Docker v2 Registry
 """
 
 from typing import Optional, Union, List, Callable, Iterable, Type, Iterator, TypeVar, Tuple, TYPE_CHECKING, Dict, Protocol
-from types import ModuleType
 import base64
 import hashlib
 import json
