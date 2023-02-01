@@ -31,6 +31,12 @@ from dxf import exceptions
 _schema2_mimetype = 'application/vnd.docker.distribution.manifest.v2+json'
 _schema2_list_mimetype = 'application/vnd.docker.distribution.manifest.list.v2+json'
 
+# OCIv1 equivalent of a docker registry v2 manifests
+_ociv1_manifest_mimetype = 'application/vnd.oci.image.manifest.v1+json'
+# OCIv1 equivalent of a docker registry v2 "manifests list"
+_ociv1_index_mimetype = 'application/vnd.oci.image.index.v1+json'
+
+
 if sys.version_info < (3, 0):
     _binary_type = str
 else:
@@ -624,7 +630,11 @@ class DXF(DXFBase):
                           headers={'Accept': ', '.join((
                               _schema2_mimetype,
                               _schema1_mimetype,
-                              _schema2_list_mimetype))})
+                              _schema2_list_mimetype,
+                              _ociv1_manifest_mimetype,
+                              _ociv1_index_mimetype,
+                              ))})
+
         return r.content.decode('utf-8'), r
 
     def get_manifest(self, alias):
@@ -678,9 +688,9 @@ class DXF(DXFBase):
             split_digest(dgst)
             return dgst
 
-        if parsed_manifest['mediaType'] == _schema2_mimetype:
+        if parsed_manifest['mediaType'] == _schema2_mimetype or parsed_manifest['mediaType'] == _ociv1_manifest_mimetype:
             blobs_key = 'layers'
-        elif parsed_manifest['mediaType'] == _schema2_list_mimetype:
+        elif parsed_manifest['mediaType'] == _schema2_list_mimetype or parsed_manifest["mediaType"] == _ociv1_index_mimetype:
             blobs_key = 'manifests'
         else:
             raise exceptions.DXFUnsupportedSchemaType(parsed_manifest['mediaType'])
