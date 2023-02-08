@@ -765,13 +765,20 @@ class DXF(DXFBase):
         """
         # https://docs.docker.com/registry/spec/api/#deleting-an-image
         # Note When deleting a manifest from a registry version 2.3 or later,
-        # the following header must be used when HEAD or GET-ing the manifest
-        # to obtain the correct digest to delete:
-        # Accept: application/vnd.docker.distribution.manifest.v2+json
+        # the Accept header must be set correctly to overlap with the mediaType
+        # when HEAD or GET-ing the manifest.
+        # E.g. a manifest.list type manifest contains a list of regular manifests
+        # If only "Accept: application/vnd.docker.distribution.manifest.v2+json" (regular manifest)
+        # is sent when querying an alias, the registry will not return the digest
+        # of the manifest.list, but instead, the digest of the first regular manifest in the list.
+        # This is a valid and deletable digest, but ends up leaving the registry broken
+        # as it still has the manifest-list with references to the now deleted manifest.
         return self._request(
             'head',
             'manifests/{}'.format(alias),
-            headers={'Accept': _schema2_mimetype},
+            headers={'Accept': ','.join([
+                _schema2_mimetype,
+                _schema2_list_mimetype])},
         ).headers.get('Docker-Content-Digest')
 
     def del_alias(self, alias):
