@@ -8,7 +8,7 @@ def read(name):
 
 setup(
     name='python-dxf',
-    version='8.0.1',
+    version='8.0.2',
     description="Package for accessing a Docker v2 registry",
     long_description=read('README.rst'),
     keywords='docker registry',
