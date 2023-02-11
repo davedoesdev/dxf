@@ -75,3 +75,7 @@ make_dist:
 
 upload:
 	python3 -m twine upload dist/$(name)-$(version)*
+
+.PHONY: typecheck
+typecheck:
+	mypy dxf
