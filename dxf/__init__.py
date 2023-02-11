@@ -21,8 +21,23 @@ import www_authenticate # type: ignore
 # pylint: disable=wildcard-import
 from dxf import exceptions
 
+_schema1_mimetype = 'application/vnd.docker.distribution.manifest.v1+json'
+
 _schema2_mimetype = 'application/vnd.docker.distribution.manifest.v2+json'
 _schema2_list_mimetype = 'application/vnd.docker.distribution.manifest.list.v2+json'
+
+# OCIv1 equivalent of a docker registry v2 manifests
+_ociv1_manifest_mimetype = 'application/vnd.oci.image.manifest.v1+json'
+# OCIv1 equivalent of a docker registry v2 "manifests list"
+_ociv1_index_mimetype = 'application/vnd.oci.image.index.v1+json'
+
+_accept_header = {'Accept': ', '.join((
+    _schema1_mimetype,
+    _schema2_mimetype,
+    _schema2_list_mimetype,
+    _ociv1_manifest_mimetype,
+    _ociv1_index_mimetype,
+))}
 
 if sys.version_info < (3, 0):
     _binary_type = str
@@ -570,10 +585,8 @@ class DXF(DXFBase):
         """
         r = self._request('get',
                           'manifests/' + alias,
-                          headers={'Accept': ', '.join((
-                              _schema2_mimetype,
-                              _schema1_mimetype,
-                              _schema2_list_mimetype))})
+                          headers=_accept_header)
+
         return r.content.decode('utf-8'), r
 
     def get_manifest(self, alias: str) -> str:
@@ -625,9 +638,9 @@ class DXF(DXFBase):
             split_digest(dgst)
             return dgst
 
-        if parsed_manifest['mediaType'] == _schema2_mimetype:
+        if parsed_manifest['mediaType'] == _schema2_mimetype or parsed_manifest['mediaType'] == _ociv1_manifest_mimetype:
             blobs_key = 'layers'
-        elif parsed_manifest['mediaType'] == _schema2_list_mimetype:
+        elif parsed_manifest['mediaType'] == _schema2_list_mimetype or parsed_manifest["mediaType"] == _ociv1_index_mimetype:
             blobs_key = 'manifests'
         else:
             raise exceptions.DXFUnsupportedSchemaType(parsed_manifest['mediaType'])
@@ -710,9 +723,7 @@ class DXF(DXFBase):
         return self._request(
             'head',
             'manifests/{}'.format(alias),
-            headers={'Accept': ','.join([
-                _schema2_mimetype,
-                _schema2_list_mimetype])},
+            headers=_accept_header
         ).headers.get('Docker-Content-Digest')
 
     def del_alias(self, alias: str) -> List[str]:
@@ -785,8 +796,6 @@ class DXF(DXFBase):
             'fsLayers': [{'blobSum': dgst} for dgst in digests],
             'history': [{'v1Compatibility': '{}'} for dgst in digests]
         }, sort_keys=True)
-
-_schema1_mimetype = 'application/vnd.docker.distribution.manifest.v1+json'
 
 def _urlsafe_b64encode(s):
     return base64.urlsafe_b64encode(_to_bytes_2and3(s)).rstrip(b'=').decode('utf-8')
