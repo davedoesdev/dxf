@@ -36,9 +36,10 @@ def _flatten(l):
 # pylint: disable=too-many-statements
 def doit(args, environ):
     dxf_progress = environ.get('DXF_PROGRESS')
+    progress = None
     if dxf_progress == '1' or (dxf_progress != '0' and sys.stderr.isatty()):
         bars = {}
-        def progress(dgst, chunk, size):
+        def do_progress(dgst, chunk, size):
             if dgst not in bars:
                 bars[dgst] = tqdm.tqdm(desc=dgst[0:8],
                                        total=size,
@@ -48,8 +49,7 @@ def doit(args, environ):
             if bars[dgst].n >= bars[dgst].total:
                 bars[dgst].close()
                 del bars[dgst]
-    else:
-        progress = None
+        progress = do_progress
 
     dxf_skiptlsverify = environ.get('DXF_SKIPTLSVERIFY')
     if dxf_skiptlsverify == '1':

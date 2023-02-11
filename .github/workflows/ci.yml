@@ -22,8 +22,8 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
 
-      - name: Lint
-        run: make lint
+      - name: Lint and type check
+        run: make lint typecheck
 
       - name: Coverage
         run: make coverage

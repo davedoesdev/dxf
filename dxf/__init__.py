@@ -2,30 +2,22 @@
 Module for accessing a Docker v2 Registry
 """
 
-from typing import Optional, Union, List, Callable, Iterable, Type, Iterator, TypeVar, Tuple, TYPE_CHECKING, Dict, Protocol
+from typing import Optional, Union, List, Callable, Iterable, Type, Iterator, TypeVar, Tuple, TYPE_CHECKING, Dict, cast
+from types import ModuleType
 import base64
 import hashlib
 import json
 import sys
 import warnings
 
-try:
-    import urllib.parse as urlparse
-    from urllib.parse import urlencode
-except ImportError:
-    # pylint: disable=import-error,no-name-in-module,wrong-import-order
-    from urllib import urlencode
-    import urlparse
+import urllib.parse as urlparse
+from urllib.parse import urlencode
 
 import requests
-try:
-    from requests.packages import urllib3
-except ImportError:
-    import urllib3
 from urllib3.exceptions import InsecureRequestWarning
 
-from jwcrypto import jwk, jws
-import www_authenticate
+from jwcrypto import jwk, jws # type: ignore
+import www_authenticate # type: ignore
 # pylint: disable=wildcard-import
 from dxf import exceptions
 
@@ -39,6 +31,7 @@ else:
     # pylint: disable=redefined-builtin
     long = int
 
+# Note: From Python 3.11 onwards we can use typing.Self instead of these
 T = TypeVar('T', bound='DXFBase')
 TD = TypeVar('TD', bound='DXF')
 
@@ -183,7 +176,7 @@ class DXFBase(object):
         self._token = None
         self._headers: Dict[str, str] = {}
         self._repo: Optional[str] = None
-        self._sessions: List[requests.Session] = [requests]
+        self._sessions: List[Union[ModuleType, requests.Session]] = [requests]
         self._tlsverify = tlsverify
         self._timeout = timeout
 
@@ -350,7 +343,7 @@ class DXF(DXFBase):
     """
     # pylint: disable=too-many-instance-attributes
 
-    def __init__(self: TD, host: str, repo: str, auth: Callable[['DXFBase', requests.Response], None]=None, insecure: bool=False, auth_host: Optional[str]=None, tlsverify: Union[bool, str]=True, timeout: Optional[float]=None):
+    def __init__(self: TD, host: str, repo: str, auth: Optional[Callable[['DXFBase', requests.Response], None]]=None, insecure: bool=False, auth_host: Optional[str]=None, tlsverify: Union[bool, str]=True, timeout: Optional[float]=None):
         # pylint: disable=too-many-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
@@ -427,7 +420,7 @@ class DXF(DXFBase):
         upload_url = r.headers['Location']
         url_parts = list(urlparse.urlparse(upload_url))
         query = urlparse.parse_qs(url_parts[4])
-        query.update({'digest': dgst})
+        query.update({'digest': [dgst]})
         url_parts[4] = urlencode(query, True)
         url_parts[0] = 'http' if self._insecure else 'https'
         upload_url = urlparse.urlunparse(url_parts)
@@ -735,9 +728,7 @@ class DXF(DXFBase):
         :returns: A list of blob hashes (strings) which were assigned to the alias.
         """
         dcd = self._get_dcd(alias)
-        if TYPE_CHECKING:
-            assert isinstance(dcd, list)
-        dgsts = self.get_alias(alias)
+        dgsts = cast(List[str], self.get_alias(alias))
         self._request('delete', 'manifests/{}'.format(dcd))
         return dgsts
 
