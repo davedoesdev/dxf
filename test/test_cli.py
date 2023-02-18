@@ -316,19 +316,14 @@ def test_del_alias(dxf_main, capsys):
     out, err = capsys.readouterr()
     assert out == pytest.blob2_hash + os.linesep
     assert err == ""
-    if dxf_main['REGVER'] == 2.2:
-        with pytest.raises(requests.exceptions.HTTPError) as ex:
-            dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main)
-        assert ex.value.response.status_code == requests.codes.method_not_allowed
-        assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == 0
-    else:
-        assert dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main) == 0
-        out, err = capsys.readouterr()
-        assert out == pytest.blob2_hash + os.linesep
+    assert dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == pytest.blob2_hash + os.linesep
+    if dxf_main['REGVER'] != 2.2:
         # Note: test gc but it isn't needed to make a 404
         pytest.gc()
-        assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == errno.ENOENT
-        assert dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main) == errno.ENOENT
+    assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == errno.ENOENT
+    assert dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main) == errno.ENOENT
 
 def _num_args(dxf_main, op, minimum, maximum, capsys):
     if minimum is not None:

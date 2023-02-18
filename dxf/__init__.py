@@ -504,7 +504,10 @@ class DXF(DXFBase):
         # pylint: disable=no-member
         if r.status_code != requests.codes.created:
             raise exceptions.DXFMountFailed()
-        return r.headers.get('Docker-Content-Digest')
+        dcd = r.headers.get('Docker-Content-Digest')
+        if dcd is not None:
+            assert dcd == digest
+        return digest
 
     def del_blob(self, digest: str):
         """
@@ -514,7 +517,6 @@ class DXF(DXFBase):
         """
         self._request('delete', 'blobs/' + digest)
 
-    # For dtuf; highly unlikely anyone else will want this
     def make_manifest(self, *digests):
         layers = [{
             'mediaType': 'application/octet-stream',
@@ -523,11 +525,13 @@ class DXF(DXFBase):
         } for dgst in digests]
         return json.dumps({
             'schemaVersion': 2,
-            'mediaType': 'application/vnd.docker.distribution.manifest.v2+json',
+            #'mediaType': _ociv1_manifest_mimetype,
+            'mediaType': _schema2_mimetype,
             # V2 Schema 2 insists on a config dependency. We're just using the
             # registry as a blob store so to save us uploading extra blobs,
             # use the first layer.
             'config': {
+                #'mediaType': 'application/vnd.oci.image.config.v1+json',
                 'mediaType': 'application/vnd.docker.container.image.v1+json',
                 'size': layers[0]['size'],
                 'digest': layers[0]['digest']
@@ -583,10 +587,19 @@ class DXF(DXFBase):
 
         :returns: Tuple containing the manifest as a string (JSON) and the `requests.Response <http://docs.python-requests.org/en/master/api/#requests.Response>`_
         """
+        # https://docs.docker.com/registry/spec/api/#deleting-an-image
+        # Note When deleting a manifest from a registry version 2.3 or later,
+        # the Accept header must be set correctly to overlap with the mediaType
+        # when HEAD or GET-ing the manifest.
+        # E.g. a manifest.list type manifest contains a list of regular manifests
+        # If only "Accept: application/vnd.docker.distribution.manifest.v2+json" (regular manifest)
+        # is sent when querying an alias, the registry will not return the digest
+        # of the manifest.list, but instead, the digest of the first regular manifest in the list.
+        # This is a valid and deletable digest, but ends up leaving the registry broken
+        # as it still has the manifest-list with references to the now deleted manifest.
         r = self._request('get',
                           'manifests/' + alias,
                           headers=_accept_header)
-
         return r.content.decode('utf-8'), r
 
     def get_manifest(self, alias: str) -> str:
@@ -600,11 +613,15 @@ class DXF(DXFBase):
         manifest, _ = self.get_manifest_and_response(alias)
         return manifest
 
-    def _get_alias(self, alias, manifest, verify, sizes, dcd, get_digest):
-        # pylint: disable=too-many-arguments
+    def _get_alias(self, alias, manifest, verify, sizes, get_digest, get_dcd):
+        # pylint: disable=too-many-arguments,too-many-locals,too-many-branches
         if alias:
             manifest, r = self.get_manifest_and_response(alias)
-            dcd = r.headers['docker-content-digest']
+            dcd = r.headers.get('Docker-Content-Digest')
+            content = r.content
+        else:
+            dcd = None
+            content = None
 
         parsed_manifest = json.loads(manifest)
 
@@ -615,32 +632,41 @@ class DXF(DXFBase):
             # straight forward."
             if get_digest:
                 raise exceptions.DXFDigestNotAvailableForSchema1()
-
             r = _verify_manifest(manifest,
                                  parsed_manifest,
                                  dcd,
-                                 verify)
+                                 verify,
+                                 get_dcd)
+            if get_dcd:
+                r, dcd = r
+            r = [(dgst, self.blob_size(dgst)) for dgst in r] if sizes else r
+            return (r, dcd) if get_dcd else r
 
-            return [(dgst, self.blob_size(dgst)) for dgst in r] if sizes else r
-
-        if dcd:
-            method, expected_dgst = split_digest(dcd)
-            hasher = hashlib.new(method)
-            hasher.update(r.content)
-            dgst = hasher.hexdigest()
-            if dgst != expected_dgst:
-                raise exceptions.DXFDigestMismatchError(
-                    method + ':' + dgst,
-                    method + ':' + expected_dgst)
+        if content is not None:
+            if dcd is not None:
+                method, expected_dgst = split_digest(dcd)
+                hasher = hashlib.new(method)
+                hasher.update(content)
+                dgst = hasher.hexdigest()
+                if dgst != expected_dgst:
+                    raise exceptions.DXFDigestMismatchError(
+                        method + ':' + dgst,
+                        method + ':' + expected_dgst)
+            elif get_dcd:
+                dcd = hash_bytes(content)
+        elif get_dcd:
+            dcd = hash_bytes(manifest.encode('utf8'))
 
         if get_digest:
             dgst = parsed_manifest['config']['digest']
             split_digest(dgst)
-            return dgst
+            return (dgst, dcd) if get_dcd else dgst
 
-        if parsed_manifest['mediaType'] == _schema2_mimetype or parsed_manifest['mediaType'] == _ociv1_manifest_mimetype:
+        if parsed_manifest['mediaType'] == _schema2_mimetype or \
+           parsed_manifest['mediaType'] == _ociv1_manifest_mimetype:
             blobs_key = 'layers'
-        elif parsed_manifest['mediaType'] == _schema2_list_mimetype or parsed_manifest["mediaType"] == _ociv1_index_mimetype:
+        elif parsed_manifest['mediaType'] == _schema2_list_mimetype or \
+             parsed_manifest["mediaType"] == _ociv1_index_mimetype:
             blobs_key = 'manifests'
         else:
             raise exceptions.DXFUnsupportedSchemaType(parsed_manifest['mediaType'])
@@ -650,14 +676,13 @@ class DXF(DXFBase):
             dgst = layer['digest']
             split_digest(dgst)
             r.append((dgst, layer['size']) if sizes else dgst)
-        return r
+        return (r, dcd) if get_dcd else r
 
     def get_alias(self,
             alias: Optional[str]=None,
             manifest: Optional[str]=None,
             verify: bool=True,
-            sizes: bool=False,
-            dcd: Optional[str]=None) -> Union[List[str], List[Tuple[str, long]]]:
+            sizes: bool=False) -> Union[List[str], List[Tuple[str, long]]]:
         # pylint: disable=too-many-arguments
         """
         Get the blob hashes assigned to an alias.
@@ -670,17 +695,14 @@ class DXF(DXFBase):
 
         :param sizes: Whether to return sizes of the blobs along with their hashes
 
-        :param dcd: (if ``manifest`` is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.
-
         :returns: If ``sizes`` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ``sizes`` is truthy, a list of (hash,size) tuples for each blob.
         """
-        return self._get_alias(alias, manifest, verify, sizes, dcd, False)
+        return self._get_alias(alias, manifest, verify, sizes, False, False)
 
     def get_digest(self,
             alias: Optional[str]=None,
             manifest: Optional[str]=None,
-            verify: bool=True,
-            dcd: Optional[str]=None) -> str:
+            verify: bool=True) -> str:
         """
         (v2 schema only) Get the hash of an alias's configuration blob.
 
@@ -696,35 +718,9 @@ class DXF(DXFBase):
 
         :param verify: (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won't need to change this from the default (``True``).
 
-        :param dcd: (if ``manifest`` is specified) The Docker-Content-Digest header returned when getting the manifest. If present, this is checked against the manifest.
-
         :returns: Hash of the alias's configuration blob.
         """
-        return self._get_alias(alias, manifest, verify, False, dcd, True)
-
-    def _get_dcd(self, alias: str) -> str:
-        """
-        Get the Docker-Content-Digest header for an alias.
-
-        :param alias: Alias name.
-
-        :returns: DCD header for the alias.
-        """
-        # https://docs.docker.com/registry/spec/api/#deleting-an-image
-        # Note When deleting a manifest from a registry version 2.3 or later,
-        # the Accept header must be set correctly to overlap with the mediaType
-        # when HEAD or GET-ing the manifest.
-        # E.g. a manifest.list type manifest contains a list of regular manifests
-        # If only "Accept: application/vnd.docker.distribution.manifest.v2+json" (regular manifest)
-        # is sent when querying an alias, the registry will not return the digest
-        # of the manifest.list, but instead, the digest of the first regular manifest in the list.
-        # This is a valid and deletable digest, but ends up leaving the registry broken
-        # as it still has the manifest-list with references to the now deleted manifest.
-        return self._request(
-            'head',
-            'manifests/{}'.format(alias),
-            headers=_accept_header
-        ).headers.get('Docker-Content-Digest')
+        return self._get_alias(alias, manifest, verify, False, True, False)
 
     def del_alias(self, alias: str) -> List[str]:
         """
@@ -738,8 +734,7 @@ class DXF(DXFBase):
 
         :returns: A list of blob hashes (strings) which were assigned to the alias.
         """
-        dcd = self._get_dcd(alias)
-        dgsts = cast(List[str], self.get_alias(alias))
+        dgsts, dcd = self._get_alias(alias, None, True, False, False, True)
         self._request('delete', 'manifests/{}'.format(dcd))
         return dgsts
 
@@ -835,8 +830,9 @@ def _sign_manifest(manifest_json):
 
 def _verify_manifest(content,
                      manifest,
-                     content_digest=None,
-                     verify=True):
+                     content_digest,
+                     verify,
+                     get_content_digest):
     # pylint: disable=too-many-locals,too-many-branches
 
     # Adapted from https://github.com/joyent/node-docker-registry-client
@@ -882,6 +878,8 @@ def _verify_manifest(content,
             raise exceptions.DXFDigestMismatchError(
                 method + ':' + dgst,
                 method + ':' + expected_dgst)
+    elif get_content_digest:
+        content_digest = hash_bytes(payload.encode('utf-8'))
 
     if verify:
         for sig in signatures:
@@ -897,4 +895,5 @@ def _verify_manifest(content,
         dgst = layer['blobSum']
         split_digest(dgst)
         dgsts.append(dgst)
-    return dgsts
+
+    return (dgsts, content_digest) if get_content_digest else dgsts

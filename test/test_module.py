@@ -153,12 +153,19 @@ def test_manifest(dxf_obj):
     #                  sort_keys=True) == \
     #       json.dumps(json.loads(manifest), sort_keys=True)
     assert dxf_obj.get_alias(manifest=manifest) == [pytest.blob1_hash]
-    if json.loads(manifest)['schemaVersion'] == 1:
+    parsed_manifest = json.loads(manifest)
+    manifest_version = parsed_manifest['schemaVersion']
+    if manifest_version == 1:
         with pytest.raises(jws.InvalidJWSSignature):
             dxf_obj.get_alias(manifest=' '+manifest)
     if dxf_obj.regver != 2.2:
         dxf_obj.set_manifest('mani_test2', manifest)
         assert dxf_obj.get_alias('mani_test2') == [pytest.blob1_hash]
+        assert manifest_version == 2
+        #assert parsed_manifest['mediaType'] == 'application/vnd.oci.image.manifest.v1+json'
+        assert parsed_manifest['mediaType'] == 'application/vnd.docker.distribution.manifest.v2+json'
+    else:
+        assert manifest_version == 1
 
 def test_unsigned_manifest_v1(dxf_obj):
     manifest = dxf_obj.make_unsigned_manifest('mani_test3', pytest.blob2_hash)
@@ -193,21 +200,16 @@ def test_del_blob(dxf_obj):
 
 def test_del_alias(dxf_obj):
     assert dxf_obj.get_alias('world') == [pytest.blob2_hash]
-    if dxf_obj.regver == 2.2:
-        with pytest.raises(requests.exceptions.HTTPError) as ex:
-            dxf_obj.del_alias('world')
-        assert ex.value.response.status_code == requests.codes.method_not_allowed
-        assert dxf_obj.get_alias('world') == [pytest.blob2_hash]
-    else:
-        assert dxf_obj.del_alias('world') == [pytest.blob2_hash]
+    assert dxf_obj.del_alias('world') == [pytest.blob2_hash]
+    if dxf_obj.regver != 2.2:
         # Note: test gc but it isn't needed to make a 404
         pytest.gc()
-        with pytest.raises(requests.exceptions.HTTPError) as ex:
-            dxf_obj.get_alias('world')
-        assert ex.value.response.status_code == requests.codes.not_found
-        with pytest.raises(requests.exceptions.HTTPError) as ex:
-            dxf_obj.del_alias('world')
-        assert ex.value.response.status_code == requests.codes.not_found
+    with pytest.raises(requests.exceptions.HTTPError) as ex:
+        dxf_obj.get_alias('world')
+    assert ex.value.response.status_code == requests.codes.not_found
+    with pytest.raises(requests.exceptions.HTTPError) as ex:
+        dxf_obj.del_alias('world')
+    assert ex.value.response.status_code == requests.codes.not_found
 
 _abc_hash = 'sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
 _def_hash = 'sha256:cb8379ac2098aa165029e3938a51da0bcecfc008fd6795f401178647f96c5b34'

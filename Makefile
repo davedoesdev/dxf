@@ -13,7 +13,7 @@ ca_certs = test/ca.key test/ca.pem
 name=$(shell grep name= setup.py | awk -F "'" '{print $$2}')
 version=$(shell grep version= setup.py | awk -F "'" '{print $$2}')
 
-all: lint test
+all: lint typecheck test
 
 docs: build_docs
 
