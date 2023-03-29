@@ -31,7 +31,14 @@ for c in _choices:
         sp.add_argument('args', nargs='*')
 
 def _flatten(l):
-    return [item for sublist in l for item in sublist]
+    r = []
+    for sublist in l:
+        if isinstance(sublist, dict):
+            r.append(sublist)
+        else:
+            for item in sublist:
+                r.append(item)
+    return r
 
 # pylint: disable=too-many-statements
 def doit(args, environ):
@@ -82,7 +89,7 @@ def doit(args, environ):
                               tlsverify=dxf_tlsverify)
 
     def _doit():
-        # pylint: disable=too-many-branches
+        # pylint: disable=too-many-branches,too-many-locals
         if args.op == "auth":
             username = environ.get('DXF_USERNAME')
             password = environ.get('DXF_PASSWORD')
@@ -112,13 +119,17 @@ def doit(args, environ):
 
         elif args.op == "pull-blob":
             _stdout = getattr(sys.stdout, 'buffer', sys.stdout)
+            platform = environ.get('DXF_PLATFORM')
             if args.args:
-                dgsts = _flatten([dxf_obj.get_alias(name[1:])
+                dgsts = _flatten([dxf_obj.get_alias(name[1:], platform=platform)
                                   if name.startswith('@') else [name]
                                   for name in args.args])
             else:
-                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
+                dgsts = _flatten([dxf_obj.get_alias(manifest=sys.stdin.read())])
             for dgst in dgsts:
+                if isinstance(dgst, dict):
+                    print(dgst)
+                    continue
                 it, size = dxf_obj.pull_blob(
                     dgst, size=True, chunk_size=environ.get('DXF_CHUNK_SIZE'))
                 if environ.get('DXF_BLOB_INFO') == '1':
@@ -131,16 +142,23 @@ def doit(args, environ):
                     _stdout.write(chunk)
 
         elif args.op == 'blob-size':
+            platform = environ.get('DXF_PLATFORM')
             if args.args:
-                sizes = [dxf_obj.get_alias(name[1:], sizes=True)
+                sizes = [dxf_obj.get_alias(name[1:],
+                                           sizes=True,
+                                           platform=platform)
                          if name.startswith('@') else
                          [(name, dxf_obj.blob_size(name))]
                          for name in args.args]
             else:
                 sizes = [dxf_obj.get_alias(manifest=sys.stdin.read(),
-                                           sizes=True)]
+                                           sizes=True,
+                                           platform=platform)]
             for tuples in sizes:
-                print(sum(size for _, size in tuples))
+                if isinstance(tuples, dict):
+                    print({ key: sum(size for _, size in value) for key, value in tuples.items() })
+                else:
+                    print(sum(size for _, size in tuples))
 
         elif args.op == 'mount-blob':
             if len(args.args) < 2:
@@ -160,9 +178,14 @@ def doit(args, environ):
                                   if name.startswith('@') else [name]
                                   for name in args.args])
             else:
-                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
+                dgsts = _flatten([dxf_obj.get_alias(manifest=sys.stdin.read())])
             for dgst in dgsts:
-                dxf_obj.del_blob(dgst)
+                if isinstance(dgst, dict):
+                    for v in dgst.values():
+                        for d in dxf_obj.del_alias(v):
+                            dxf_obj.del_blob(d)
+                else:
+                    dxf_obj.del_blob(dgst)
 
         elif args.op == "set-alias":
             if len(args.args) < 2:
@@ -172,23 +195,29 @@ def doit(args, environ):
             sys.stdout.write(dxf_obj.set_alias(args.args[0], *dgsts))
 
         elif args.op == "get-alias":
+            platform = environ.get('DXF_PLATFORM')
             if args.args:
-                dgsts = _flatten([dxf_obj.get_alias(name) for name in args.args])
+                dgsts = _flatten([dxf_obj.get_alias(name, platform=platform)
+                                 for name in args.args])
             else:
-                dgsts = dxf_obj.get_alias(manifest=sys.stdin.read())
+                dgsts = _flatten([dxf_obj.get_alias(manifest=sys.stdin.read(),
+                                                    platform=platform)])
             for dgst in dgsts:
                 print(dgst)
 
         elif args.op == "del-alias":
-            for name in args.args:
-                for dgst in dxf_obj.del_alias(name):
-                    print(dgst)
+            dgsts = _flatten([dxf_obj.del_alias(name) for name in args.args])
+            for dgst in dgsts:
+                print(dgst)
 
         elif args.op == 'get-digest':
+            platform = environ.get('DXF_PLATFORM')
             if args.args:
-                dgsts = [dxf_obj.get_digest(name) for name in args.args]
+                dgsts = [dxf_obj.get_digest(name, platform=platform)
+                         for name in args.args]
             else:
-                dgsts = [dxf_obj.get_digest(manifest=sys.stdin.read())]
+                dgsts = [dxf_obj.get_digest(manifest=sys.stdin.read(),
+                                            platform=platform)]
             for dgst in dgsts:
                 print(dgst)
 

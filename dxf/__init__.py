@@ -613,8 +613,8 @@ class DXF(DXFBase):
         manifest, _ = self.get_manifest_and_response(alias)
         return manifest
 
-    def _get_alias(self, alias, manifest, verify, sizes, get_digest, get_dcd):
-        # pylint: disable=too-many-arguments,too-many-locals,too-many-branches
+    def _get_alias(self, alias, manifest, verify, sizes, get_digest, get_dcd, platform, ml):
+        # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements
         if alias:
             manifest, r = self.get_manifest_and_response(alias)
             dcd = r.headers.get('Docker-Content-Digest')
@@ -657,32 +657,47 @@ class DXF(DXFBase):
         elif get_dcd:
             dcd = hash_bytes(manifest.encode('utf8'))
 
-        if get_digest:
-            dgst = parsed_manifest['config']['digest']
-            split_digest(dgst)
-            return (dgst, dcd) if get_dcd else dgst
-
         if parsed_manifest['mediaType'] == _schema2_mimetype or \
            parsed_manifest['mediaType'] == _ociv1_manifest_mimetype:
-            blobs_key = 'layers'
-        elif parsed_manifest['mediaType'] == _schema2_list_mimetype or \
-             parsed_manifest["mediaType"] == _ociv1_index_mimetype:
-            blobs_key = 'manifests'
+            if get_digest:
+                r = parsed_manifest['config']['digest']
+                split_digest(r)
+            else:
+                r = []
+                for layer in parsed_manifest['layers']:
+                    dgst = layer['digest']
+                    split_digest(dgst)
+                    r.append((dgst, layer['size']) if sizes else dgst)
+        elif ml and (parsed_manifest['mediaType'] == _schema2_list_mimetype or \
+                     parsed_manifest["mediaType"] == _ociv1_index_mimetype):
+            r = {}
+            for entry in parsed_manifest['manifests']:
+                pform = entry['platform']
+                name = pform['architecture'] + '/' + pform['os']
+                if 'variant' in pform:
+                    name += '/' + pform['variant']
+                if not platform or name == platform:
+                    if get_dcd:
+                        r[name] = entry['digest']
+                    else:
+                        r[name] = self._get_alias(entry['digest'], None, verify, sizes, get_digest, get_dcd, platform, False)
+                if platform and name == platform:
+                    r = r[name]
+                    break
         else:
             raise exceptions.DXFUnsupportedSchemaType(parsed_manifest['mediaType'])
 
-        r = []
-        for layer in parsed_manifest[blobs_key]:
-            dgst = layer['digest']
-            split_digest(dgst)
-            r.append((dgst, layer['size']) if sizes else dgst)
         return (r, dcd) if get_dcd else r
 
     def get_alias(self,
             alias: Optional[str]=None,
             manifest: Optional[str]=None,
             verify: bool=True,
-            sizes: bool=False) -> Union[List[str], List[Tuple[str, long]]]:
+            sizes: bool=False,
+            platform: Optional[str]=None) -> Union[List[str],
+                                                   List[Tuple[str, long]],
+                                                   Dict[str, Union[List[str],
+                                                                   Tuple[str, long]]]]:
         # pylint: disable=too-many-arguments
         """
         Get the blob hashes assigned to an alias.
@@ -693,16 +708,18 @@ class DXF(DXFBase):
 
         :param verify: (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won't need to change this from the default (``True``).
 
-        :param sizes: Whether to return sizes of the blobs along with their hashes
+        :param sizes: Whether to return sizes of the blobs along with their hashes.
 
-        :returns: If ``sizes`` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ``sizes`` is truthy, a list of (hash,size) tuples for each blob.
+        :param platform: For multi-arch aliases, return the information for this platform only.
+
+        :returns: If ``sizes`` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ``sizes`` is truthy, a list of (hash,size) tuples for each blob. For multi-arch aliases, a dict of the same per platform.
         """
-        return self._get_alias(alias, manifest, verify, sizes, False, False)
+        return self._get_alias(alias, manifest, verify, sizes, False, False, platform, True)
 
     def get_digest(self,
             alias: Optional[str]=None,
             manifest: Optional[str]=None,
-            verify: bool=True) -> str:
+            platform: Optional[str]=None) -> Union[str, Dict[str, str]]:
         """
         (v2 schema only) Get the hash of an alias's configuration blob.
 
@@ -716,13 +733,13 @@ class DXF(DXFBase):
 
         :param manifest: If you previously obtained a manifest, specify it here instead of ``alias``. You almost definitely won't need to do this.
 
-        :param verify: (v1 schema only) Whether to verify the integrity of the alias definition in the registry itself. You almost definitely won't need to change this from the default (``True``).
+        :param platform: For multi-arch aliases, return the information for this platform only.
 
-        :returns: Hash of the alias's configuration blob.
+        :returns: Hash of the alias's configuration blob. For multi-arch aliases, a dict of the same per platform.
         """
-        return self._get_alias(alias, manifest, verify, False, True, False)
+        return self._get_alias(alias, manifest, True, False, True, False, platform, True)
 
-    def del_alias(self, alias: str) -> List[str]:
+    def del_alias(self, alias: str) -> Union[List[str], Dict[str, str]]:
         """
         Delete an alias from the registry. The blobs it points to won't be deleted. Use :meth:`del_blob` for that.
 
@@ -732,9 +749,9 @@ class DXF(DXFBase):
 
         :param alias: Alias name.
 
-        :returns: A list of blob hashes (strings) which were assigned to the alias.
+        :returns: A list of blob hashes (strings) which were assigned to the alias. For multi-arch aliases, a dict with the alias hash per platform. You'll need to call :meth:`DXF.del_alias` for each of those.
         """
-        dgsts, dcd = self._get_alias(alias, None, True, False, False, True)
+        dgsts, dcd = self._get_alias(alias, None, True, False, False, True, None, True)
         self._request('delete', 'manifests/{}'.format(dcd))
         return dgsts
 
