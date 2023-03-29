@@ -210,3 +210,10 @@ def dxf_main(request):
             lex = ex
             time.sleep(1)
     raise lex
+
+@pytest.fixture(scope='module')
+def dxf_regmain(request):
+    return {
+        'DXF_HOST': 'registry-1.docker.io',
+        'DXF_SKIPTLSVERIFY': '1'
+    }

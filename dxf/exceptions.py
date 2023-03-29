@@ -106,3 +106,18 @@ class DXFUnsupportedSchemaType(DXFError):
     """
     def __str__(self):
         return 'The mediaType "%s" is not supported' % self.args[0]
+
+class DXFPlatformDataNotFound(DXFError):
+    """
+    Platform data not found
+    """
+    def __init__(self, platform):
+        """
+        :param alg: Platform
+        :type alg: str
+        """
+        super(DXFPlatformDataNotFound, self).__init__()
+        self.platform = platform
+
+    def __str__(self):
+        return 'Data not found for platform: %s' % self.platform

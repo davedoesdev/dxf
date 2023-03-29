@@ -673,7 +673,7 @@ class DXF(DXFBase):
             r = {}
             for entry in parsed_manifest['manifests']:
                 pform = entry['platform']
-                name = pform['architecture'] + '/' + pform['os']
+                name = pform['os'] + '/' + pform['architecture']
                 if 'variant' in pform:
                     name += '/' + pform['variant']
                 if not platform or name == platform:
@@ -684,6 +684,9 @@ class DXF(DXFBase):
                 if platform and name == platform:
                     r = r[name]
                     break
+
+            if platform and not r:
+                raise exceptions.DXFPlatformDataNotFound(platform)
         else:
             raise exceptions.DXFUnsupportedSchemaType(parsed_manifest['mediaType'])
 
@@ -697,7 +700,7 @@ class DXF(DXFBase):
             platform: Optional[str]=None) -> Union[List[str],
                                                    List[Tuple[str, long]],
                                                    Dict[str, Union[List[str],
-                                                                   Tuple[str, long]]]]:
+                                                                   List[Tuple[str, long]]]]]:
         # pylint: disable=too-many-arguments
         """
         Get the blob hashes assigned to an alias.

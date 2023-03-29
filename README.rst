@@ -77,7 +77,7 @@ The ``dxf`` command-line tool uses the following environment variables:
    verification.
 -  ``DXF_TLSVERIFY`` - Optional path to custom CA bundle to use for TLS
    verification.
--  ``DXF_PLATFORM`` - Optional platform (e.g. ``amd64/linux``) to use
+-  ``DXF_PLATFORM`` - Optional platform (e.g. ``linux/amd64``) to use
    for multi-arch manifests. If a multi-arch manifest is encountered and
    this is not set then a dict containing entries for each platform will
    be displayed.

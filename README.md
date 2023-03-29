@@ -63,7 +63,7 @@ The `dxf` command-line tool uses the following environment variables:
 - `DXF_CHUNK_SIZE` - Number of bytes `pull-blob` should download at a time. Defaults to 8192.
 - `DXF_SKIPTLSVERIFY` - Set this to `1` to skip TLS certificate verification.
 - `DXF_TLSVERIFY` - Optional path to custom CA bundle to use for TLS verification.
-- `DXF_PLATFORM` - Optional platform (e.g. `amd64/linux`) to use for multi-arch manifests. If a multi-arch manifest is encountered and this is not set then a dict containing entries for each platform will be displayed.
+- `DXF_PLATFORM` - Optional platform (e.g. `linux/amd64`) to use for multi-arch manifests. If a multi-arch manifest is encountered and this is not set then a dict containing entries for each platform will be displayed.
 
 You can use the following options with `dxf`. Supply the name of the repository
 you wish to work with in each case as the second argument.
