@@ -11,3 +11,5 @@ mypy>=1.0.0
 types-requests>=2.18.4
 types-urllib3>=1.26.25.5
 types-tqdm>=4.19.4
+responses>=0.23.1
+PyYAML>=6.0
