@@ -3,9 +3,9 @@ import subprocess
 import time
 import base64
 from functools import wraps
-import requests
 import types
 import argparse
+import requests
 import pytest
 import responses
 import yaml
@@ -182,8 +182,8 @@ def dxf_obj(request):
 
 @pytest.fixture(scope='module')
 def dxf_regobj(request):
-    def auth(dxf_obj, response):
-        dxf_obj.authenticate(response=response)
+    def auth(d, response):
+        d.authenticate(response=response)
     return dxf.DXFBase('registry-1.docker.io', auth, False, None, False)
 
 @pytest.fixture(scope='module', params=_fixture_params)
@@ -231,14 +231,14 @@ def dxf_regmain(request):
         'DXF_SKIPTLSVERIFY': '1'
     }
 
-_orig_on_request = _recorder.recorder._on_request
+_orig_on_request = _recorder.recorder._on_request # pylint: disable=protected-access
 
 def _on_request(self, *args, **kwargs):
-    requests_response = _orig_on_request(*args, **kwargs)
-    self._registry.registered[-1].headers = requests_response.headers
+    requests_response = _orig_on_request(*args, **kwargs) # pylint: disable=not-callable
+    self._registry.registered[-1].headers = requests_response.headers # pylint: disable=protected-access
     return requests_response
 
-_recorder.recorder._on_request = types.MethodType(_on_request, _recorder.recorder)
+_recorder.recorder._on_request = types.MethodType(_on_request, _recorder.recorder) # pylint: disable=protected-access
 
 _parser = argparse.ArgumentParser()
 _parser.add_argument('filename', nargs='?')
@@ -252,7 +252,7 @@ def record_or_replay(f):
     path = os.path.join(_responses_dir, f.__name__ + '.yaml')
     @wraps(f)
     def wrapper(*args, **kwargs):
-        with open(path, 'r') as file:
+        with open(path, 'r', encoding='utf8') as file:
             data = yaml.load(file, Loader=yaml.Loader)
         for rsp in data["responses"]:
             rsp = rsp["response"]

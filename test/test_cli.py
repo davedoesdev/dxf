@@ -6,8 +6,8 @@ import hashlib
 import requests.exceptions
 import pytest
 import tqdm
-import dxf.main
 from conftest import record_or_replay
+import dxf.main
 
 # pylint: disable=no-member
 
@@ -442,12 +442,12 @@ def test_docker_image_multi_arch_del(dxf_regmain, capsys, monkeypatch):
     def DXF(*args, **kwargs):
         dxf.DXF = orig_DXF
         r = dxf.DXF(*args, **kwargs)
-        orig_request = r._request
+        orig_request = r._request # pylint: disable=protected-access
         def request(method, path, **kwargs):
             if method == 'delete':
                 paths.append(path)
-            else:
-                return orig_request(method, path, **kwargs)
+                return None
+            return orig_request(method, path, **kwargs)
         monkeypatch.setattr(r, '_request', request)
         return r
     monkeypatch.setattr(dxf, 'DXF', DXF)
