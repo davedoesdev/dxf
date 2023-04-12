@@ -7,6 +7,7 @@ import requests.exceptions
 import pytest
 import tqdm
 import dxf.main
+from conftest import record_or_replay
 
 # pylint: disable=no-member
 
@@ -391,6 +392,7 @@ def test_tlsverify_str(dxf_main):
             dxf_main['DXF_SKIPTLSVERIFY'] = skip
             del dxf_main['DXF_TLSVERIFY']
 
+@record_or_replay
 def test_docker_image_single_arch(dxf_regmain, capsys):
     assert dxf.main.doit(['get-alias', 'ubuntu', '12.04'], dxf_regmain) == 0
     out, err = capsys.readouterr()
@@ -411,36 +413,71 @@ sha256:6d93b41cfc6bf0d2522b7cf61588de4cd045065b36c52bd3aec2ba0622b2b22b\n"
     assert out == "39156124\n"
     assert err == ""
 
-@pytest.mark.onlytest
+@record_or_replay
 def test_docker_image_multi_arch(dxf_regmain, capsys):
     assert dxf.main.doit(['get-alias', 'ubuntu', '22.04'], dxf_regmain) == 0
     out, err = capsys.readouterr()
-    assert out == "{'linux/amd64': ['sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6'], 'linux/arm/v7': ['sha256:aea1895b7fd03ef3bc263eef4b6f1dd219fc3286f3ff79495aadb81a88650723'], 'linux/arm64/v8': ['sha256:cd741b12a7eaa64357041c2d3f4590c898313a7f8f65cd1577594e6ee03a8c38'], 'linux/ppc64le': ['sha256:2561b3b559ec9b25bafa07804afa433803291265f7dd847de711224b0f238237'], 'linux/s390x': ['sha256:15f635e04e894b7646b4ebca40424ddf244867fc663429ea8b877eca172a7cf1']}\n"
+    assert out == '{"linux/amd64": ["sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6"], "linux/arm/v7": ["sha256:aea1895b7fd03ef3bc263eef4b6f1dd219fc3286f3ff79495aadb81a88650723"], "linux/arm64/v8": ["sha256:cd741b12a7eaa64357041c2d3f4590c898313a7f8f65cd1577594e6ee03a8c38"], "linux/ppc64le": ["sha256:2561b3b559ec9b25bafa07804afa433803291265f7dd847de711224b0f238237"], "linux/s390x": ["sha256:15f635e04e894b7646b4ebca40424ddf244867fc663429ea8b877eca172a7cf1"]}\n'
     assert err == ""
 
     assert dxf.main.doit(['get-digest', 'ubuntu', '22.04'], dxf_regmain) == 0
     out, err = capsys.readouterr()
-    assert out == "{'linux/amd64': 'sha256:08d22c0ceb150ddeb2237c5fa3129c0183f3cc6f5eeb2e7aa4016da3ad02140a', 'linux/arm/v7': 'sha256:2bf0095935ffb29018664cf219d8c1b2c890e3e3c4af89113df23e7330397187', 'linux/arm64/v8': 'sha256:bab8ce5c00ca3ef91e0d3eb4c6e6d6ec7cffa9574c447fd8d54a8d96e7c1c80e', 'linux/ppc64le': 'sha256:4220c61b3ab7b82dd3ff3395f9efe2b63e730c3f24284d1519013cf3cda822f8', 'linux/s390x': 'sha256:63ad39053efde0c294433cd8f9709c6d69a36e1f0af4ffbf81c3d261caffb615'}\n"
+    assert out == '{"linux/amd64": "sha256:08d22c0ceb150ddeb2237c5fa3129c0183f3cc6f5eeb2e7aa4016da3ad02140a", "linux/arm/v7": "sha256:2bf0095935ffb29018664cf219d8c1b2c890e3e3c4af89113df23e7330397187", "linux/arm64/v8": "sha256:bab8ce5c00ca3ef91e0d3eb4c6e6d6ec7cffa9574c447fd8d54a8d96e7c1c80e", "linux/ppc64le": "sha256:4220c61b3ab7b82dd3ff3395f9efe2b63e730c3f24284d1519013cf3cda822f8", "linux/s390x": "sha256:63ad39053efde0c294433cd8f9709c6d69a36e1f0af4ffbf81c3d261caffb615"}\n'
     assert err == ""
 
     assert dxf.main.doit(['blob-size', 'ubuntu', '@22.04'], dxf_regmain) == 0
-    assert out == "{'linux/amd64': 29533950, 'linux/arm/v7': 26140319, 'linux/arm64/v8': 27347481, 'linux/ppc64le': 34593661, 'linux/s390x': 28015959}"
+    out, err = capsys.readouterr()
+    assert out == '{"linux/amd64": 29533950, "linux/arm/v7": 26140319, "linux/arm64/v8": 27347481, "linux/ppc64le": 34593661, "linux/s390x": 28015959}\n'
     assert err == ""
 
-#should output to json and sort keys
-# do with platform set
+    assert dxf.main.doit(['pull-blob', 'ubuntu', '@22.04'], dxf_regmain) == 0
+    out, err = capsys.readouterr()
+    assert out == '{"linux/amd64": ["sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6"], "linux/arm/v7": ["sha256:aea1895b7fd03ef3bc263eef4b6f1dd219fc3286f3ff79495aadb81a88650723"], "linux/arm64/v8": ["sha256:cd741b12a7eaa64357041c2d3f4590c898313a7f8f65cd1577594e6ee03a8c38"], "linux/ppc64le": ["sha256:2561b3b559ec9b25bafa07804afa433803291265f7dd847de711224b0f238237"], "linux/s390x": ["sha256:15f635e04e894b7646b4ebca40424ddf244867fc663429ea8b877eca172a7cf1"]}\n'
+    assert err == ""
 
-# pull-blob
-# blob-size
-# del-blob
-# get-alias
-# del-alias
-# get-digest
+@record_or_replay
+def test_docker_image_multi_arch_del(dxf_regmain, capsys, monkeypatch):
+    orig_DXF = dxf.DXF
+    paths = []
+    def DXF(*args, **kwargs):
+        dxf.DXF = orig_DXF
+        r = dxf.DXF(*args, **kwargs)
+        orig_request = r._request
+        def request(method, path, **kwargs):
+            if method == 'delete':
+                paths.append(path)
+            else:
+                return orig_request(method, path, **kwargs)
+        monkeypatch.setattr(r, '_request', request)
+        return r
+    monkeypatch.setattr(dxf, 'DXF', DXF)
+    assert dxf.main.doit(['del-alias', 'ubuntu', '22.04'], dxf_regmain) == 0
+    out, err = capsys.readouterr()
+    assert out == '{"linux/amd64": "sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6", "linux/arm/v7": "sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a", "linux/arm64/v8": "sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3", "linux/ppc64le": "sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7", "linux/s390x": "sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf"}\n'
+    assert err == ""
+    paths.sort()
+    assert paths == ['manifests/sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21']
+    paths.clear()
+    monkeypatch.setattr(dxf, 'DXF', DXF)
+    assert dxf.main.doit(['del-blob', 'ubuntu', '@22.04'], dxf_regmain) == 0
+    paths.sort()
+    assert paths == ['blobs/sha256:15f635e04e894b7646b4ebca40424ddf244867fc663429ea8b877eca172a7cf1', 'blobs/sha256:2561b3b559ec9b25bafa07804afa433803291265f7dd847de711224b0f238237', 'blobs/sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6', 'blobs/sha256:aea1895b7fd03ef3bc263eef4b6f1dd219fc3286f3ff79495aadb81a88650723', 'blobs/sha256:cd741b12a7eaa64357041c2d3f4590c898313a7f8f65cd1577594e6ee03a8c38', 'manifests/sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3', 'manifests/sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21', 'manifests/sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6', 'manifests/sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a', 'manifests/sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf', 'manifests/sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7']
 
+@record_or_replay
+def test_docker_image_platform(dxf_regmain, capsys):
+    dxf_regmain['DXF_PLATFORM'] = 'linux/amd64'
 
-# get_alias
-# get_digest
-# del_alias
+    assert dxf.main.doit(['get-alias', 'ubuntu', '22.04'], dxf_regmain) == 0
+    out, err = capsys.readouterr()
+    assert out == 'sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6\n'
+    assert err == ""
 
+    assert dxf.main.doit(['get-digest', 'ubuntu', '22.04'], dxf_regmain) == 0
+    out, err = capsys.readouterr()
+    assert out == 'sha256:08d22c0ceb150ddeb2237c5fa3129c0183f3cc6f5eeb2e7aa4016da3ad02140a\n'
+    assert err == ""
 
-
+    assert dxf.main.doit(['blob-size', 'ubuntu', '@22.04'], dxf_regmain) == 0
+    out, err = capsys.readouterr()
+    assert out == '29533950\n'
+    assert err == ""

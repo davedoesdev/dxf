@@ -1,0 +1,257 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: '{"errors":[{"code":"UNAUTHORIZED","message":"authentication required","detail":[{"Type":"repository","Class":"","Name":"library/ubuntu","Action":"pull"}]}]}
+
+      '
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-type
+          - !!python/tuple
+            - content-type
+            - application/json
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - www-authenticate
+          - !!python/tuple
+            - www-authenticate
+            - Bearer realm="https://auth.docker.io/token",service="registry.docker.io",scope="repository:library/ubuntu:pull"
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:05 GMT
+        - - content-length
+          - !!python/tuple
+            - content-length
+            - '157'
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 401
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04
+- response:
+    auto_calculate_content_length: false
+    body: '{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvdWJ1bnR1IiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjEwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY4MTMwODY2NiwiaWF0IjoxNjgxMzA4MzY2LCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpX1BvbE0yc1FMQ2Q5ZDZSWWVVd2hadHZONmh5RT0iLCJuYmYiOjE2ODEzMDgwNjYsInN1YiI6IiJ9.f9ZC5B6I00NRAp-wP4M8i8sY51XfRx3cjk-Fg24ECXGQyZqV9YjmsQPamgwlMmCGXZOTl_PT8ShL0rw70olXtl4N2UYWV_uvBwr8Smd-HrlEh4LY_EP2uWaWFrRYxl723plj-S__iI-fLW-vjCcqUjKhTJAstRfr6h1r3ZTVUdpb5W5dMX0lGL8zjFGPI9w33R-Y76nlJhGNhsv1_Aio4xQNwC0Aj1fHlcc-odfUJ7MvWbJHI4mu-b4C9Q8cVg3tI9LhtJWq09SQkkNVHW1W3GfGJaHOzDEPGLK3el02tWnthljARRAOB-Vk8odudJkN8iN-2CZUNNaJAIXA6dEr9Q","access_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvdWJ1bnR1IiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjEwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY4MTMwODY2NiwiaWF0IjoxNjgxMzA4MzY2LCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpX1BvbE0yc1FMQ2Q5ZDZSWWVVd2hadHZONmh5RT0iLCJuYmYiOjE2ODEzMDgwNjYsInN1YiI6IiJ9.f9ZC5B6I00NRAp-wP4M8i8sY51XfRx3cjk-Fg24ECXGQyZqV9YjmsQPamgwlMmCGXZOTl_PT8ShL0rw70olXtl4N2UYWV_uvBwr8Smd-HrlEh4LY_EP2uWaWFrRYxl723plj-S__iI-fLW-vjCcqUjKhTJAstRfr6h1r3ZTVUdpb5W5dMX0lGL8zjFGPI9w33R-Y76nlJhGNhsv1_Aio4xQNwC0Aj1fHlcc-odfUJ7MvWbJHI4mu-b4C9Q8cVg3tI9LhtJWq09SQkkNVHW1W3GfGJaHOzDEPGLK3el02tWnthljARRAOB-Vk8odudJkN8iN-2CZUNNaJAIXA6dEr9Q","expires_in":300,"issued_at":"2023-04-12T14:06:06.077073133Z"}
+
+      '
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-type
+          - !!python/tuple
+            - content-type
+            - application/json; charset=utf-8
+        - - x-trace-id
+          - !!python/tuple
+            - x-trace-id
+            - 9913a6edbd3d7f1f29874cdcdc8f7cd7
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:06 GMT
+        - - transfer-encoding
+          - !!python/tuple
+            - transfer-encoding
+            - chunked
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+    method: GET
+    status: 200
+    url: https://auth.docker.io/token?service=registry.docker.io&scope=repository%3Alibrary%2Fubuntu%3Apull
+- response:
+    auto_calculate_content_length: false
+    body: "{\n   \"schemaVersion\": 2,\n   \"mediaType\": \"application/vnd.docker.distribution.manifest.v2+json\"\
+      ,\n   \"config\": {\n      \"mediaType\": \"application/vnd.docker.container.image.v1+json\"\
+      ,\n      \"size\": 3621,\n      \"digest\": \"sha256:5b117edd0b767986092e9f721ba2364951b0a271f53f1f41aff9dd1861c2d4fe\"\
+      \n   },\n   \"layers\": [\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 39096921,\n         \"digest\": \"sha256:d8868e50ac4c7104d2200d42f432b661b2da8c1e417ccfae217e6a1e04bb9295\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 57938,\n         \"digest\": \"sha256:83251ac64627fc331584f6c498b3aba5badc01574e2c70b2499af3af16630eed\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 423,\n         \"digest\": \"sha256:589bba2f1b36ae56f0152c246e2541c5aa604b058febfcf2be32e9a304fec610\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 680,\n         \"digest\": \"sha256:d62ecaceda3964b735cdd2af613d6bb136a52c1da0838b2ff4b4dab4212bcb1c\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 162,\n         \"digest\": \"sha256:6d93b41cfc6bf0d2522b7cf61588de4cd045065b36c52bd3aec2ba0622b2b22b\"\
+      \n      }\n   ]\n}"
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '1359'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.docker.distribution.manifest.v2+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:06 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 51;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04
+- response:
+    auto_calculate_content_length: false
+    body: "{\n   \"schemaVersion\": 2,\n   \"mediaType\": \"application/vnd.docker.distribution.manifest.v2+json\"\
+      ,\n   \"config\": {\n      \"mediaType\": \"application/vnd.docker.container.image.v1+json\"\
+      ,\n      \"size\": 3621,\n      \"digest\": \"sha256:5b117edd0b767986092e9f721ba2364951b0a271f53f1f41aff9dd1861c2d4fe\"\
+      \n   },\n   \"layers\": [\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 39096921,\n         \"digest\": \"sha256:d8868e50ac4c7104d2200d42f432b661b2da8c1e417ccfae217e6a1e04bb9295\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 57938,\n         \"digest\": \"sha256:83251ac64627fc331584f6c498b3aba5badc01574e2c70b2499af3af16630eed\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 423,\n         \"digest\": \"sha256:589bba2f1b36ae56f0152c246e2541c5aa604b058febfcf2be32e9a304fec610\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 680,\n         \"digest\": \"sha256:d62ecaceda3964b735cdd2af613d6bb136a52c1da0838b2ff4b4dab4212bcb1c\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 162,\n         \"digest\": \"sha256:6d93b41cfc6bf0d2522b7cf61588de4cd045065b36c52bd3aec2ba0622b2b22b\"\
+      \n      }\n   ]\n}"
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '1359'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.docker.distribution.manifest.v2+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:06 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 50;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04
+- response:
+    auto_calculate_content_length: false
+    body: "{\n   \"schemaVersion\": 2,\n   \"mediaType\": \"application/vnd.docker.distribution.manifest.v2+json\"\
+      ,\n   \"config\": {\n      \"mediaType\": \"application/vnd.docker.container.image.v1+json\"\
+      ,\n      \"size\": 3621,\n      \"digest\": \"sha256:5b117edd0b767986092e9f721ba2364951b0a271f53f1f41aff9dd1861c2d4fe\"\
+      \n   },\n   \"layers\": [\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 39096921,\n         \"digest\": \"sha256:d8868e50ac4c7104d2200d42f432b661b2da8c1e417ccfae217e6a1e04bb9295\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 57938,\n         \"digest\": \"sha256:83251ac64627fc331584f6c498b3aba5badc01574e2c70b2499af3af16630eed\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 423,\n         \"digest\": \"sha256:589bba2f1b36ae56f0152c246e2541c5aa604b058febfcf2be32e9a304fec610\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 680,\n         \"digest\": \"sha256:d62ecaceda3964b735cdd2af613d6bb136a52c1da0838b2ff4b4dab4212bcb1c\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 162,\n         \"digest\": \"sha256:6d93b41cfc6bf0d2522b7cf61588de4cd045065b36c52bd3aec2ba0622b2b22b\"\
+      \n      }\n   ]\n}"
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '1359'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.docker.distribution.manifest.v2+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:07 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 50;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04

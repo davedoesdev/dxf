@@ -5,6 +5,8 @@ import requests
 import pytest
 from jwcrypto import jws
 import dxf.exceptions
+from dxf import DXF
+from conftest import record_or_replay
 
 # pylint: disable=no-member
 
@@ -261,3 +263,14 @@ def test_pagination(dxf_obj):
     if dxf_obj.regver != 2.2:
         expected += ['test/registry', 'some/other']
     assert sorted(dxf_obj2.list_repos(batch_size=3)) == sorted(expected)
+
+@record_or_replay
+def test_docker_image_platform_get_alias(dxf_regobj):
+    d = DXF.from_base(dxf_regobj, 'ubuntu')
+    assert d.get_alias('22.04', platform='linux/amd64') == ['sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6']
+
+@record_or_replay
+def test_docker_image_platform_unknown(dxf_regobj):
+    d = DXF.from_base(dxf_regobj, 'ubuntu')
+    with pytest.raises(dxf.exceptions.DXFPlatformDataNotFound):
+        d.get_alias('22.04', platform='foobar')

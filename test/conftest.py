@@ -2,8 +2,14 @@ import os
 import subprocess
 import time
 import base64
+from functools import wraps
 import requests
+import types
+import argparse
 import pytest
+import responses
+import yaml
+from responses import _recorder
 import dxf
 import dxf.main
 
@@ -21,6 +27,7 @@ _here = os.path.join(os.path.dirname(__file__))
 _fixture_dir = os.path.join(_here, 'fixtures')
 _registry_dir = os.path.join(_here, 'registry')
 _auth_dir = os.path.join(_here, 'auth')
+_responses_dir = os.path.join(_here, 'responses')
 _remove_container = os.path.join(_here, 'remove_container.sh')
 _username = 'fred'
 _password = '!WordPass0$'
@@ -173,6 +180,12 @@ def dxf_obj(request):
             time.sleep(1)
     raise lex
 
+@pytest.fixture(scope='module')
+def dxf_regobj(request):
+    def auth(dxf_obj, response):
+        dxf_obj.authenticate(response=response)
+    return dxf.DXFBase('registry-1.docker.io', auth, False, None, False)
+
 @pytest.fixture(scope='module', params=_fixture_params)
 def dxf_main(request):
     # pylint: disable=redefined-outer-name
@@ -217,3 +230,43 @@ def dxf_regmain(request):
         'DXF_HOST': 'registry-1.docker.io',
         'DXF_SKIPTLSVERIFY': '1'
     }
+
+_orig_on_request = _recorder.recorder._on_request
+
+def _on_request(self, *args, **kwargs):
+    requests_response = _orig_on_request(*args, **kwargs)
+    self._registry.registered[-1].headers = requests_response.headers
+    return requests_response
+
+_recorder.recorder._on_request = types.MethodType(_on_request, _recorder.recorder)
+
+_parser = argparse.ArgumentParser()
+_parser.add_argument('filename', nargs='?')
+_parser.add_argument('-m', action='append')
+_parser.add_argument('-s', action='store_true')
+_parser.add_argument('--cov')
+_parser.add_argument('--cov-report')
+_args = _parser.parse_args()
+
+def record_or_replay(f):
+    path = os.path.join(_responses_dir, f.__name__ + '.yaml')
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        with open(path, 'r') as file:
+            data = yaml.load(file, Loader=yaml.Loader)
+        for rsp in data["responses"]:
+            rsp = rsp["response"]
+            rsp["headers"].pop("content-type", None)
+            responses.add(
+                method=rsp["method"],
+                url=rsp["url"],
+                body=rsp["body"],
+                status=rsp["status"],
+                content_type=rsp["content_type"],
+                auto_calculate_content_length=rsp["auto_calculate_content_length"],
+                headers=rsp["headers"]
+            )
+        return f(*args, **kwargs)
+    if _args.m and 'record' in _args.m:
+        return pytest.mark.record(_recorder.record(file_path=path)(f))
+    return responses.activate(wrapper)

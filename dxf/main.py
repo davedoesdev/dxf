@@ -4,6 +4,7 @@ import argparse
 import sys
 import traceback
 import errno
+import json
 import tqdm
 import dxf
 import dxf.exceptions
@@ -128,7 +129,7 @@ def doit(args, environ):
                 dgsts = _flatten([dxf_obj.get_alias(manifest=sys.stdin.read())])
             for dgst in dgsts:
                 if isinstance(dgst, dict):
-                    print(dgst)
+                    print(json.dumps(dgst, sort_keys=True))
                     continue
                 it, size = dxf_obj.pull_blob(
                     dgst, size=True, chunk_size=environ.get('DXF_CHUNK_SIZE'))
@@ -156,7 +157,10 @@ def doit(args, environ):
                                            platform=platform)]
             for tuples in sizes:
                 if isinstance(tuples, dict):
-                    print({ key: sum(size for _, size in value) for key, value in tuples.items() })
+                    print(json.dumps({
+                        key: sum(size for _, size in value)
+                        for key, value in tuples.items()
+                    }, sort_keys=True))
                 else:
                     print(sum(size for _, size in tuples))
 
@@ -203,12 +207,12 @@ def doit(args, environ):
                 dgsts = _flatten([dxf_obj.get_alias(manifest=sys.stdin.read(),
                                                     platform=platform)])
             for dgst in dgsts:
-                print(dgst)
+                print(json.dumps(dgst, sort_keys=True) if isinstance(dgst, dict) else dgst)
 
         elif args.op == "del-alias":
             dgsts = _flatten([dxf_obj.del_alias(name) for name in args.args])
             for dgst in dgsts:
-                print(dgst)
+                print(json.dumps(dgst, sort_keys=True) if isinstance(dgst, dict) else dgst)
 
         elif args.op == 'get-digest':
             platform = environ.get('DXF_PLATFORM')
@@ -219,7 +223,7 @@ def doit(args, environ):
                 dgsts = [dxf_obj.get_digest(manifest=sys.stdin.read(),
                                             platform=platform)]
             for dgst in dgsts:
-                print(dgst)
+                print(json.dumps(dgst, sort_keys=True) if isinstance(dgst, dict) else dgst)
 
         elif args.op == 'list-aliases':
             if args.args:

@@ -1,0 +1,307 @@
+responses:
+- response:
+    auto_calculate_content_length: false
+    body: '{"manifests":[{"digest":"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"amd64","os":"linux"},"size":424},{"digest":"sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"arm","os":"linux","variant":"v7"},"size":424},{"digest":"sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"arm64","os":"linux","variant":"v8"},"size":424},{"digest":"sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"ppc64le","os":"linux"},"size":424},{"digest":"sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"s390x","os":"linux"},"size":424}],"mediaType":"application\/vnd.oci.image.index.v1+json","schemaVersion":2}'
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '1133'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.oci.image.index.v1+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:18 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 34;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/22.04
+- response:
+    auto_calculate_content_length: false
+    body: '{"schemaVersion": 2, "mediaType": "application/vnd.oci.image.manifest.v1+json",
+      "config": {"mediaType": "application/vnd.oci.image.config.v1+json", "size":
+      2298, "digest": "sha256:08d22c0ceb150ddeb2237c5fa3129c0183f3cc6f5eeb2e7aa4016da3ad02140a"},
+      "layers": [{"mediaType": "application/vnd.oci.image.layer.v1.tar+gzip", "size":
+      29533950, "digest": "sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6"}]}'
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '424'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.oci.image.manifest.v1+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:18 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 33;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
+- response:
+    auto_calculate_content_length: false
+    body: '{"manifests":[{"digest":"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"amd64","os":"linux"},"size":424},{"digest":"sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"arm","os":"linux","variant":"v7"},"size":424},{"digest":"sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"arm64","os":"linux","variant":"v8"},"size":424},{"digest":"sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"ppc64le","os":"linux"},"size":424},{"digest":"sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"s390x","os":"linux"},"size":424}],"mediaType":"application\/vnd.oci.image.index.v1+json","schemaVersion":2}'
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '1133'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.oci.image.index.v1+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:19 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 33;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/22.04
+- response:
+    auto_calculate_content_length: false
+    body: '{"schemaVersion": 2, "mediaType": "application/vnd.oci.image.manifest.v1+json",
+      "config": {"mediaType": "application/vnd.oci.image.config.v1+json", "size":
+      2298, "digest": "sha256:08d22c0ceb150ddeb2237c5fa3129c0183f3cc6f5eeb2e7aa4016da3ad02140a"},
+      "layers": [{"mediaType": "application/vnd.oci.image.layer.v1.tar+gzip", "size":
+      29533950, "digest": "sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6"}]}'
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '424'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.oci.image.manifest.v1+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:19 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 32;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
+- response:
+    auto_calculate_content_length: false
+    body: '{"manifests":[{"digest":"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"amd64","os":"linux"},"size":424},{"digest":"sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"arm","os":"linux","variant":"v7"},"size":424},{"digest":"sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"arm64","os":"linux","variant":"v8"},"size":424},{"digest":"sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"ppc64le","os":"linux"},"size":424},{"digest":"sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"s390x","os":"linux"},"size":424}],"mediaType":"application\/vnd.oci.image.index.v1+json","schemaVersion":2}'
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '1133'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.oci.image.index.v1+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:19 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 32;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/22.04
+- response:
+    auto_calculate_content_length: false
+    body: '{"schemaVersion": 2, "mediaType": "application/vnd.oci.image.manifest.v1+json",
+      "config": {"mediaType": "application/vnd.oci.image.config.v1+json", "size":
+      2298, "digest": "sha256:08d22c0ceb150ddeb2237c5fa3129c0183f3cc6f5eeb2e7aa4016da3ad02140a"},
+      "layers": [{"mediaType": "application/vnd.oci.image.layer.v1.tar+gzip", "size":
+      29533950, "digest": "sha256:2ab09b027e7f3a0c2e8bb1944ac46de38cebab7145f0bd6effebfe5492c818b6"}]}'
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '424'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.oci.image.manifest.v1+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+        - - etag
+          - !!python/tuple
+            - etag
+            - '"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6"'
+        - - date
+          - !!python/tuple
+            - date
+            - Wed, 12 Apr 2023 14:06:20 GMT
+        - - strict-transport-security
+          - !!python/tuple
+            - strict-transport-security
+            - max-age=31536000
+        - - ratelimit-limit
+          - !!python/tuple
+            - ratelimit-limit
+            - 100;w=21600
+        - - ratelimit-remaining
+          - !!python/tuple
+            - ratelimit-remaining
+            - 31;w=21600
+        - - docker-ratelimit-source
+          - !!python/tuple
+            - docker-ratelimit-source
+            - 206.245.194.68
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
