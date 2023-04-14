@@ -481,3 +481,20 @@ def test_docker_image_platform(dxf_regmain, capsys):
     out, err = capsys.readouterr()
     assert out == '29533950\n'
     assert err == ""
+
+@record_or_replay
+def test_docker_manifest(dxf_regmain, capsys):
+    assert dxf.main.doit(['get-manifest', 'ubuntu', '12.04'], dxf_regmain) == 0
+    out, err = capsys.readouterr()
+    sha256 = hashlib.sha256()
+    sha256.update(out.encode('utf8'))
+    assert sha256.hexdigest() == "18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005"
+    assert err == ""
+
+    dxf_regmain['DXF_PLATFORM'] = 'linux/amd64'
+    assert dxf.main.doit(['get-manifest', 'ubuntu', '22.04'], dxf_regmain) == 0
+    out, err = capsys.readouterr()
+    sha256 = hashlib.sha256()
+    sha256.update(out.encode('utf8'))
+    assert sha256.hexdigest() == "7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6"
+    assert err == ""

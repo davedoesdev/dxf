@@ -20,6 +20,7 @@ _choices = ['auth',
             'get-alias',
             'del-alias',
             'get-digest',
+            'get-manifest',
             'list-aliases',
             'list-repos']
 
@@ -224,6 +225,12 @@ def doit(args, environ):
                                             platform=platform)]
             for dgst in dgsts:
                 print(json.dumps(dgst, sort_keys=True) if isinstance(dgst, dict) else dgst)
+
+        elif args.op == 'get-manifest':
+            platform = environ.get('DXF_PLATFORM')
+            for name in args.args:
+                manifest = dxf_obj.get_manifest(name, platform=platform)
+                sys.stdout.write(json.dumps(manifest, sort_keys=True) if isinstance(manifest, dict) else manifest)
 
         elif args.op == 'list-aliases':
             if args.args:

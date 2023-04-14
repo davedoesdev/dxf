@@ -1,6 +1,44 @@
 responses:
 - response:
     auto_calculate_content_length: false
+    body: "{\n   \"schemaVersion\": 2,\n   \"mediaType\": \"application/vnd.docker.distribution.manifest.v2+json\"\
+      ,\n   \"config\": {\n      \"mediaType\": \"application/vnd.docker.container.image.v1+json\"\
+      ,\n      \"size\": 3621,\n      \"digest\": \"sha256:5b117edd0b767986092e9f721ba2364951b0a271f53f1f41aff9dd1861c2d4fe\"\
+      \n   },\n   \"layers\": [\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 39096921,\n         \"digest\": \"sha256:d8868e50ac4c7104d2200d42f432b661b2da8c1e417ccfae217e6a1e04bb9295\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 57938,\n         \"digest\": \"sha256:83251ac64627fc331584f6c498b3aba5badc01574e2c70b2499af3af16630eed\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 423,\n         \"digest\": \"sha256:589bba2f1b36ae56f0152c246e2541c5aa604b058febfcf2be32e9a304fec610\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 680,\n         \"digest\": \"sha256:d62ecaceda3964b735cdd2af613d6bb136a52c1da0838b2ff4b4dab4212bcb1c\"\
+      \n      },\n      {\n         \"mediaType\": \"application/vnd.docker.image.rootfs.diff.tar.gzip\"\
+      ,\n         \"size\": 162,\n         \"digest\": \"sha256:6d93b41cfc6bf0d2522b7cf61588de4cd045065b36c52bd3aec2ba0622b2b22b\"\
+      \n      }\n   ]\n}"
+    content_type: text/plain
+    headers: !!python/object:requests.structures.CaseInsensitiveDict
+      _store: !!python/object/apply:collections.OrderedDict
+      - - - content-length
+          - !!python/tuple
+            - content-length
+            - '1359'
+        - - content-type
+          - !!python/tuple
+            - content-type
+            - application/vnd.docker.distribution.manifest.v2+json
+        - - docker-content-digest
+          - !!python/tuple
+            - docker-content-digest
+            - sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005
+        - - docker-distribution-api-version
+          - !!python/tuple
+            - docker-distribution-api-version
+            - registry/2.0
+    method: GET
+    status: 200
+    url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04
+- response:
+    auto_calculate_content_length: false
     body: '{"manifests":[{"digest":"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"amd64","os":"linux"},"size":424},{"digest":"sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"arm","os":"linux","variant":"v7"},"size":424},{"digest":"sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"arm64","os":"linux","variant":"v8"},"size":424},{"digest":"sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"ppc64le","os":"linux"},"size":424},{"digest":"sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf","mediaType":"application\/vnd.oci.image.manifest.v1+json","platform":{"architecture":"s390x","os":"linux"},"size":424}],"mediaType":"application\/vnd.oci.image.index.v1+json","schemaVersion":2}'
     content_type: text/plain
     headers: !!python/object:requests.structures.CaseInsensitiveDict

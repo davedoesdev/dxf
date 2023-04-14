@@ -21,30 +21,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:07 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 49;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/22.04
@@ -74,30 +50,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:07 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 49;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
@@ -127,30 +79,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:08 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 48;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a
@@ -180,30 +108,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:08 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 48;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3
@@ -233,30 +137,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:08 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 47;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7
@@ -286,30 +166,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:09 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 47;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf
@@ -335,30 +191,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:09 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 46;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/22.04
@@ -388,30 +220,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:09 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 46;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
@@ -441,30 +249,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:10 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 45;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a
@@ -494,30 +278,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:10 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 45;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3
@@ -547,30 +307,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:10 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 44;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7
@@ -600,30 +336,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:11 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 44;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf
@@ -649,30 +361,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:11 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 43;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/22.04
@@ -702,30 +390,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:12 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 43;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
@@ -755,30 +419,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:12 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 42;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a
@@ -808,30 +448,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:12 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 42;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3
@@ -861,30 +477,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:13 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 41;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7
@@ -914,30 +506,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:13 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 41;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf
@@ -963,30 +531,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:13 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 40;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/22.04
@@ -1016,30 +560,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:14 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 40;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
@@ -1069,30 +589,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:14 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 39;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:ad18cfdb19dac67bf0072dacea661a817330e5c955d081f4d09914e743ae5d4a
@@ -1122,30 +618,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:14 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 39;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:537da24818633b45fcb65e5285a68c3ec1f3db25f5ae5476a7757bc8dfae92a3
@@ -1175,30 +647,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:15 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 38;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:f23b7ade9f88f91c8d5932a48b721712ed509a607d9a05cdeae4cd06de09e5f7
@@ -1228,30 +676,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:15 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 38;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/sha256:b351315d950a4da70f19d62f4da5dd7f9a445eb8c8d6851a5b6cdddbdafb13cf

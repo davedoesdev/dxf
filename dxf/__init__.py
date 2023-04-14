@@ -602,18 +602,7 @@ class DXF(DXFBase):
                           headers=_accept_header)
         return r.content.decode('utf-8'), r
 
-    def get_manifest(self, alias: str) -> str:
-        """
-        Get the manifest for an alias
-
-        :param alias: Alias name.
-
-        :returns: The manifest as string (JSON)
-        """
-        manifest, _ = self.get_manifest_and_response(alias)
-        return manifest
-
-    def _get_alias(self, alias, manifest, verify, sizes, get_digest, get_dcd, platform, ml):
+    def _get_alias(self, alias, manifest, verify, sizes, get_digest, get_dcd, get_manifest, platform, ml):
         # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements
         if alias:
             manifest, r = self.get_manifest_and_response(alias)
@@ -639,7 +628,10 @@ class DXF(DXFBase):
                                  get_dcd)
             if get_dcd:
                 r, dcd = r
-            r = [(dgst, self.blob_size(dgst)) for dgst in r] if sizes else r
+            if get_manifest:
+                r = manifest
+            else:
+                r = [(dgst, self.blob_size(dgst)) for dgst in r] if sizes else r
             return (r, dcd) if get_dcd else r
 
         if content is not None:
@@ -659,7 +651,9 @@ class DXF(DXFBase):
 
         if parsed_manifest['mediaType'] == _schema2_mimetype or \
            parsed_manifest['mediaType'] == _ociv1_manifest_mimetype:
-            if get_digest:
+            if get_manifest:
+                r = manifest
+            elif get_digest:
                 r = parsed_manifest['config']['digest']
                 split_digest(r)
             else:
@@ -680,7 +674,7 @@ class DXF(DXFBase):
                     if get_dcd:
                         r[name] = entry['digest']
                     else:
-                        r[name] = self._get_alias(entry['digest'], None, verify, sizes, get_digest, get_dcd, platform, False)
+                        r[name] = self._get_alias(entry['digest'], None, verify, sizes, get_digest, get_dcd, get_manifest, platform, False)
                 if platform and name == platform:
                     r = r[name]
                     break
@@ -691,6 +685,18 @@ class DXF(DXFBase):
             raise exceptions.DXFUnsupportedSchemaType(parsed_manifest['mediaType'])
 
         return (r, dcd) if get_dcd else r
+
+    def get_manifest(self, alias: str, platform: Optional[str]=None) -> Union[str, Dict[str, str]]:
+        """
+        Get the manifest for an alias
+
+        :param alias: Alias name.
+
+        :param platform: For multi-arch aliases, return the information for this platform only.
+
+        :returns: The manifest as a string (JSON). For multi-arch aliases, a dict of manifest per platform.
+        """
+        return self._get_alias(alias, None, True, False, False, False, True, platform, True)
 
     def get_alias(self,
             alias: Optional[str]=None,
@@ -717,7 +723,7 @@ class DXF(DXFBase):
 
         :returns: If ``sizes`` is falsey, a list of blob hashes (strings) which are assigned to the alias. If ``sizes`` is truthy, a list of (hash,size) tuples for each blob. For multi-arch aliases, a dict of the same per platform.
         """
-        return self._get_alias(alias, manifest, verify, sizes, False, False, platform, True)
+        return self._get_alias(alias, manifest, verify, sizes, False, False, False, platform, True)
 
     def get_digest(self,
             alias: Optional[str]=None,
@@ -740,7 +746,7 @@ class DXF(DXFBase):
 
         :returns: Hash of the alias's configuration blob. For multi-arch aliases, a dict of the same per platform.
         """
-        return self._get_alias(alias, manifest, True, False, True, False, platform, True)
+        return self._get_alias(alias, manifest, True, False, True, False, False, platform, True)
 
     def del_alias(self, alias: str) -> Union[List[str], Dict[str, str]]:
         """
@@ -754,7 +760,7 @@ class DXF(DXFBase):
 
         :returns: A list of blob hashes (strings) which were assigned to the alias. For multi-arch aliases, a dict with the alias hash per platform. You'll need to call :meth:`DXF.del_alias` for each of those.
         """
-        dgsts, dcd = self._get_alias(alias, None, True, False, False, True, None, True)
+        dgsts, dcd = self._get_alias(alias, None, True, False, False, True, False, None, True)
         self._request('delete', 'manifests/{}'.format(dcd))
         return dgsts
 

@@ -118,6 +118,17 @@ you wish to work with in each case as the second argument.
     > Delete each specified alias. The blobs they point to won't be deleted
     > (use `del-blob` for that), but their hashes will be printed.
 
+-   `dxf get-digest <repo> <alias>...`
+
+    > For each alias you specify, print the hash of its configuration blob.
+    > For an alias created using `dxf`, this is the hash of the first blob it
+    > points to. For a Docker image tag, this is the same as
+    > `docker inspect alias --format='{{.Id}}'`.
+
+-   `dxf get-manifest <repo> <alias>...`
+
+    > For each alias you specify, print its manifest obtained from the registry.
+
 -   `dxf list-aliases <repo>`
 
     > Print all the aliases defined in the repository.
@@ -126,13 +137,6 @@ you wish to work with in each case as the second argument.
 
     > Print the names of all the repositories in the registry. Not all versions
     > of the registry support this.
-
--   `dxf get-digest <repo> <alias>...`
-
-    > For each alias you specify, print the hash of its configuration blob.
-    > For an alias created using `dxf`, this is the hash of the first blob it
-    > points to. For a Docker image tag, this is the same as
-    > `docker inspect alias --format='{{.Id}}'`.
 
 ## Certificates
 

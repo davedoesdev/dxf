@@ -19,28 +19,16 @@ responses:
           - !!python/tuple
             - www-authenticate
             - Bearer realm="https://auth.docker.io/token",service="registry.docker.io",scope="repository:library/ubuntu:pull"
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:05 GMT
         - - content-length
           - !!python/tuple
             - content-length
             - '157'
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 401
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04
 - response:
     auto_calculate_content_length: false
-    body: '{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvdWJ1bnR1IiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjEwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY4MTMwODY2NiwiaWF0IjoxNjgxMzA4MzY2LCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpX1BvbE0yc1FMQ2Q5ZDZSWWVVd2hadHZONmh5RT0iLCJuYmYiOjE2ODEzMDgwNjYsInN1YiI6IiJ9.f9ZC5B6I00NRAp-wP4M8i8sY51XfRx3cjk-Fg24ECXGQyZqV9YjmsQPamgwlMmCGXZOTl_PT8ShL0rw70olXtl4N2UYWV_uvBwr8Smd-HrlEh4LY_EP2uWaWFrRYxl723plj-S__iI-fLW-vjCcqUjKhTJAstRfr6h1r3ZTVUdpb5W5dMX0lGL8zjFGPI9w33R-Y76nlJhGNhsv1_Aio4xQNwC0Aj1fHlcc-odfUJ7MvWbJHI4mu-b4C9Q8cVg3tI9LhtJWq09SQkkNVHW1W3GfGJaHOzDEPGLK3el02tWnthljARRAOB-Vk8odudJkN8iN-2CZUNNaJAIXA6dEr9Q","access_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvdWJ1bnR1IiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjEwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY4MTMwODY2NiwiaWF0IjoxNjgxMzA4MzY2LCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpX1BvbE0yc1FMQ2Q5ZDZSWWVVd2hadHZONmh5RT0iLCJuYmYiOjE2ODEzMDgwNjYsInN1YiI6IiJ9.f9ZC5B6I00NRAp-wP4M8i8sY51XfRx3cjk-Fg24ECXGQyZqV9YjmsQPamgwlMmCGXZOTl_PT8ShL0rw70olXtl4N2UYWV_uvBwr8Smd-HrlEh4LY_EP2uWaWFrRYxl723plj-S__iI-fLW-vjCcqUjKhTJAstRfr6h1r3ZTVUdpb5W5dMX0lGL8zjFGPI9w33R-Y76nlJhGNhsv1_Aio4xQNwC0Aj1fHlcc-odfUJ7MvWbJHI4mu-b4C9Q8cVg3tI9LhtJWq09SQkkNVHW1W3GfGJaHOzDEPGLK3el02tWnthljARRAOB-Vk8odudJkN8iN-2CZUNNaJAIXA6dEr9Q","expires_in":300,"issued_at":"2023-04-12T14:06:06.077073133Z"}
+    body: '{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvdWJ1bnR1IiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjEwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY4MTQ3NTMwMCwiaWF0IjoxNjgxNDc1MDAwLCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpXzA4ejVyVjFwSTRJYWs1LUZGVmVfUjk1VUxGTT0iLCJuYmYiOjE2ODE0NzQ3MDAsInN1YiI6IiJ9.oMR8UD8paX5umMs4pPNnfbawCfPakWrpsb0u2SkSE55WFEA28JVxDjko3yNta5NVq5kXlxZCofQSbf0IS-AYX-SJmD20ii4WIcBBFcNQs6KVwt_VC7WWrcMWFqnNNQKiCNxUKRihlVTxoWFX1dBkattFzn4sUB-4VGuaKrQgHuh8VQ1AQNXxgxatcpxZO0qQIFgEFjdp6IlAJgU1hqxf8bU_YB_-K4PpUFpTCxvGFOpcVomsn1klkGlJEpfks4GJvuoTffSKGY5wyKBMPrPwPnpjynn190ipXuhwAS5f1W4V3S_mVPmHd81TAATlVJbQFSUqePxiBlaNHvoOr3pdIw","access_token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvdWJ1bnR1IiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjEwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY4MTQ3NTMwMCwiaWF0IjoxNjgxNDc1MDAwLCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpXzA4ejVyVjFwSTRJYWs1LUZGVmVfUjk1VUxGTT0iLCJuYmYiOjE2ODE0NzQ3MDAsInN1YiI6IiJ9.oMR8UD8paX5umMs4pPNnfbawCfPakWrpsb0u2SkSE55WFEA28JVxDjko3yNta5NVq5kXlxZCofQSbf0IS-AYX-SJmD20ii4WIcBBFcNQs6KVwt_VC7WWrcMWFqnNNQKiCNxUKRihlVTxoWFX1dBkattFzn4sUB-4VGuaKrQgHuh8VQ1AQNXxgxatcpxZO0qQIFgEFjdp6IlAJgU1hqxf8bU_YB_-K4PpUFpTCxvGFOpcVomsn1klkGlJEpfks4GJvuoTffSKGY5wyKBMPrPwPnpjynn190ipXuhwAS5f1W4V3S_mVPmHd81TAATlVJbQFSUqePxiBlaNHvoOr3pdIw","expires_in":300,"issued_at":"2023-04-14T12:23:20.661459894Z"}
 
       '
     content_type: text/plain
@@ -53,19 +41,11 @@ responses:
         - - x-trace-id
           - !!python/tuple
             - x-trace-id
-            - 9913a6edbd3d7f1f29874cdcdc8f7cd7
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:06 GMT
+            - d8d5861481803fbb9a3d0a717570eba1
         - - transfer-encoding
           - !!python/tuple
             - transfer-encoding
             - chunked
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
     method: GET
     status: 200
     url: https://auth.docker.io/token?service=registry.docker.io&scope=repository%3Alibrary%2Fubuntu%3Apull
@@ -104,30 +84,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:06 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 51;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04
@@ -166,30 +122,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:06 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 50;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04
@@ -228,30 +160,6 @@ responses:
           - !!python/tuple
             - docker-distribution-api-version
             - registry/2.0
-        - - etag
-          - !!python/tuple
-            - etag
-            - '"sha256:18305429afa14ea462f810146ba44d4363ae76e4c8dfc38288cf73aa07485005"'
-        - - date
-          - !!python/tuple
-            - date
-            - Wed, 12 Apr 2023 14:06:07 GMT
-        - - strict-transport-security
-          - !!python/tuple
-            - strict-transport-security
-            - max-age=31536000
-        - - ratelimit-limit
-          - !!python/tuple
-            - ratelimit-limit
-            - 100;w=21600
-        - - ratelimit-remaining
-          - !!python/tuple
-            - ratelimit-remaining
-            - 50;w=21600
-        - - docker-ratelimit-source
-          - !!python/tuple
-            - docker-ratelimit-source
-            - 206.245.194.68
     method: GET
     status: 200
     url: https://registry-1.docker.io/v2/library/ubuntu/manifests/12.04

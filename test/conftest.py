@@ -235,6 +235,12 @@ _orig_on_request = _recorder.recorder._on_request # pylint: disable=protected-ac
 
 def _on_request(self, *args, **kwargs):
     requests_response = _orig_on_request(*args, **kwargs) # pylint: disable=not-callable
+    requests_response.headers.pop('etag', None)
+    requests_response.headers.pop('date', None)
+    requests_response.headers.pop('strict-transport-security', None)
+    requests_response.headers.pop('ratelimit-limit', None)
+    requests_response.headers.pop('ratelimit-remaining', None)
+    requests_response.headers.pop('docker-ratelimit-source', None)
     self._registry.registered[-1].headers = requests_response.headers # pylint: disable=protected-access
     return requests_response
 
