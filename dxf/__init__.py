@@ -215,8 +215,8 @@ class DXFBase(object):
         def make_kwargs():
             r = {'allow_redirects': True, 'verify': self._tlsverify, 'timeout': self._timeout}
             r.update(kwargs)
-            if 'headers' not in r:
-                r['headers'] = {}
+            r['headers'] = {}
+            r['headers'].update(kwargs.get('headers', {}))
             r['headers'].update(self._headers)
             return r
         url = urlparse.urljoin(self._base_url, path)
