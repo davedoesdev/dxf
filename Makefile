@@ -9,7 +9,7 @@
 #
 # To run then do:
 #
-# PATH="$PWD/venv/bin" make ...
+# PATH="$PWD/venv/bin:$PATH" make ...
 
 SHELL := /bin/bash
 
