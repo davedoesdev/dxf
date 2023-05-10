@@ -14,3 +14,4 @@ types-tqdm>=4.19.4
 responses>=0.23.1
 PyYAML>=6.0
 Sphinx>=5.0.0
+twine>=4.0.2
