@@ -1,18 +1,16 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>dxf module &#8212; python-dxf 11.1.0 documentation</title>
+    <title>dxf module &#8212; python-dxf 11.1.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head><body>
@@ -25,7 +23,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 11.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 11.1.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dxf module</a></li> 
       </ul>
     </div>  
@@ -36,12 +34,8 @@
           <div class="body" role="main">
             
   <section id="dxf-module">
-<h1>dxf module<a class="headerlink" href="#dxf-module" title="Permalink to this headline">¶</a></h1>
+<h1>dxf module<a class="headerlink" href="#dxf-module" title="Permalink to this heading">¶</a></h1>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dxf.DXFBase</span></code></a>(host[, auth, insecure, ...])</p></td>
 <td><p>Class for communicating with a Docker v2 registry.</p></td>
@@ -54,11 +48,11 @@
 <span class="target" id="module-dxf"></span><p>Module for accessing a Docker v2 Registry</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="dxf.DXF">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.</span></span><span class="sig-name descname"><span class="pre">DXF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><span class="pre">dxf.DXFBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">requests.models.Response</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insecure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tlsverify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.DXFBase</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.</span></span><span class="sig-name descname"><span class="pre">DXF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><span class="pre">DXFBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insecure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tlsverify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFBase</span></code></a></p>
 <p>Class for operating on a Docker v2 repositories.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>host</strong> – Host name of registry. Can contain port numbers. e.g. <code class="docutils literal notranslate"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal notranslate"><span class="pre">localhost:5000</span></code>.</p></li>
 <li><p><strong>repo</strong> – Name of the repository to access on the registry. Typically this is of the form <code class="docutils literal notranslate"><span class="pre">username/reponame</span></code> but for your own registries you don’t actually have to stick to that.</p></li>
@@ -72,10 +66,10 @@
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.api_version_check">
-<span class="sig-name descname"><span class="pre">api_version_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">requests.models.Response</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.api_version_check" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">api_version_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.api_version_check" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs API version check</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>verson check response as a string (JSON) and requests.Response</p>
 </dd>
 </dl>
@@ -86,10 +80,10 @@
 <span class="sig-name descname"><span class="pre">blob_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dxf.DXF.blob_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the size of a blob in the registry given the hash of its content.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>digest</strong> – Hash of the blob’s content (prefixed by <code class="docutils literal notranslate"><span class="pre">sha256:</span></code>).</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Size of the blob in bytes.</p>
 </dd>
 </dl>
@@ -97,7 +91,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.del_alias">
-<span class="sig-name descname"><span class="pre">del_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.del_alias" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">del_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.del_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete an alias from the registry. The blobs it points to won’t be deleted. Use <a class="reference internal" href="#dxf.DXF.del_blob" title="dxf.DXF.del_blob"><code class="xref py py-meth docutils literal notranslate"><span class="pre">del_blob()</span></code></a> for that.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -105,10 +99,10 @@
 <a class="reference external" href="https://docs.docker.com/registry/garbage-collection/">https://docs.docker.com/registry/garbage-collection/</a></p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>alias</strong> – Alias name.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of blob hashes (strings) which were assigned to the alias. For multi-arch aliases, a dict with the alias hash per platform. You’ll need to call <a class="reference internal" href="#dxf.DXF.del_alias" title="dxf.DXF.del_alias"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DXF.del_alias()</span></code></a> for each of those.</p>
 </dd>
 </dl>
@@ -119,7 +113,7 @@
 <span class="sig-name descname"><span class="pre">del_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.del_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a blob from the registry given the hash of its content.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>digest</strong> – Hash of the blob’s content (prefixed by <code class="docutils literal notranslate"><span class="pre">sha256:</span></code>).</p>
 </dd>
 </dl>
@@ -127,17 +121,17 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.from_base">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><span class="pre">dxf.DXFBase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dxf.TD</span></span></span><a class="headerlink" href="#dxf.DXF.from_base" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><span class="pre">DXFBase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TD</span></span></span><a class="headerlink" href="#dxf.DXF.from_base" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a <a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXF</span></code></a> object which uses the same host, settings and
 session as an existing <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFBase</span></code></a> object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>base</strong> – Existing <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFBase</span></code></a> object.</p></li>
 <li><p><strong>repo</strong> – Name of the repository to access on the registry. Typically this is of the form <code class="docutils literal notranslate"><span class="pre">username/reponame</span></code> but for your own registries you don’t actually have to stick to that.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#dxf.DXF" title="dxf.DXF"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXF</span></code></a> object which shares configuration and session with <code class="docutils literal notranslate"><span class="pre">base</span></code> but which can also be used to operate on the <code class="docutils literal notranslate"><span class="pre">repo</span></code> repository.</p>
 </dd>
 </dl>
@@ -145,10 +139,10 @@ session as an existing <a class="reference internal" href="#dxf.DXFBase" title="
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.get_alias">
-<span class="sig-name descname"><span class="pre">get_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sizes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sizes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.get_alias" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the blob hashes assigned to an alias.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>alias</strong> – Alias name. You almost definitely will only need to pass this argument.</p></li>
 <li><p><strong>manifest</strong> – If you previously obtained a manifest, specify it here instead of <code class="docutils literal notranslate"><span class="pre">alias</span></code>. You almost definitely won’t need to do this.</p></li>
@@ -157,7 +151,7 @@ session as an existing <a class="reference internal" href="#dxf.DXFBase" title="
 <li><p><strong>platform</strong> – For multi-arch aliases, return the information for this platform only.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>If <code class="docutils literal notranslate"><span class="pre">sizes</span></code> is falsey, a list of blob hashes (strings) which are assigned to the alias. If <code class="docutils literal notranslate"><span class="pre">sizes</span></code> is truthy, a list of (hash,size) tuples for each blob. For multi-arch aliases, a dict of the same per platform.</p>
 </dd>
 </dl>
@@ -165,21 +159,21 @@ session as an existing <a class="reference internal" href="#dxf.DXFBase" title="
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.get_digest">
-<span class="sig-name descname"><span class="pre">get_digest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.get_digest" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_digest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.get_digest" title="Permalink to this definition">¶</a></dt>
 <dd><p>(v2 schema only) Get the hash of an alias’s configuration blob.</p>
 <p>For an alias created using <code class="docutils literal notranslate"><span class="pre">dxf</span></code>, this is the hash of the first blob
 assigned to the alias.</p>
 <p>For a Docker image tag, this is the same as
 <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">inspect</span> <span class="pre">alias</span> <span class="pre">--format='{{.Id}}'</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>alias</strong> – Alias name. You almost definitely will only need to pass this argument.</p></li>
 <li><p><strong>manifest</strong> – If you previously obtained a manifest, specify it here instead of <code class="docutils literal notranslate"><span class="pre">alias</span></code>. You almost definitely won’t need to do this.</p></li>
 <li><p><strong>platform</strong> – For multi-arch aliases, return the information for this platform only.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Hash of the alias’s configuration blob. For multi-arch aliases, a dict of the same per platform.</p>
 </dd>
 </dl>
@@ -187,16 +181,16 @@ assigned to the alias.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.get_manifest">
-<span class="sig-name descname"><span class="pre">get_manifest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.get_manifest" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_manifest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.get_manifest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the manifest for an alias</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>alias</strong> – Alias name.</p></li>
 <li><p><strong>platform</strong> – For multi-arch aliases, return the information for this platform only.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The manifest as a string (JSON). For multi-arch aliases, a dict of manifest per platform.</p>
 </dd>
 </dl>
@@ -204,14 +198,14 @@ assigned to the alias.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.get_manifest_and_response">
-<span class="sig-name descname"><span class="pre">get_manifest_and_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">requests.models.Response</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.get_manifest_and_response" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_manifest_and_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.get_manifest_and_response" title="Permalink to this definition">¶</a></dt>
 <dd><p>Request the manifest for an alias and return the manifest and the
 response.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>alias</strong> – Alias name.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tuple containing the manifest as a string (JSON) and the <a class="reference external" href="http://docs.python-requests.org/en/master/api/#requests.Response">requests.Response</a></p>
 </dd>
 </dl>
@@ -219,16 +213,16 @@ response.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.list_aliases">
-<span class="sig-name descname"><span class="pre">list_aliases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.list_aliases" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_aliases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.list_aliases" title="Permalink to this definition">¶</a></dt>
 <dd><p>List all aliases defined in the repository.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>batch_size</strong> – Number of alias names to ask the server for at a time.</p></li>
 <li><p><strong>iterate</strong> – Whether to return iterator over the names or a list of all the names.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Alias names.</p>
 </dd>
 </dl>
@@ -239,13 +233,13 @@ response.</p>
 <span class="sig-name descname"><span class="pre">mount_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dxf.DXF.mount_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mount a blob from another repository in the registry.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>repo</strong> – Repository containing the existing blob.</p></li>
 <li><p><strong>digest</strong> – Hash of the existing blob’s content (prefixed by <code class="docutils literal notranslate"><span class="pre">sha256:</span></code>).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Hash of blob’s content.</p>
 </dd>
 </dl>
@@ -253,17 +247,17 @@ response.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.pull_blob">
-<span class="sig-name descname"><span class="pre">pull_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.pull_blob" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">pull_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.pull_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a blob from the registry given the hash of its content.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>digest</strong> – Hash of the blob’s content (prefixed by <code class="docutils literal notranslate"><span class="pre">sha256:</span></code>).</p></li>
 <li><p><strong>size</strong> – Whether to return the size of the blob too.</p></li>
 <li><p><strong>chunk_size</strong> – Number of bytes to download at a time. Defaults to 8192.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>If <code class="docutils literal notranslate"><span class="pre">size</span></code> is falsey, a byte string iterator over the blob’s content. If <code class="docutils literal notranslate"><span class="pre">size</span></code> is truthy, a tuple containing the iterator and the blob’s size.</p>
 </dd>
 </dl>
@@ -271,12 +265,12 @@ response.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXF.push_blob">
-<span class="sig-name descname"><span class="pre">push_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dxf.DXF.push_blob" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">push_blob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dxf.DXF.push_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload a file to the registry and return its (SHA-256) hash.</p>
 <p>The registry is content-addressable so the file’s content (aka blob)
 can be retrieved later by passing the hash to <a class="reference internal" href="#dxf.DXF.pull_blob" title="dxf.DXF.pull_blob"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pull_blob()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> – File to upload.</p></li>
 <li><p><strong>data</strong> – Data to upload if <code class="docutils literal notranslate"><span class="pre">filename</span></code> isn’t given. The data is uploaded in chunks and you must also pass <code class="docutils literal notranslate"><span class="pre">digest</span></code>.</p></li>
@@ -285,7 +279,7 @@ can be retrieved later by passing the hash to <a class="reference internal" href
 <li><p><strong>check_exists</strong> – Whether to check if a blob with the same hash already exists in the registry. If so, it won’t be uploaded again.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Hash of file’s content.</p>
 </dd>
 </dl>
@@ -297,13 +291,13 @@ can be retrieved later by passing the hash to <a class="reference internal" href
 <dd><p>Give a name (alias) to a set of blobs. Each blob is specified by
 the hash of its content.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>alias</strong> – Alias name</p></li>
 <li><p><strong>digests</strong> – List of blob hashes (prefixed by <code class="docutils literal notranslate"><span class="pre">sha256:</span></code>).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The registry manifest used to define the alias. You almost definitely won’t need this.</p>
 </dd>
 </dl>
@@ -314,7 +308,7 @@ the hash of its content.</p>
 <span class="sig-name descname"><span class="pre">set_manifest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifest_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXF.set_manifest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Give a name (alias) to a manifest.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>alias</strong> – Alias name</p></li>
 <li><p><strong>manifest_json</strong> – A V2 Schema 2 manifest JSON string</p></li>
@@ -327,7 +321,7 @@ the hash of its content.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dxf.DXFBase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.</span></span><span class="sig-name descname"><span class="pre">DXFBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><span class="pre">dxf.DXFBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">requests.models.Response</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insecure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tlsverify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.</span></span><span class="sig-name descname"><span class="pre">DXFBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><span class="pre">DXFBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insecure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tlsverify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.DXFBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class for communicating with a Docker v2 registry.
 Contains only operations which aren’t related to repositories.</p>
@@ -340,7 +334,7 @@ uses an ephemeral session. If you don’t read all the data from an iterator
 returned by <a class="reference internal" href="#dxf.DXF.pull_blob" title="dxf.DXF.pull_blob"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DXF.pull_blob()</span></code></a> then the underlying connection won’t be
 closed until Python garbage collects the iterator.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>host</strong> – Host name of registry. Can contain port numbers. e.g. <code class="docutils literal notranslate"><span class="pre">registry-1.docker.io</span></code>, <code class="docutils literal notranslate"><span class="pre">localhost:5000</span></code>.</p></li>
 <li><p><strong>auth</strong> – Authentication function to be called whenever authentication to the registry is required. Receives the <a class="reference internal" href="#dxf.DXFBase" title="dxf.DXFBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFBase</span></code></a> object and a HTTP response object. It should call <a class="reference internal" href="#dxf.DXFBase.authenticate" title="dxf.DXFBase.authenticate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">authenticate()</span></code></a> with a username, password and <code class="docutils literal notranslate"><span class="pre">response</span></code> before it returns.</p></li>
@@ -355,11 +349,11 @@ closed until Python garbage collects the iterator.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXFBase.authenticate">
-<span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">requests.models.Response</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Docker-Client/19.03.2</span> <span class="pre">(linux)'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXFBase.authenticate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Response</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Docker-Client/19.03.2</span> <span class="pre">(linux)'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dxf.DXFBase.authenticate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Authenticate to the registry using a username and password,
 an authorization header or otherwise as the anonymous user.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>username</strong> – User name to authenticate as.</p></li>
 <li><p><strong>password</strong> – User’s password.</p></li>
@@ -369,7 +363,7 @@ an authorization header or otherwise as the anonymous user.</p>
 <li><p><strong>user_agent</strong> – <code class="docutils literal notranslate"><span class="pre">User-Agent</span></code> header value.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Authentication token, if the registry supports bearer tokens. Otherwise <code class="docutils literal notranslate"><span class="pre">None</span></code>, and HTTP Basic auth is used (if the registry requires authentication).</p>
 </dd>
 </dl>
@@ -377,16 +371,16 @@ an authorization header or otherwise as the anonymous user.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dxf.DXFBase.list_repos">
-<span class="sig-name descname"><span class="pre">list_repos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXFBase.list_repos" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_repos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXFBase.list_repos" title="Permalink to this definition">¶</a></dt>
 <dd><p>List all repositories in the registry.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>batch_size</strong> – Number of repository names to ask the server for at a time.</p></li>
 <li><p><strong>iterate</strong> – Whether to return iterator over the names or a list of all the names.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Repository names.</p>
 </dd>
 </dl>
@@ -407,10 +401,10 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <span class="sig-prename descclassname"><span class="pre">dxf.</span></span><span class="sig-name descname"><span class="pre">hash_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dxf.hash_bytes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hash bytes using the same method the registry uses (currently SHA-256).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>buf</strong> – Bytes to hash</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Hex-encoded hash of file’s content (prefixed by <code class="docutils literal notranslate"><span class="pre">sha256:</span></code>)</p>
 </dd>
 </dl>
@@ -421,10 +415,10 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <span class="sig-prename descclassname"><span class="pre">dxf.</span></span><span class="sig-name descname"><span class="pre">hash_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dxf.hash_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hash a file using the same method the registry uses (currently SHA-256).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filename</strong> – Name of file to hash</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Hex-encoded hash of file’s content (prefixed by <code class="docutils literal notranslate"><span class="pre">sha256:</span></code>)</p>
 </dd>
 </dl>
@@ -432,22 +426,22 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 
 </section>
 <section id="module-dxf.exceptions">
-<span id="dxf-exceptions-module"></span><h1>dxf.exceptions module<a class="headerlink" href="#module-dxf.exceptions" title="Permalink to this headline">¶</a></h1>
+<span id="dxf-exceptions-module"></span><h1>dxf.exceptions module<a class="headerlink" href="#module-dxf.exceptions" title="Permalink to this heading">¶</a></h1>
 <p>Module containing exceptions thrown by <a class="reference internal" href="#module-dxf" title="dxf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dxf</span></code></a>.</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFAuthInsecureError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFAuthInsecureError</span></span><a class="headerlink" href="#dxf.exceptions.DXFAuthInsecureError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p>Can’t authenticate over insecure (non-HTTPS) connection</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFDigestMismatchError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFDigestMismatchError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">got</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.exceptions.DXFDigestMismatchError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFUnexpectedError</span></code></a></p>
 <p>Digest didn’t match expected value</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>got</strong> – Actual value received</p></li>
 <li><p><strong>expected</strong> – Value that was expected</p></li>
@@ -459,7 +453,7 @@ previously, you can also set it but be aware tokens expire quickly.</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFDigestNotAvailableForSchema1">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFDigestNotAvailableForSchema1</span></span><a class="headerlink" href="#dxf.exceptions.DXFDigestNotAvailableForSchema1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p><a class="reference external" href="https://github.com/docker/distribution/issues/1662#issuecomment-213101772">https://github.com/docker/distribution/issues/1662#issuecomment-213101772</a>
 A schema1 manifest should always produce the same image id but defining the
 steps to produce directly from the manifest is not straight forward.”</p>
@@ -468,10 +462,10 @@ steps to produce directly from the manifest is not straight forward.”</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFDisallowedSignatureAlgorithmError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFDisallowedSignatureAlgorithmError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.exceptions.DXFDisallowedSignatureAlgorithmError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p>Signature algorithm forbidden</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>alg</strong> (<em>str</em>) – Forbidden signature algorithm</p>
 </dd>
 </dl>
@@ -487,17 +481,17 @@ steps to produce directly from the manifest is not straight forward.”</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFMountFailed">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFMountFailed</span></span><a class="headerlink" href="#dxf.exceptions.DXFMountFailed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p>Failed to mount blob from another repository.</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFPlatformDataNotFound">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFPlatformDataNotFound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.exceptions.DXFPlatformDataNotFound" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p>Platform data not found</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>alg</strong> (<em>str</em>) – Platform</p>
 </dd>
 </dl>
@@ -506,24 +500,24 @@ steps to produce directly from the manifest is not straight forward.”</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFSignatureChainNotImplementedError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFSignatureChainNotImplementedError</span></span><a class="headerlink" href="#dxf.exceptions.DXFSignatureChainNotImplementedError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p>Signature chains not supported</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFUnauthorizedError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFUnauthorizedError</span></span><a class="headerlink" href="#dxf.exceptions.DXFUnauthorizedError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p>Registry returned authorized error</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFUnexpectedDigestMethodError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFUnexpectedDigestMethodError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">got</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.exceptions.DXFUnexpectedDigestMethodError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFUnexpectedError</span></code></a></p>
 <p>Digest method not supported</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>got</strong> – Actual value received</p></li>
 <li><p><strong>expected</strong> – Value that was expected</p></li>
@@ -535,10 +529,10 @@ steps to produce directly from the manifest is not straight forward.”</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFUnexpectedError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFUnexpectedError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">got</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.exceptions.DXFUnexpectedError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p>Unexpected value error</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>got</strong> – Actual value received</p></li>
 <li><p><strong>expected</strong> – Value that was expected</p></li>
@@ -550,10 +544,10 @@ steps to produce directly from the manifest is not straight forward.”</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFUnexpectedKeyTypeError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFUnexpectedKeyTypeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">got</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.exceptions.DXFUnexpectedKeyTypeError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFUnexpectedError</span></code></a></p>
 <p>Cryptographic key type not supported</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>got</strong> – Actual value received</p></li>
 <li><p><strong>expected</strong> – Value that was expected</p></li>
@@ -565,10 +559,10 @@ steps to produce directly from the manifest is not straight forward.”</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFUnexpectedStatusCodeError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFUnexpectedStatusCodeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">got</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dxf.exceptions.DXFUnexpectedStatusCodeError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFUnexpectedError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError" title="dxf.exceptions.DXFUnexpectedError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFUnexpectedError</span></code></a></p>
 <p>Unexpected HTTP status code</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>got</strong> – Actual value received</p></li>
 <li><p><strong>expected</strong> – Value that was expected</p></li>
@@ -580,13 +574,13 @@ steps to produce directly from the manifest is not straight forward.”</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="dxf.exceptions.DXFUnsupportedSchemaType">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dxf.exceptions.</span></span><span class="sig-name descname"><span class="pre">DXFUnsupportedSchemaType</span></span><a class="headerlink" href="#dxf.exceptions.DXFUnsupportedSchemaType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">dxf.exceptions.DXFError</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#dxf.exceptions.DXFError" title="dxf.exceptions.DXFError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DXFError</span></code></a></p>
 <p>Schema type (mediaType) is not recognized/supported</p>
 </dd></dl>
 
 </section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
@@ -604,8 +598,52 @@ steps to produce directly from the manifest is not straight forward.”</p>
   <div>
     <h3><a href="#">Table of Contents</a></h3>
     <ul>
-<li><a class="reference internal" href="#">dxf module</a></li>
-<li><a class="reference internal" href="#module-dxf.exceptions">dxf.exceptions module</a></li>
+<li><a class="reference internal" href="#">dxf module</a><ul>
+<li><a class="reference internal" href="#dxf.DXF"><code class="docutils literal notranslate"><span class="pre">DXF</span></code></a><ul>
+<li><a class="reference internal" href="#dxf.DXF.api_version_check"><code class="docutils literal notranslate"><span class="pre">DXF.api_version_check()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.blob_size"><code class="docutils literal notranslate"><span class="pre">DXF.blob_size()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.del_alias"><code class="docutils literal notranslate"><span class="pre">DXF.del_alias()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.del_blob"><code class="docutils literal notranslate"><span class="pre">DXF.del_blob()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.from_base"><code class="docutils literal notranslate"><span class="pre">DXF.from_base()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.get_alias"><code class="docutils literal notranslate"><span class="pre">DXF.get_alias()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.get_digest"><code class="docutils literal notranslate"><span class="pre">DXF.get_digest()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.get_manifest"><code class="docutils literal notranslate"><span class="pre">DXF.get_manifest()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.get_manifest_and_response"><code class="docutils literal notranslate"><span class="pre">DXF.get_manifest_and_response()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.list_aliases"><code class="docutils literal notranslate"><span class="pre">DXF.list_aliases()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.mount_blob"><code class="docutils literal notranslate"><span class="pre">DXF.mount_blob()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.pull_blob"><code class="docutils literal notranslate"><span class="pre">DXF.pull_blob()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.push_blob"><code class="docutils literal notranslate"><span class="pre">DXF.push_blob()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.set_alias"><code class="docutils literal notranslate"><span class="pre">DXF.set_alias()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.set_manifest"><code class="docutils literal notranslate"><span class="pre">DXF.set_manifest()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dxf.DXFBase"><code class="docutils literal notranslate"><span class="pre">DXFBase</span></code></a><ul>
+<li><a class="reference internal" href="#dxf.DXFBase.authenticate"><code class="docutils literal notranslate"><span class="pre">DXFBase.authenticate()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXFBase.list_repos"><code class="docutils literal notranslate"><span class="pre">DXFBase.list_repos()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXFBase.token"><code class="docutils literal notranslate"><span class="pre">DXFBase.token</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dxf.hash_bytes"><code class="docutils literal notranslate"><span class="pre">hash_bytes()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.hash_file"><code class="docutils literal notranslate"><span class="pre">hash_file()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-dxf.exceptions">dxf.exceptions module</a><ul>
+<li><a class="reference internal" href="#dxf.exceptions.DXFAuthInsecureError"><code class="docutils literal notranslate"><span class="pre">DXFAuthInsecureError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFDigestMismatchError"><code class="docutils literal notranslate"><span class="pre">DXFDigestMismatchError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFDigestNotAvailableForSchema1"><code class="docutils literal notranslate"><span class="pre">DXFDigestNotAvailableForSchema1</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFDisallowedSignatureAlgorithmError"><code class="docutils literal notranslate"><span class="pre">DXFDisallowedSignatureAlgorithmError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFError"><code class="docutils literal notranslate"><span class="pre">DXFError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFMountFailed"><code class="docutils literal notranslate"><span class="pre">DXFMountFailed</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFPlatformDataNotFound"><code class="docutils literal notranslate"><span class="pre">DXFPlatformDataNotFound</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFSignatureChainNotImplementedError"><code class="docutils literal notranslate"><span class="pre">DXFSignatureChainNotImplementedError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFUnauthorizedError"><code class="docutils literal notranslate"><span class="pre">DXFUnauthorizedError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFUnexpectedDigestMethodError"><code class="docutils literal notranslate"><span class="pre">DXFUnexpectedDigestMethodError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFUnexpectedError"><code class="docutils literal notranslate"><span class="pre">DXFUnexpectedError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFUnexpectedKeyTypeError"><code class="docutils literal notranslate"><span class="pre">DXFUnexpectedKeyTypeError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFUnexpectedStatusCodeError"><code class="docutils literal notranslate"><span class="pre">DXFUnexpectedStatusCodeError</span></code></a></li>
+<li><a class="reference internal" href="#dxf.exceptions.DXFUnsupportedSchemaType"><code class="docutils literal notranslate"><span class="pre">DXFUnsupportedSchemaType</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
@@ -626,7 +664,7 @@ steps to produce directly from the manifest is not straight forward.”</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -640,13 +678,13 @@ steps to produce directly from the manifest is not straight forward.”</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 11.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 11.1.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dxf module</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, David Halls.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
     </div>
   </body>
 </html>

@@ -1,3 +1,16 @@
+# Ubuntu 23.04 disables global pip install by default
+# Instead, to create a virtual env:
+#
+# virtualenv venv
+#
+# Install requirements:
+#
+# ./venv/bin/pip3 install -r requirements.txt 
+#
+# To run then do:
+#
+# PATH="$PWD/venv/bin" make ...
+
 SHELL := /bin/bash
 
 export PYTHONPATH := $(PYTHONPATH):.
