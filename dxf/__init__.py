@@ -448,33 +448,38 @@ class DXF(DXFBase):
                 self._base_request('put', upload_url, data=data)
         return dgst
 
-    # pylint: disable=no-self-use
-    def pull_blob(self, digest: str, size: bool=False, chunk_size: Optional[int]=None) -> Union[Iterable[_binary_type], Tuple[Iterable[_binary_type], long]]:
+   	# pylint: disable=no-self-use
+    def pull_blob(self, digest: str, size: bool = False, chunk_size: Optional[int] = None) -> Union[Iterable[_binary_type], Tuple[Iterable[_binary_type], long]]:
         """
         Download a blob from the registry given the hash of its content.
-
+​
         :param digest: Hash of the blob's content (prefixed by ``sha256:``).
-
+​
         :param size: Whether to return the size of the blob too.
-
+​
         :param chunk_size: Number of bytes to download at a time. Defaults to 8192.
-
+​
         :returns: If ``size`` is falsey, a byte string iterator over the blob's content. If ``size`` is truthy, a tuple containing the iterator and the blob's size.
         """
         if chunk_size is None:
             chunk_size = 8192
+​
         r = self._request('get', 'blobs/' + digest, stream=True)
-        class Chunks(object):
-            # pylint: disable=too-few-public-methods
-            def __iter__(self):
-                sha256 = hashlib.sha256()
-                for chunk in r.iter_content(chunk_size):
-                    sha256.update(chunk)
-                    yield chunk
-                dgst = 'sha256:' + sha256.hexdigest()
-                if dgst != digest:
-                    raise exceptions.DXFDigestMismatchError(dgst, digest)
-        return (Chunks(), long(r.headers['content-length'])) if size else Chunks()
+​
+        def update_chunk(__chunk):
+            sha256.update(__chunk)
+            return __chunk
+​
+        sha256 = hashlib.sha256()
+        chunks: Iterable[bytes] = [
+            update_chunk(__chunk) for __chunk in r.iter_content(chunk_size)
+        ]
+​
+        __digest = 'sha256:' + sha256.hexdigest()
+        if __digest != digest:
+            raise exceptions.DXFDigestMismatchError(__digest, digest)
+​
+        return (chunks, long(r.headers['content-length'])) if size else chunks
 
     def blob_size(self, digest: str) -> long:
         """
