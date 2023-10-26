@@ -464,7 +464,7 @@ class DXF(DXFBase):
         if chunk_size is None:
             chunk_size = 8192
         r = self._request('get', 'blobs/' + digest, stream=True)
-        class Chunks(object):
+        class Chunks(Iterable[_binary_type]):
             # pylint: disable=too-few-public-methods
             def __iter__(self):
                 sha256 = hashlib.sha256()
