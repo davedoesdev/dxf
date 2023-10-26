@@ -429,7 +429,8 @@ class DXF(DXFBase):
                 return dgst
             except requests.exceptions.HTTPError as ex:
                 # pylint: disable=no-member
-                if ex.response.status_code != requests.codes.not_found:
+                if ex.response is None or \
+                   ex.response.status_code != requests.codes.not_found:
                     raise
         r = self._request('post', 'blobs/uploads/')
         upload_url = r.headers['Location']
@@ -571,7 +572,8 @@ class DXF(DXFBase):
             return manifest_json
         except requests.exceptions.HTTPError as ex:
             # pylint: disable=no-member
-            if ex.response.status_code != requests.codes.bad_request:
+            if ex.response is None or \
+               ex.response.status_code != requests.codes.bad_request:
                 raise
             manifest_json = self.make_unsigned_manifest(alias, *digests)
             signed_json = _sign_manifest(manifest_json)
