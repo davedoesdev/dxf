@@ -604,6 +604,20 @@ class DXF(DXFBase):
                           headers=_accept_header)
         return r.content.decode('utf-8'), r
 
+    def head_manifest_and_response(self, alias: str) -> Tuple[str, requests.Response]:
+        """
+        Request the manifest for an alias and return the digest and the
+        response.
+
+        :param alias: Alias name.
+
+        :returns: Tuple containing the digest as str and the `requests.Response <http://docs.python-requests.org/en/master/api/#requests.Response>`_
+        """
+        r = self._request('head',
+                          'manifests/' + alias,
+                          headers=_accept_header)
+        return r.headers.get('Docker-Content-Digest'), r
+
     def _get_alias(self, alias, manifest, verify, sizes, get_digest, get_dcd, get_manifest, platform, ml):
         # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements
         if alias:
@@ -785,7 +799,7 @@ class DXF(DXFBase):
         """
         Performs API version check
 
-        :returns: verson check response as a string (JSON) and requests.Response
+        :returns: version check response as a string (JSON) and requests.Response
         """
         r = self._base_request('get', '')
         return r.content.decode('utf-8'), r
