@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>dxf module &#8212; python-dxf 11.2.0 documentation</title>
+    <title>dxf module &#8212; python-dxf 11.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
-    <script src="_static/documentation_options.js?v=2d832310"></script>
+    <script src="_static/documentation_options.js?v=5c566949"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -23,7 +23,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 11.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 11.3.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dxf module</a></li> 
       </ul>
     </div>  
@@ -70,7 +70,7 @@
 <dd><p>Performs API version check</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>verson check response as a string (JSON) and requests.Response</p>
+<dd class="field-odd"><p>version check response as a string (JSON) and requests.Response</p>
 </dd>
 </dl>
 </dd></dl>
@@ -207,6 +207,22 @@ response.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tuple containing the manifest as a string (JSON) and the <a class="reference external" href="http://docs.python-requests.org/en/master/api/#requests.Response">requests.Response</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dxf.DXF.head_manifest_and_response">
+<span class="sig-name descname"><span class="pre">head_manifest_and_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dxf.DXF.head_manifest_and_response" title="Link to this definition">¶</a></dt>
+<dd><p>Request the manifest for an alias and return the digest and the
+response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>alias</strong> – Alias name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Tuple containing the digest as str and the <a class="reference external" href="http://docs.python-requests.org/en/master/api/#requests.Response">requests.Response</a></p>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -609,6 +625,7 @@ steps to produce directly from the manifest is not straight forward.”</p>
 <li><a class="reference internal" href="#dxf.DXF.get_digest"><code class="docutils literal notranslate"><span class="pre">DXF.get_digest()</span></code></a></li>
 <li><a class="reference internal" href="#dxf.DXF.get_manifest"><code class="docutils literal notranslate"><span class="pre">DXF.get_manifest()</span></code></a></li>
 <li><a class="reference internal" href="#dxf.DXF.get_manifest_and_response"><code class="docutils literal notranslate"><span class="pre">DXF.get_manifest_and_response()</span></code></a></li>
+<li><a class="reference internal" href="#dxf.DXF.head_manifest_and_response"><code class="docutils literal notranslate"><span class="pre">DXF.head_manifest_and_response()</span></code></a></li>
 <li><a class="reference internal" href="#dxf.DXF.list_aliases"><code class="docutils literal notranslate"><span class="pre">DXF.list_aliases()</span></code></a></li>
 <li><a class="reference internal" href="#dxf.DXF.mount_blob"><code class="docutils literal notranslate"><span class="pre">DXF.mount_blob()</span></code></a></li>
 <li><a class="reference internal" href="#dxf.DXF.pull_blob"><code class="docutils literal notranslate"><span class="pre">DXF.pull_blob()</span></code></a></li>
@@ -678,7 +695,7 @@ steps to produce directly from the manifest is not straight forward.”</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">python-dxf 11.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">python-dxf 11.3.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dxf module</a></li> 
       </ul>
     </div>
