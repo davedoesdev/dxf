@@ -523,7 +523,7 @@ class DXF(DXFBase):
             'mediaType': 'application/octet-stream',
             'size': self.blob_size(dgst),
             'digest': dgst
-        } for dgst in digests]
+        } for dgst_sublist in digests for dgst in dgst_sublist]
         return json.dumps({
             'schemaVersion': 2,
             #'mediaType': _ociv1_manifest_mimetype,
