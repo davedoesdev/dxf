@@ -234,6 +234,17 @@ class DXFBase(object):
         _raise_for_status(r)
         return r
 
+    def _response_needs_auth(self, response):
+        if response.ok:
+            return False
+
+        # pylint: disable=no-member
+        if response.status_code != requests.codes.unauthorized:
+            raise exceptions.DXFUnexpectedStatusCodeError(response.status_code,
+                                                          requests.codes.unauthorized)
+
+        return True
+
     def authenticate(self,
             username: Optional[str]=None, password: Optional[str]=None,
             actions: Optional[List[str]]=None, response: Optional[requests.Response]=None,
@@ -265,13 +276,8 @@ class DXFBase(object):
                                                  verify=self._tlsverify,
                                                  timeout=self._timeout)
 
-        if response.ok:
+        if not self._response_needs_auth(response):
             return None
-
-        # pylint: disable=no-member
-        if response.status_code != requests.codes.unauthorized:
-            raise exceptions.DXFUnexpectedStatusCodeError(response.status_code,
-                                                          requests.codes.unauthorized)
 
         if self._insecure:
             raise exceptions.DXFAuthInsecureError()
