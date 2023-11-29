@@ -519,11 +519,18 @@ class DXF(DXFBase):
         self._request('delete', 'blobs/' + digest)
 
     def make_manifest(self, *digests):
-        layers = [{
-            'mediaType': 'application/octet-stream',
-            'size': self.blob_size(dgst),
-            'digest': dgst
-        } for dgst_sublist in digests for dgst in dgst_sublist]
+        if isinstance(digests[0], list):
+            layers = [{
+                'mediaType': 'application/octet-stream',
+                'size': self.blob_size(dgst),
+                'digest': dgst
+            } for dgst_sublist in digests for dgst in dgst_sublist]
+        else:
+            layers = [{
+                'mediaType': 'application/octet-stream',
+                'size': self.blob_size(digests[0]),
+                'digest': digests[0]
+            }]
         return json.dumps({
             'schemaVersion': 2,
             #'mediaType': _ociv1_manifest_mimetype,
