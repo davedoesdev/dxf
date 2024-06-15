@@ -84,9 +84,9 @@ dist: make_dist
 
 .PHONY: make_dist
 make_dist:
-	python3 setup.py sdist
-	python3 setup.py bdist_wheel --universal
+	python3 -m build
 
+.PHONY: upload
 upload:
 	python3 -m twine upload dist/$(subst -,_,$(name))-$(version)*
 
