@@ -566,19 +566,9 @@ class DXF(DXFBase):
 
         :returns: The registry manifest used to define the alias. You almost definitely won't need this.
         """
-        try:
-            manifest_json = self.make_manifest(*digests)
-            self.set_manifest(alias, manifest_json)
-            return manifest_json
-        except requests.exceptions.HTTPError as ex:
-            # pylint: disable=no-member
-            if ex.response is None or \
-               ex.response.status_code != requests.codes.bad_request:
-                raise
-            manifest_json = self.make_unsigned_manifest(alias, *digests)
-            signed_json = _sign_manifest(manifest_json)
-            self._request('put', 'manifests/' + alias, data=signed_json)
-            return signed_json
+        manifest_json = self.make_manifest(*digests)
+        self.set_manifest(alias, manifest_json)
+        return manifest_json
 
     def get_manifest_and_response(self, alias: str) -> Tuple[str, requests.Response]:
         """
@@ -629,26 +619,6 @@ class DXF(DXFBase):
             content = None
 
         parsed_manifest = json.loads(manifest)
-
-        if parsed_manifest['schemaVersion'] == 1:
-            # https://github.com/docker/distribution/issues/1662#issuecomment-213101772
-            # "A schema1 manifest should always produce the same image id but
-            # defining the steps to produce directly from the manifest is not
-            # straight forward."
-            if get_digest:
-                raise exceptions.DXFDigestNotAvailableForSchema1()
-            r = _verify_manifest(manifest,
-                                 parsed_manifest,
-                                 dcd,
-                                 verify,
-                                 get_dcd)
-            if get_dcd:
-                r, dcd = r
-            if get_manifest:
-                r = manifest
-            else:
-                r = [(dgst, self.blob_size(dgst)) for dgst in r] if sizes else r
-            return (r, dcd) if get_dcd else r
 
         if content is not None:
             if dcd is not None:
@@ -822,120 +792,3 @@ class DXF(DXFBase):
         r._headers = base._headers
         r._sessions = [base._sessions[0]]
         return r
-
-# v1 schema support functions below
-
-    def make_unsigned_manifest(self, alias, *digests):
-        return json.dumps({
-            'schemaVersion': 1,
-            'name': self._repo,
-            'tag': alias,
-            'fsLayers': [{'blobSum': dgst} for dgst in digests],
-            'history': [{'v1Compatibility': '{}'} for dgst in digests]
-        }, sort_keys=True)
-
-def _urlsafe_b64encode(s):
-    return base64.urlsafe_b64encode(_to_bytes_2and3(s)).rstrip(b'=').decode('utf-8')
-
-def _pad64(s):
-    return s + b'=' * (-len(s) % 4)
-
-def _urlsafe_b64decode(s):
-    return base64.urlsafe_b64decode(_pad64(_to_bytes_2and3(s)))
-
-def _import_key(expkey):
-    if expkey['kty'] != 'EC':
-        raise exceptions.DXFUnexpectedKeyTypeError(expkey['kty'], 'EC')
-    if expkey['crv'] != 'P-256':
-        raise exceptions.DXFUnexpectedKeyTypeError(expkey['crv'], 'P-256')
-    return jwk.JWK(kty='EC', crv='P-256', x=expkey['x'], y=expkey['y'])
-
-def _sign_manifest(manifest_json):
-    format_length = manifest_json.rfind('}')
-    format_tail = manifest_json[format_length:]
-    key = jwk.JWK.generate(kty='EC', crv='P-256')
-    jwstoken = jws.JWS(manifest_json.encode('utf-8'))
-    jkey = json.loads(key.export_public())
-    # Docker expects 32 bytes for x and y
-    jkey['x'] = _urlsafe_b64encode(_urlsafe_b64decode(jkey['x']).rjust(32, b'\0'))
-    jkey['y'] = _urlsafe_b64encode(_urlsafe_b64decode(jkey['y']).rjust(32, b'\0'))
-    jwstoken.add_signature(key, None, {
-        'formatLength': format_length,
-        'formatTail': _urlsafe_b64encode(format_tail)
-    }, {
-        'jwk': jkey,
-        'alg': 'ES256'
-    })
-    return manifest_json[:format_length] + \
-           ', "signatures": [' + jwstoken.serialize() + ']' + \
-           format_tail
-
-def _verify_manifest(content,
-                     manifest,
-                     content_digest,
-                     verify,
-                     get_content_digest):
-    # pylint: disable=too-many-locals,too-many-branches
-
-    # Adapted from https://github.com/joyent/node-docker-registry-client
-
-    if verify or ('signatures' in manifest):
-        signatures = []
-        for sig in manifest['signatures']:
-            protected64 = sig['protected']
-            protected = _urlsafe_b64decode(protected64).decode('utf-8')
-            protected_header = json.loads(protected)
-
-            format_length = protected_header['formatLength']
-            format_tail64 = protected_header['formatTail']
-            format_tail = _urlsafe_b64decode(format_tail64).decode('utf-8')
-
-            alg = sig['header']['alg']
-            if alg.lower() == 'none':
-                raise exceptions.DXFDisallowedSignatureAlgorithmError('none')
-            if sig['header'].get('chain'):
-                raise exceptions.DXFSignatureChainNotImplementedError()
-
-            signatures.append({
-                'alg': alg,
-                'signature': sig['signature'],
-                'protected64': protected64,
-                'key': _import_key(sig['header']['jwk']),
-                'format_length': format_length,
-                'format_tail': format_tail
-            })
-
-        payload = content[:signatures[0]['format_length']] + \
-                  signatures[0]['format_tail']
-        payload64 = _urlsafe_b64encode(payload)
-    else:
-        payload = content
-
-    if content_digest:
-        method, expected_dgst = split_digest(content_digest)
-        hasher = hashlib.new(method)
-        hasher.update(payload.encode('utf-8'))
-        dgst = hasher.hexdigest()
-        if dgst != expected_dgst:
-            raise exceptions.DXFDigestMismatchError(
-                method + ':' + dgst,
-                method + ':' + expected_dgst)
-    elif get_content_digest:
-        content_digest = hash_bytes(payload.encode('utf-8'))
-
-    if verify:
-        for sig in signatures:
-            jwstoken = jws.JWS()
-            jwstoken.deserialize(json.dumps({
-                'payload': payload64, # pylint: disable=possibly-used-before-assignment
-                'protected': sig['protected64'],
-                'signature': sig['signature']
-            }), sig['key'], sig['alg'])
-
-    dgsts = []
-    for layer in manifest['fsLayers']:
-        dgst = layer['blobSum']
-        split_digest(dgst)
-        dgsts.append(dgst)
-
-    return (dgsts, content_digest) if get_content_digest else dgsts

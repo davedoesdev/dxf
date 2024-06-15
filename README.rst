@@ -6,7 +6,7 @@ Docker registry.
 -  Store arbitrary data (blob-store)
 -  Content addressable
 -  Set up named aliases to blobs
--  Supports Docker registry schemas v1 and v2
+-  Supports Docker registry schema v2
 -  Works on Python 3.7+
 
 Please note that ``dxf`` does *not* generate Docker container

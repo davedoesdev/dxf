@@ -139,22 +139,21 @@ def test_set_alias(dxf_main, capsys):
     assert dxf.main.doit(['set-alias', pytest.repo, 'hello', pytest.blob1_hash], dxf_main) == 0
     _, err = capsys.readouterr()
     assert err == ""
-    if dxf_main['REGVER'] != 2.2:
-        assert dxf.main.doit(['del-alias', pytest.repo, 'hello'], dxf_main) == 0
-        out, err = capsys.readouterr()
-        assert out == pytest.blob1_hash + os.linesep
-        assert err == ""
-        # Deleting tag actually deletes by DCD:
-        # https://github.com/docker/distribution/issues/1566
-        # So fooey gets deleted too
-        assert dxf.main.doit(['list-aliases', pytest.repo], dxf_main) == 0
-        out, err = capsys.readouterr()
-        assert out == ""
-        assert err == ""
-        assert dxf.main.doit(['set-alias', pytest.repo, 'hello', pytest.blob1_hash], dxf_main) == 0
-        assert dxf.main.doit(['set-alias', pytest.repo, 'fooey', pytest.blob1_hash], dxf_main) == 0
-        _, err = capsys.readouterr()
-        assert err == ""
+    assert dxf.main.doit(['del-alias', pytest.repo, 'hello'], dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == pytest.blob1_hash + os.linesep
+    assert err == ""
+    # Deleting tag actually deletes by DCD:
+    # https://github.com/docker/distribution/issues/1566
+    # So fooey gets deleted too
+    assert dxf.main.doit(['list-aliases', pytest.repo], dxf_main) == 0
+    out, err = capsys.readouterr()
+    assert out == ""
+    assert err == ""
+    assert dxf.main.doit(['set-alias', pytest.repo, 'hello', pytest.blob1_hash], dxf_main) == 0
+    assert dxf.main.doit(['set-alias', pytest.repo, 'fooey', pytest.blob1_hash], dxf_main) == 0
+    _, err = capsys.readouterr()
+    assert err == ""
     assert dxf.main.doit(['set-alias', pytest.repo, 'there', pytest.blob1_hash, pytest.blob2_hash], dxf_main) == 0
     _, err = capsys.readouterr()
     assert err == ""
@@ -178,10 +177,6 @@ def test_get_alias(dxf_main, capsys):
     assert err == ""
 
 def test_get_digest(dxf_main, capsys):
-    if dxf_main['REGVER'] == 2.2:
-        with pytest.raises(dxf.exceptions.DXFDigestNotAvailableForSchema1):
-            dxf.main.doit(['get-digest', pytest.repo, 'hello'], dxf_main)
-        return
     assert dxf.main.doit(['get-digest', pytest.repo, 'hello'], dxf_main) == 0
     out, err = capsys.readouterr()
     assert out == pytest.blob1_hash + os.linesep
@@ -216,28 +211,20 @@ def test_blob_size(dxf_main, capsys):
 _def_hash = 'sha256:cb8379ac2098aa165029e3938a51da0bcecfc008fd6795f401178647f96c5b34'
 
 def test_mount_blob(dxf_main, capfdbinary):
-    if dxf_main['REGVER'] == 2.2:
-        with pytest.raises(dxf.exceptions.DXFMountFailed):
-            dxf.main.doit(['mount-blob', 'some/other', pytest.repo, pytest.blob1_hash], dxf_main)
-    else:
-        assert dxf.main.doit(['mount-blob', 'some/other', pytest.repo, pytest.blob1_hash], dxf_main) == 0
-        out, err = capfdbinary.readouterr()
-        assert out == pytest.blob1_hash.encode('utf-8') + os.linesep.encode('utf-8')
-        assert err == b""
-        _pull_blob(dxf_main, pytest.blob1_hash, pytest.blob1_hash, capfdbinary, 'some/other')
+    assert dxf.main.doit(['mount-blob', 'some/other', pytest.repo, pytest.blob1_hash], dxf_main) == 0
+    out, err = capfdbinary.readouterr()
+    assert out == pytest.blob1_hash.encode('utf-8') + os.linesep.encode('utf-8')
+    assert err == b""
+    _pull_blob(dxf_main, pytest.blob1_hash, pytest.blob1_hash, capfdbinary, 'some/other')
     with pytest.raises(dxf.exceptions.DXFMountFailed):
         dxf.main.doit(['mount-blob', 'some/other', pytest.repo, _def_hash], dxf_main)
     with pytest.raises(dxf.exceptions.DXFMountFailed):
         dxf.main.doit(['mount-blob', 'some/other', 'another/repo', pytest.blob1_hash], dxf_main)
-    if dxf_main['REGVER'] == 2.2:
-        with pytest.raises(dxf.exceptions.DXFMountFailed):
-            dxf.main.doit(['mount-blob', 'some/other', pytest.repo, pytest.blob2_hash, '@blob2-mounted'], dxf_main)
-    else:
-        assert dxf.main.doit(['mount-blob', 'some/other', pytest.repo, pytest.blob2_hash, '@blob2-mounted'], dxf_main) == 0
-        out, err = capfdbinary.readouterr()
-        assert out == pytest.blob2_hash.encode('utf-8') + os.linesep.encode('utf-8')
-        assert err == b""
-        _pull_blob(dxf_main, '@blob2-mounted', pytest.blob2_hash, capfdbinary, 'some/other')
+    assert dxf.main.doit(['mount-blob', 'some/other', pytest.repo, pytest.blob2_hash, '@blob2-mounted'], dxf_main) == 0
+    out, err = capfdbinary.readouterr()
+    assert out == pytest.blob2_hash.encode('utf-8') + os.linesep.encode('utf-8')
+    assert err == b""
+    _pull_blob(dxf_main, '@blob2-mounted', pytest.blob2_hash, capfdbinary, 'some/other')
 
 def test_list_aliases(dxf_main, capsys):
     assert dxf.main.doit(['list-aliases', pytest.repo], dxf_main) == 0
@@ -292,9 +279,7 @@ def test_auth(dxf_main, capsys):
         environ.pop('DXF_AUTHORIZATION', None)
         assert dxf.main.doit(['list-repos'], environ) == 0
         out, err = capsys.readouterr()
-        expected = [pytest.repo]
-        if dxf_main['REGVER'] != 2.2:
-            expected += ['test/registry', 'some/other']
+        expected = [pytest.repo, 'test/registry', 'some/other']
         assert sorted(out.rstrip().split(os.linesep)) == sorted(expected)
         assert err == ""
         assert dxf.main.doit(['list-aliases', pytest.repo], environ) == errno.EACCES
@@ -320,9 +305,8 @@ def test_del_alias(dxf_main, capsys):
     assert dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main) == 0
     out, err = capsys.readouterr()
     assert out == pytest.blob2_hash + os.linesep
-    if dxf_main['REGVER'] != 2.2:
-        # Note: test gc but it isn't needed to make a 404
-        pytest.gc()
+    # Note: test gc but it isn't needed to make a 404
+    pytest.gc()
     assert dxf.main.doit(['get-alias', pytest.repo, 'world'], dxf_main) == errno.ENOENT
     assert dxf.main.doit(['del-alias', pytest.repo, 'world'], dxf_main) == errno.ENOENT
 
