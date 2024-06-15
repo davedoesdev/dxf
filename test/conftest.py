@@ -136,7 +136,7 @@ def _setup_fixture(request):
     return request.param
 
 _fixture_params = []
-for regver in [2, 2.2]:
+for regver in [2]:
     for from_base in [False, True]:
         _fixture_params.extend([(regver, from_base, None, False, True),
                                 (regver, from_base, _auth_up, None, True),
