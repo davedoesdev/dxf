@@ -39,12 +39,8 @@ _accept_header = {'Accept': ', '.join((
     _ociv1_index_mimetype,
 ))}
 
-if sys.version_info < (3, 0):
-    _binary_type = str
-else:
-    _binary_type = bytes
-    # pylint: disable=redefined-builtin
-    long = int
+_binary_type = bytes
+long = int # pylint: disable=redefined-builtin
 
 # Note: From Python 3.11 onwards we can use typing.Self instead of these
 T = TypeVar('T', bound='DXFBase')
@@ -141,8 +137,7 @@ class PaginatingResponse(object):
         while self._path:
             response = self._meth('get', self._path, **self._kwargs)
             self._kwargs = {}
-            for v in response.json()[self._header] or []:
-                yield v
+            yield from (response.json()[self._header] or [])
             nxt = response.links.get('next')
             self._path = nxt['url'] if nxt else None
 
@@ -933,7 +928,7 @@ def _verify_manifest(content,
         for sig in signatures:
             jwstoken = jws.JWS()
             jwstoken.deserialize(json.dumps({
-                'payload': payload64,
+                'payload': payload64, # pylint: disable=possibly-used-before-assignment
                 'protected': sig['protected64'],
                 'signature': sig['signature']
             }), sig['key'], sig['alg'])
