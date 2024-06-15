@@ -88,7 +88,7 @@ make_dist:
 	python3 setup.py bdist_wheel --universal
 
 upload:
-	python3 -m twine upload dist/$(name)-$(version)*
+	python3 -m twine upload dist/$(subst -,_,$(name))-$(version)*
 
 .PHONY: typecheck
 typecheck:
