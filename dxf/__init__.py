@@ -18,8 +18,7 @@ from urllib3.exceptions import InsecureRequestWarning
 
 from jwcrypto import jwk, jws # type: ignore
 import www_authenticate # type: ignore
-# pylint: disable=wildcard-import
-from dxf import exceptions
+from . import exceptions as exceptions # pylint: disable=useless-import-alias
 
 _schema1_mimetype = 'application/vnd.docker.distribution.manifest.v1+json'
 
