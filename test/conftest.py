@@ -32,8 +32,6 @@ _remove_container = os.path.join(_here, 'remove_container.sh')
 _username = 'fred'
 _password = '!WordPass0$'
 
-DEVNULL = open(os.devnull, 'wb') # pylint: disable=consider-using-with
-
 def gc():
     subprocess.check_call(['docker', 'exec', 'dxf_registry', 'bin/registry', 'garbage-collect', '/etc/docker/registry/config.yml'])
 
@@ -127,14 +125,14 @@ def _setup_fixture(request):
             cmd2 = ['docker', 'run', '-d', '-p', '5001:5001',
                     '--name', 'dxf_auth', '-v', _auth_dir + ':/auth',
                     'cesanta/docker_auth', '/auth/config.yml']
-            subprocess.check_call(cmd2, stdout=DEVNULL)
+            subprocess.check_call(cmd2)
         else:
             cmd += ['-e', 'REGISTRY_AUTH=htpasswd',
                     '-e', 'REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm',
                     '-e', 'REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd']
     cmd += ['-e', 'REGISTRY_STORAGE_DELETE_ENABLED=true']
     cmd += ['registry:' + str(regver)]
-    subprocess.check_call(cmd, stdout=DEVNULL)
+    subprocess.check_call(cmd)
     return request.param
 
 _fixture_params = []
