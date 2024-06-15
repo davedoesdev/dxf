@@ -16,7 +16,6 @@ from urllib.parse import urlencode
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 
-from jwcrypto import jwk, jws # type: ignore
 import www_authenticate # type: ignore
 from . import exceptions as exceptions # pylint: disable=useless-import-alias
 

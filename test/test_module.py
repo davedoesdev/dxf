@@ -3,7 +3,6 @@ import hashlib
 import json
 import requests
 import pytest
-from jwcrypto import jws
 from conftest import record_or_replay
 from dxf import DXF
 import dxf.exceptions

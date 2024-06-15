@@ -21,7 +21,6 @@ setup(
     entry_points={'console_scripts': ['dxf=dxf.main:main']},
     install_requires=['www-authenticate>=0.9.2',
                       'requests>=2.18.4',
-                      'jwcrypto>=1.4.2',
                       'tqdm>=4.19.4'],
     python_requires='>=3.7'
 )
