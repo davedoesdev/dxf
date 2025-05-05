@@ -162,7 +162,7 @@ class DXFBase(object):
     """
     def __init__(self, host: str,
             auth: Optional[Callable[['DXFBase', requests.Response], None]]=None, insecure: bool=False, auth_host: Optional[str]=None, tlsverify: Union[bool, str]=True, timeout: Optional[float]=None):
-        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-arguments,too-many-positional-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
 
@@ -243,7 +243,7 @@ class DXFBase(object):
             actions: Optional[List[str]]=None, response: Optional[requests.Response]=None,
             authorization: Optional[str]=None,
             user_agent: str='Docker-Client/19.03.2 (linux)') -> Optional[str]:
-        # pylint: disable=too-many-arguments,too-many-locals,too-many-branches
+        # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-positional-arguments
         """
         Authenticate to the registry using a username and password,
         an authorization header or otherwise as the anonymous user.
@@ -359,7 +359,7 @@ class DXF(DXFBase):
     # pylint: disable=too-many-instance-attributes
 
     def __init__(self: TD, host: str, repo: str, auth: Optional[Callable[['DXFBase', requests.Response], None]]=None, insecure: bool=False, auth_host: Optional[str]=None, tlsverify: Union[bool, str]=True, timeout: Optional[float]=None):
-        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-arguments,too-many-positional-arguments
         """
         :param host: Host name of registry. Can contain port numbers. e.g. ``registry-1.docker.io``, ``localhost:5000``.
 
@@ -398,7 +398,7 @@ class DXF(DXFBase):
             progress: Optional[Callable[[str, _binary_type, int], None]]=None,
             data: Optional[Iterable[_binary_type]]=None, digest: Optional[str]=None,
             check_exists: bool=True) -> str:
-        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-arguments,too-many-positional-arguments
         """
         Upload a file to the registry and return its (SHA-256) hash.
 
@@ -609,7 +609,7 @@ class DXF(DXFBase):
         return r.headers.get('Docker-Content-Digest'), r
 
     def _get_alias(self, alias, manifest, verify, sizes, get_digest, get_dcd, get_manifest, platform, ml):
-        # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements
+        # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements,too-many-positional-arguments
         if alias:
             manifest, r = self.get_manifest_and_response(alias)
             dcd = r.headers.get('Docker-Content-Digest')
@@ -693,7 +693,7 @@ class DXF(DXFBase):
                                                    List[Tuple[str, long]],
                                                    Dict[str, Union[List[str],
                                                                    List[Tuple[str, long]]]]]:
-        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-arguments,too-many-positional-arguments
         """
         Get the blob hashes assigned to an alias.
 
